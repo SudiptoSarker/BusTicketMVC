@@ -1,0 +1,418 @@
+﻿@model BusTicketWebApp.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="management_info">
+            <div class="row">
+                <div class="col-xs-6" style="border:1px solid black;">
+                    <p>Order No <span style="color:cornflowerblue">@Model.Order.OrderNo</span></p>
+                </div>
+                <div class="col-xs-6" style="border:1px solid black;overflow:hidden;">
+                    <p>Order Date <span style="color:cornflowerblue">@Model.Order.OrderDate</span></p>
+                </div>
+                <div class="col-xs-6" style="border:1px solid black">
+                    <p>Ticket Status <span style="color:cornflowerblue">@Model.Order.Status</span></p>
+                </div>
+                <div class="col-xs-6" style="border:1px solid black">
+                    <p>GMO Order Id <span style="color:cornflowerblue">@Model.Order.GmoOrderNo</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="ordering_information" style="margin-top:30px;">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="i_ticket_name">Ticket Name</label>
+                        <input type="text" class="form-control" id="i_ticket_name" name="i_ticket_name" placeholder="" value="@Model.Order.TicketName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="i_ticket_type">Ticket Type</label>
+                        <select class="form-control" name="ticket_type" disabled>
+                            @foreach (var item in Model.TicketTypes)
+                            {
+                                if (item.Id == Model.Order.TicketTypeId)
+                                {
+                                    <option value="@item.Id" selected>@item.TypeName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.TypeName</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-offset-1 col-xs-7">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="i_first_name">First Name</label>
+                                <input type="hidden" value="@Model.Order.UserId" id="user_id" />
+                                <input type="hidden" value="@Model.Order.Id" id="order_id" />
+                                <input type="text" class="form-control" id="i_first_name" name="i_first_name" value="@Model.Order.FirstName">
+                                <p class="text-danger" id="i_first_name_vm"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="i_last_name">Last Name</label>
+                                <input type="text" class="form-control" id="i_last_name" name="i_last_name" value="@Model.Order.LastName">
+                                <p class="text-danger" id="i_last_name_vm"></p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="i_phone_number">Phone Number</label>
+                                <input type="text" class="form-control" id="i_phone_number" name="i_phone_number" value="@Model.Order.Telephone">
+                                <p class="text-danger" id="i_phone_number_vm"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="i_email">Email</label>
+                                <input type="text" class="form-control" id="i_email" name="i_email" value="@Model.Order.Email">
+                                <p class="text-danger" id="i_email_vm"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ticket_information">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="i_expiration_date">Expiration Date</label>
+                        <input type="text" class="form-control" id="i_expiration_date" name="i_expiration_date" value="@Model.Order.ExpiredAt.ToString("MMM/dd/yyyy")" readonly>
+                    </div>
+                    @*<div class="form-group">
+                            <label for="i_status">Status</label>
+                            <input type="text" class="form-control" id="i_status" name="i_status" value="Status-3">
+                        </div>*@
+                </div>
+                <div class="col-xs-offset-1 col-xs-4">
+                    <div class="form-group">
+                        <label for="i_adult">Adult (500 yen)</label>
+                        <select class="form-control" name="ticket_adult" id="ticket_adult">
+                            @foreach (var item in Model.Adults)
+                            {
+                                if (item == Model.Order.NumberOfAdult)
+                                {
+                                    <option value="@item" selected>@item</option>
+                                }
+                                else
+                                {
+                                    <option value="@item">@item</option>
+                                }
+
+                            }
+                        </select>
+                        <p class="text-danger" id="adult_adult_vm"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="i_child">Child (250 yen)</label>
+                        <select class="form-control" name="ticket_child" id="ticket_child">
+                            @foreach (var item in Model.Childs)
+                            {
+                                if (item == Model.Order.NumberOfChild)
+                                {
+                                    <option value="@item" selected>@item</option>
+                                }
+                                else
+                                {
+                                    <option value="@item">@item</option>
+                                }
+
+                            }
+                        </select>
+                        <p class="text-danger" id="adult_child_vm"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="other_info">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="i_purchase_amount">Total Price</label>
+                        <p id="previous_price" style="font-size:20px;">@Model.Order.TotalPrice <span class="label label-primary" style="font-size:10px;"> Previous Total Price</span></p>
+                        <p id="new_price" style="font-size:20px;"><span id="new_price_span">0</span> <span class="label label-danger" style="font-size:10px;"> New Total Price</span></p>
+
+                        <input type="hidden" value="0" id="total_amount" />
+                        <input type="hidden" value="@Model.Order.TotalPrice" id="previous_total_amount" />
+                        <input type="hidden" value="@Model.Order.PriceForAdult" id="price_for_adult" />
+                        <input type="hidden" value="@Model.Order.PriceForChild" id="price_for_child" />
+                    </div>
+                    <div class="form-group">
+                        <label for="i_payment_method">Payment Method</label>
+                        <select class="form-control" name="i_payment_method" id="i_payment_method" disabled>
+                            @foreach (var item in Model.PaymentMethods)
+                            {
+                                if (item.Id == Model.Order.PaymentMethodType)
+                                {
+                                    <option value="@item.Id" selected>@item.PaymentMethodName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.PaymentMethodName</option>
+                                }
+
+                            }
+                        </select>
+                        <p class="text-center text-danger" id="cancellationfee_message" style="display:none">Cancellation Fee: @Model.Order.CancellationFee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="text-center" id="operational_message"></p>
+            </div>
+            <div class="col-xs-offset-3 col-xs-2">
+                <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Update</button>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Cancel</button>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Device Type</th>
+                            <th>Environment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Order.DeviceName</td>
+                            <td>@Model.Order.UserAgent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table" id="update_summery_table" style="display:none">
+                    <thead>
+                        <tr>
+                            <th>Updated At</th>
+                            <th>Customer Name</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>View Details</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            let priceAdult = parseInt($('#price_for_adult').val());
+            let priceChild = parseInt($('#price_for_child').val());
+
+            $('.datepicker').datepicker();
+
+            $('#i_first_name').on('keyup', function () {
+                var firstNameValue = $(this).val();
+                if (firstNameValue == null || firstNameValue == "") {
+                    $('#i_first_name_vm').html("enter first name");
+                    $('#btnUpdate').attr('disabled', 'disabled');
+                    return false;
+                }
+                else {
+                    $('#i_first_name_vm').html("");
+                    $('#btnUpdate').removeAttr('disabled');
+                }
+            });
+            $('#i_last_name').on('keyup', function () {
+                var lastNameValue = $(this).val();
+                if (lastNameValue == null || lastNameValue == "") {
+                    $('#i_last_name_vm').html("enter last name");
+                    $('#btnUpdate').attr('disabled', 'disabled');
+                    return false;
+                }
+                else {
+                    $('#i_last_name_vm').html("");
+                    $('#btnUpdate').removeAttr('disabled');
+                }
+            });
+            $('#i_email').on('keyup', function () {
+                var emailValue = $(this).val();
+                if (emailValue == null || emailValue == "") {
+                    $('#i_email_vm').html("enter email");
+                    $('#btnUpdate').attr('disabled', 'disabled');
+                    return false;
+                }
+                else {
+                    $('#i_email_vm').html("");
+                    $('#btnUpdate').removeAttr('disabled');
+                }
+            });
+
+            $('#i_phone_number').on('keyup', function () {
+                var phoneNumberValue = $(this).val();
+                if (phoneNumberValue == null || phoneNumberValue == "") {
+                    $('#i_phone_number_vm').html("enter phone number");
+                    $('#btnUpdate').attr('disabled', 'disabled');
+                    return false;
+                }
+                else {
+                    $('#i_phone_number_vm').html("");
+                    $('#btnUpdate').removeAttr('disabled');
+                }
+            });
+
+
+            $('#ticket_adult').change(function () {
+                    var adult = parseInt($('#ticket_adult :selected').val());
+                    var child = parseInt($('#ticket_child :selected').val());
+
+
+                    var result = adult + child;
+                    if (result > 10) {
+                        $('#adult_adult_vm').html('Can not be grater then 10 with both');
+                        $('#btnUpdate').attr('disabled', 'disabled');
+                        $('#new_price_span').html('0');
+                        $('#total_amount').val(0);
+                    }
+                    else {
+                        $('#adult_adult_vm').html('');
+                        $('#btnUpdate').removeAttr('disabled');
+
+                        let totalPrice = (adult * priceAdult) + (child * priceChild);
+                        $('#total_amount').val(totalPrice);
+                        $('#new_price_span').html(totalPrice);
+                    }
+
+
+
+            });
+
+            $('#ticket_child').change(function () {
+                var child = parseInt($('#ticket_child :selected').val());
+                var adult = parseInt($('#ticket_adult :selected').val());
+
+                var result = adult + child;
+                if (result > 10) {
+                    $('#adult_adult_vm').html('Can not be grater then 10 with both');
+                    $('#btnUpdate').attr('disabled', 'disabled');
+                    $('#new_price_span').html('0');
+                    $('#total_amount').val(0);
+                }
+                else {
+                    $('#adult_adult_vm').html('');
+                    $('#btnUpdate').removeAttr('disabled');
+                    let totalPrice = (adult * priceAdult) + (child * priceChild);
+                    $('#total_amount').val(totalPrice);
+                    $('#new_price_span').html(totalPrice);
+                }
+
+
+
+            });
+            $('#btnCancel').on('click', function () {
+                  let order_id = $('#order_id').val();
+                let user_id = $('#user_id').val();
+                let first_name = $('#i_first_name').val();
+                let last_name = $('#i_last_name').val();
+                let email = $('#i_email').val();
+                let phone = $('#i_phone_number').val();
+
+                let number_of_child = $('#ticket_child').val();
+                let number_of_adult = $('#ticket_adult').val();
+                let total_amount = $('#total_amount').val();
+                let previous_total_amount = $('#previous_total_amount').val();
+                if (total_amount == '0') {
+                    total_amount = previous_total_amount;
+                }
+
+                let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}'}`;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DeleteOrder", "Orders")',
+                    data: {
+                        updateData: updateDataAsString
+                    },
+                    success: function (data) {
+                        if (data.Status == 'ok') {
+
+                            $('#update_summery_table').css('display', 'inline-table');
+                            $('#cancellationfee_message').css('display','block');
+                            $('#operational_message').html(data.Message);
+                            $('#btnUpdate').attr('disabled', 'disabled');
+                            $('#btnCancel').attr('disabled', 'disabled');
+                            $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>cancelled</td><td><a href="@Url.Action("OrderUpdatedDetails", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;">details</a></td></tr>`);
+                        }
+                        else {
+                            $('#operational_message').html(data.Message);
+                        }
+
+                    },
+                    complete: {
+                    }
+                });
+            });
+            $('#btnUpdate').on('click', function () {
+
+                let order_id = $('#order_id').val();
+                let user_id = $('#user_id').val();
+                let first_name = $('#i_first_name').val();
+                let last_name = $('#i_last_name').val();
+                let email = $('#i_email').val();
+                let phone = $('#i_phone_number').val();
+
+                let number_of_child = $('#ticket_child').val();
+                let number_of_adult = $('#ticket_adult').val();
+                let total_amount = $('#total_amount').val();
+                let previous_total_amount = $('#previous_total_amount').val();
+                if (total_amount == '0') {
+                    total_amount = previous_total_amount;
+                }
+
+                let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}'}`;
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateOrder","Orders")',
+                    data: {
+                        updateData: updateDataAsString
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Status == 'ok') {
+                            
+                            $('#update_summery_table').css('display','inline-table');
+                            $('#operational_message').html(data.Message);
+                            $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderUpdatedDetails", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;">details</a></td></tr>`);
+                        }
+                        else {
+                            $('#operational_message').html(data.Message);
+                        }
+
+                    },
+                    complete: {
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+
+

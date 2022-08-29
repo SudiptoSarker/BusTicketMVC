@@ -1,0 +1,46 @@
+﻿@model BusTicketWebApp.Models.UserLogin
+
+@{
+    ViewBag.Title = "User Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="login-page">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="login-page-content col-xs-12 col-md-offset-4 col-md-3">
+                @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                {
+
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Eメール" })
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "パスワード" })
+                        @Html.ValidationMessageFor(m => m.Password)
+
+                    </div>
+                    if (ViewBag.Error != "")
+                    {
+                        <div class="login_error">@ViewBag.Error</div>
+                    }
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-warning col-xs-12">ログインする</button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<section class="login-page-footer">
+    <div class="row">
+        <div class="col-sm-2 login-page-company-link">
+            <a href="https://www.mti.co.jp" id="company_website">&copy;MTI.Ltd</a>
+        </div>
+        <div class="col-sm-offset-8 col-sm-2 login-page-company-link">
+            <a href="#">contact us</a>&nbsp;&nbsp;
+            <a href="https://www.mti.co.jp/?page_id=17">privacy policy</a>
+        </div>
+    </div>
+</section>
+

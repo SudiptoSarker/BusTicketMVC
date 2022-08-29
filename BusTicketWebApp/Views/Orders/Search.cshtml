@@ -1,0 +1,217 @@
+﻿@model BusTicketWebApp.ViewModels.SearchViewModel
+@{
+    ViewBag.Title = "Order Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-xs-10">
+    <div class="order-search">
+        <div class="row">
+            <form action="/Orders/SearchResult" method="post">
+                <div class="col-xs-6">
+                    <p>Date of Boarding</p>
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
+                    </div>
+                    <p>Search by Routes</p>
+                    <div class="form-group col-xs-12">
+
+                        <select class="form-control" name="route" id="o_routes">
+                            <option id="order_routes0" value="">Select Route</option>
+                            <option id="order_routes1" value="route1">route-1</option>
+                            <option id="order_routes2" value="route2">route-2</option>
+                            <option id="order_routes3" value="route3">route-3</option>
+                            <option id="order_routes4" value="route4">route-4</option>
+                            <option id="order_routes5" value="route5">route-5</option>
+                        </select>
+                    </div>
+                    <p>Type</p>
+                    <div class="form-group col-xs-12">
+
+                        <div class="checkbox" id="order_type">
+                            @foreach (var item in Model.TicketTypes)
+                            {
+                                <label>
+                                    <input type="checkbox" name="type" value="@item.Id" id="type @item.Id">
+                                    @item.TypeName
+                                </label>
+                            }
+                        </div>
+                    </div>
+                    <p>Flight</p>
+                    <div class="form-group col-xs-12">
+
+                        <select class="form-control" name="flight" id="order_flight">
+                            <option id="flight0" value="">Select Flight</option>
+                            <option id="flight1" value="flight1">Flight-1</option>
+                            <option id="flight2" value="flight2">Flight-2</option>
+                            <option id="flight3" value="flight3">Flight-3</option>
+                            <option id="flight4" value="flight4">Flight-4</option>
+                            <option id="flight5" value="flight5">Flight-5</option>
+                        </select>
+                    </div>
+                    <p>Boarding place/ Demounting Place</p>
+                    <div class="form-group col-xs-12">
+
+                        <select class="form-control" name="boarding_place" id="boarding_place">
+                            <option id="b_place0" value="">Select Place</option>
+                            <option id="b_place1" value="place1">Place-1</option>
+                            <option id="b_place2" value="place2">Place-2</option>
+                            <option id="b_place3" value="place3">Place-3</option>
+                            <option id="b_place4" value="place4">Place-4</option>
+                            <option id="b_place5" value="place5">Place-5</option>
+                        </select>
+                    </div>
+                    <p>Status</p>
+                    <div class="form-group col-xs-12">
+
+                        <div class="checkbox" id="order_status">
+                            @{
+                                int indexCount = 1;
+                                foreach (var item in Model.TicketStatus)
+                                {
+                                    <label>
+                                        <input type="checkbox" name="status" id="status_@indexCount" value="@item.Id">
+                                        @item.statusName
+                                    </label>
+                                    indexCount++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                        <p>Order Date</p>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
+                        </div>
+                        <p>Order No.</p>
+                        <div class="form-group col-xs-12">
+                            <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
+                        </div>
+                        <p>GMO Order No.</p>
+                        <div class="form-group col-xs-12">
+                            <input type="text" class="form-control" id="gmo_order_no" name="gmo_order_no" placeholder="GMO order no.">
+                        </div>                      
+                        <p>Payment Method</p>
+                        <div class="form-group col-xs-12">
+                            <select class="form-control col-xs-12" name="payment_method" id="payment_method">
+                                <option id="paymentMethod_0" value="">Select PaymentMethod</option>
+                                @{
+                                    int index = 1;
+                                    foreach (var item in Model.PaymentMethods)
+                                    {
+                                        <option id="paymentMethod_@index" value="@item.Id">@item.PaymentMethodName</option>
+                                        index++;
+                                    }
+                                }
+                            </select>
+                        </div>
+                  
+                        <p>Member Id</p>
+                        <div class="form-group col-xs-12">
+                            <input type="text" class="form-control" id="member_id" name="member_id" placeholder="Member ID">
+                        </div>
+                    
+                    <p>Last Name / First Name</p>
+
+                        <div class="form-group col-xs-6">
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                        </div>
+
+                    <p>Telephone / Email</p>
+
+                        <div class="form-group col-xs-6">
+                            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        </div>
+
+                </div>
+
+                <div class="col-xs-12" style="margin-top:30px">
+                    <div class="row">
+                        <div class="col-lg-offset-2 col-lg-1">
+                            <button class="btn  btn-warning" style="width:100%;">search</button>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn" onclick="ClearSearchBox();" type="button" style="width:100%;background-color:black;color:white">clear</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function ClearSearchBox() {
+
+            //date field clear            
+            ClearInputField("b_fromDate");
+            ClearInputField("b_toDate");
+            ClearInputField("o_fromDate");
+            ClearInputField("o_toDate");   
+            
+            ClearInputField("order_no");
+            ClearInputField("gmo_order_no");
+            ClearInputField("member_id");
+            ClearInputField("last_name");
+            ClearInputField("first_name");
+            ClearInputField("telephone");
+            ClearInputField("email");
+
+            //uncheck order type 
+            ClearCheckbox("order_type", "type");
+
+            //uncheck order status             
+            ClearCheckbox("order_status", "status_");
+
+            //dropdown:routes unselect            
+            ClearDropdown("o_routes", "order_routes");
+                        
+            //dropdown: paymentmethod clear
+            ClearDropdown("payment_method", "paymentMethod_");
+
+            //dropdown: flight clear
+            ClearDropdown("order_flight", "flight");
+                        
+            //dropdown: bording place clear
+            ClearDropdown("boarding_place", "b_place");
+        }
+
+        function ClearInputField(inputId) {
+            $("#" + inputId).val('');
+        }
+
+        function ClearCheckbox(groupId, checkId) {
+            let index = 1;
+            $('#' + groupId).find(':checkbox').each(function () {
+                $('#' + (checkId+index)).prop("checked", false);
+                index++;
+            });
+        }
+        function ClearDropdown(selectId, optionId) {
+            let index = 1;
+            $('#' + selectId + ' > option').each(function () {
+                $("#" + (optionId + index)).prop("selected", false);                
+                index++;
+            });
+            $("#" + (optionId + 0)).prop("selected", true);
+        }
+    </script>
+}

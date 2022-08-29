@@ -1,0 +1,347 @@
+﻿@model IEnumerable<BusTicketWebApp.Models.MemberList>
+
+@{
+    ViewBag.Title = "Member List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_LeftMenu")
+
+<div class="col-xs-10">
+    <div class="row">
+        <div class="col-xs-3 search_result_nav_div">
+            <h4>Search Results</h4>
+        </div>
+        <div class="col-xs-offset-6 col-xs-2 date_time_today_div">
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="search_table">
+            <input type="checkbox" id="select_all_check_box" /> Select All
+            <table class="table table-bordered" id="search_result_table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Member Id</th>
+                        <th scope="col">Registration Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Total Purchase</th>
+                        <th scope="col">Member Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000001</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>first name last name</td>
+                        <td><a href="javascript:void()">firstname@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>34343434343</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000002</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>Sudipto Sarker</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>554443333333</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000003</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test name</td>
+                        <td><a href="javascript:void()">test@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>444444</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000004</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test first last</td>
+                        <td><a href="javascript:void()">test3@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>3333333</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000005</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test5 test 6</td>
+                        <td><a href="javascript:void()">test5@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>55666666</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000006</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test 333</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>017512946664</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000007</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test 44</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>4444</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000008</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test 4444</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>017512946664</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">1000009</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test44 5666</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>017512946664</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">10000010</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test test test </td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>017512946664</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="single_order_id" value=1" name="single_order_id" data-status="1" /></td>
+                        <td>1</td>
+                        <td><a href="#">10000011</a></td>
+                        <td>2019/11/28 11:45 PM</td>
+                        <td>test test 33</td>
+                        <td><a href="javascript:void()">sudipto@jabait.com</a><a href="mailto:sudipto@jabait.com" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>017512946664</td>
+                        <td style="color:green;">Enabled</td>
+                        <td>2</td>
+
+                        <td><a href="javascript:void();" class="o_details" data-id="1" data-url='@Url.Action("MemberDetails", "Orders")'>details</a></td>
+
+                    </tr>
+                   
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 status_chang_div">
+            <div class="col-xs-12">
+                <p style="font-weight:bold">Change Status</p>
+            </div>
+            <div class="col-xs-3">
+
+                <select class="form-control" id="status_change_sl">
+                    <option value="">Select Status</option>
+                    @*@foreach (var item in ViewBag.Status)
+                    {
+                        <option value="@item.Id">@item.statusName</option>
+                    }*@
+                    <option value="1">Enabled</option>
+                    <option value="2">Stopped</option>
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button id="status_change_btn" class="btn btn-info">change</button>
+            </div>
+            @*<div class="col-lg-offset-5 col-xs-1">
+                <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+            </div>
+            <div class="col-xs-1">
+                <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+            $(document).ready(function () {
+
+                var selected_rows = [];
+                //$('#search_result_table').dataTable();
+                $('#search_result_table').DataTable({
+                    //pagingType: 'full_numbers',
+                    pagingType: 'input',
+                    pageLength: 3,
+                    language: {
+                        oPaginate: {
+                            sNext: '<i class="fa fa-forward"></i>',
+                            sPrevious: '<i class="fa fa-backward"></i>',
+                            sFirst: '<i class="fa fa-step-backward"></i>',
+                            sLast: '<i class="fa fa-step-forward"></i>'
+                        }
+                    }
+                });
+
+                $('#select_all_check_box').on('click', function () {
+                    var check_all_value = $('#select_all_check_box').is(':checked');
+                    if (check_all_value) {
+                        $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                    }
+                    else {
+                        $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                    }
+                });
+
+
+                $('#search_result_table').on('click', '.o_details', function () {
+
+                    var id = $(this).data('id');
+                    var url = $(this).data('url') + '/' + id;
+                    console.log(url);
+                    $.get(url, function (data) {
+                        $('#order_details_modal_body').html(data);
+                        $('#order_details_modal').modal('show');
+                    });
+                });
+
+                $('#status_change_btn').on('click', function () {
+                    selected_rows = [];
+                    let selectedOrderAsString = '';
+
+                    $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                        selected_rows.push($(this).val());
+                    });
+
+                    var valueOfSelect = $('#status_change_sl').val();
+                    if (valueOfSelect == null || valueOfSelect == "") {
+                        alert("Select Status");
+                        return false;
+                    }
+                    else if (selected_rows.length <= 0) {
+                        alert("Select Order");
+                        return false;
+                    }
+                    else if (valueOfSelect == "5") {
+                        selected_rows = [];
+                        $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                            var elementVal = $(this).attr('data-status');
+
+                            if (elementVal == "1" || elementVal == "2") {
+                                selected_rows.push($(this).val());
+                                selectedOrderAsString += $(this).val() + ",";
+                            }
+                            else {
+                                $(this).prop('checked', false);
+                            }
+
+                        });
+                    }
+                    else {
+                        selected_rows = [];
+                        $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                            selected_rows.push($(this).val());
+                            selectedOrderAsString += $(this).val() + ",";
+                        });
+                    }
+
+
+
+                    if (selected_rows.length > 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("AlterOrderStatus", "Orders")',
+                            data: {
+                                orderdata: selectedOrderAsString,
+                                statusId : valueOfSelect
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                if (data.Status == 'ok') {
+                                    alert(data.Message);
+                                    location.reload(true);
+                                }
+                                else {
+                                    alert(data.Message);
+                                    location.reload(true);
+                                }
+
+                            },
+                            complete: {
+                            }
+                        });
+                    }
+                });
+
+
+
+            });
+        </script>
+
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/pagination/input.js"></script>
+}

@@ -1,0 +1,161 @@
+﻿
+/* --------------------------- datatable css --------------------------------------*/
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #0E48A0;
+    color: white !important;
+}
+
+
+
+
+
+/* --------------------------- datatable css --------------------------------------*/
+
+/*---------------------------------- layout css --------------------------------*/
+#login_name {
+    display: inline-block;
+    margin-top: 15px;
+    background-color:lightgray;
+    padding:0px 20px 0px 20px;
+    border-radius:5px;
+}
+
+/*---------------------------------- layout css --------------------------------*/
+
+
+.field-validation-error {
+    color: red;
+}
+#logo_img{
+    margin-top:-10px;
+}
+.login-page {
+    background: #1A47A0;
+    min-height: 900px;
+}
+.login-page-content{
+    margin-top:150px;
+}
+.container-fluid-custom {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.navbar-custom {
+    margin-bottom: 0px;
+}
+.login-page-footer {
+    background: #1A47A0;
+}
+.login-page-company-link {
+    padding: 15px;
+}
+.login-page-company-link a {
+    color: white;
+    
+}
+#company_website{
+    margin-left:15px;
+}
+
+
+
+
+
+/* ----------------------- left-menu ----------------------------------- */
+
+.left-menu {
+    background: #415AB2;
+   min-height:1200px;
+}
+.left-menu ul{list-style:none;padding-left:0px;}
+.left-menu ul li {
+    border-bottom: 1px solid #DDE0F1;
+}
+.left-menu ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+        
+}
+.left-menu ul li a:hover {
+    color: #E8D435;
+    background-color: #444FA0
+}
+
+/* ----------------------- left-menu ----------------------------------- */
+
+
+
+
+
+
+/*--------------------- search result page css ----------------------------------------*/
+#date_time_today {
+    background-color: #0E48A0;
+    color:white;
+    padding:10px;
+}
+.date_time_today_div{
+    text-align:center;
+    margin-top:20px;
+}
+.search_result_nav_div {
+    margin-top: 20px;
+}
+.search_result_nav_div h4{
+    font-weight:bold;
+}
+.o_details{
+    border:1px solid black;
+    padding:5px 8px 5px 8px;
+    text-decoration:none;
+    border-radius:5px;
+    text-align:center;
+    display:block;
+    margin-top:5px;
+}
+.o_details:hover{
+    text-decoration:none;
+}
+.status_chang_div{
+    margin-top:20px;
+    padding:20px;
+}
+.status_mark {
+    border: 1px solid black;
+    padding: 5px 8px 5px 8px;
+    border-radius:5px;
+    display:block;
+    text-align:center;
+}
+.text-primary-custom{
+    color:dodgerblue;
+}
+.text-info-custom{
+    color:darkcyan;
+}
+.text-success-custom{
+    color:forestgreen;
+}
+.text-warning-custom{
+    color:palevioletred;
+}
+.text-muted-custom{
+    color:dimgrey;
+}
+
+
+
+
+
+
+
+
+/*---------------------page not found -------------------*/
+.page_not_found_div {
+    margin-top:300px;
+    text-align: center;
+    color: red;
+}
+/*---------------------page not found -------------------*/

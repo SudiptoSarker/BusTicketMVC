@@ -1,0 +1,248 @@
+﻿@model IEnumerable<BusTicketWebApp.Models.SearchList>
+
+@{
+    ViewBag.Title = "Order List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_LeftMenu")
+
+<div class="col-xs-10">
+    <div class="row">
+        <div class="col-xs-3 search_result_nav_div">
+            <h4>Search Results</h4>
+        </div>
+        <div class="col-xs-offset-6 col-xs-2 date_time_today_div">
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="search_table">
+            <input type="checkbox" id="select_all_check_box" /> Select All
+            <table class="table table-bordered" id="search_result_table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Order No</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Ticket Type</th>
+                        <th scope="col">Purchaser</th>
+                        <th>Adult</th>
+                        <th>Child</th>
+                        <th>Date of Use</th>
+                        <th scope="col">Ticket Status</th>
+                        <th scope="col">Order Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int count = 1;}
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            <td>@count</td>
+                            <td><a href="#">@x.OrderNo</a></td>
+                            <td>@x.OrderDate</td>
+                            <td>@x.TicketType</td>
+                            <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                            <td>@x.NumberOfAdult</td>
+                            <td>@x.NumberOfChild</td>
+                            <td>@x.DateOfUse</td>
+                            @if (x.StatusId == "1")
+                            {
+                                <td><span class="text-primary-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "2")
+                            {
+                                <td><span class="text-info-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "3")
+                            {
+                                <td><span class="text-success-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "4")
+                            {
+                                <td><span class="text-warning-custom status_mark">@x.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="text-muted-custom status_mark">@x.Status</span></td>
+                            }
+
+                            <td><a href="javascript:void();" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>details</a></td>
+
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 status_chang_div">
+            <div class="col-xs-12">
+                <p style="font-weight:bold">Change Status</p>
+            </div>
+            <div class="col-xs-3">
+
+                <select class="form-control" id="status_change_sl">
+                    <option value="">Select Status</option>
+                    @foreach (var item in ViewBag.Status)
+                    {
+                        <option value="@item.Id">@item.statusName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button id="status_change_btn" class="btn btn-info">change</button>
+            </div>
+            <div class="col-lg-offset-5 col-xs-1">
+                <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+            </div>
+            <div class="col-xs-1">
+                <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-7">
+            <div class="modal fade" id="order_details_modal" role="dialog">
+                @*</div>*@
+                <!-- The modal -->
+                @*<div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">*@
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="modalLabel">Order Details</h4>
+                        </div>
+                        <div class="modal-body" id="order_details_modal_body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var selected_rows = [];
+            //$('#search_result_table').dataTable();
+            $('#search_result_table').DataTable({
+                //pagingType: 'full_numbers',                
+                pagingType: 'input',
+                //pageLength: 5,
+                language: {
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                } 
+            });
+
+            $('#select_all_check_box').on('click', function () {
+                var check_all_value = $('#select_all_check_box').is(':checked');
+                if (check_all_value) {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+                else {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+            });
+
+
+            $('#search_result_table').on('click', '.o_details', function () {
+
+                var id = $(this).data('id');
+                var url = $(this).data('url') + '/' + id;
+                console.log(url);
+                $.get(url, function (data) {
+                    $('#order_details_modal_body').html(data);
+                    $('#order_details_modal').modal('show');
+                });
+            });
+
+            $('#status_change_btn').on('click', function () {
+                selected_rows = [];
+                let selectedOrderAsString = '';
+
+                $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                    selected_rows.push($(this).val());
+                });
+
+                var valueOfSelect = $('#status_change_sl').val();
+                if (valueOfSelect == null || valueOfSelect == "") {
+                    alert("Select Status");
+                    return false;
+                }
+                else if (selected_rows.length <= 0) {
+                    alert("Select Order");
+                    return false;
+                }
+                else if (valueOfSelect == "5") {
+                    selected_rows = [];
+                    $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                        var elementVal = $(this).attr('data-status');
+
+                        if (elementVal == "1" || elementVal == "2") {
+                            selected_rows.push($(this).val());
+                            selectedOrderAsString += $(this).val() + ",";
+                        }
+                        else {
+                            $(this).prop('checked', false);
+                        }
+
+                    });
+                }
+                else {
+                    selected_rows = [];
+                    $("#search_result_table tbody tr td input:checkbox[name=ck_change]:checked").each(function () {
+                        selected_rows.push($(this).val());
+                        selectedOrderAsString += $(this).val() + ",";
+                    });
+                }
+
+
+
+                if (selected_rows.length > 0) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("AlterOrderStatus", "Orders")',
+                        data: {
+                            orderdata: selectedOrderAsString,
+                            statusId : valueOfSelect
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            if (data.Status == 'ok') {
+                                alert(data.Message);
+                                location.reload(true);
+                            }
+                            else {
+                                alert(data.Message);
+                                location.reload(true);
+                            }
+
+                        },
+                        complete: {
+                        }
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/pagination/input.js"></script>
+}
