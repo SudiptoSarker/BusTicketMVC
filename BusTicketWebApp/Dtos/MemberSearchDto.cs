@@ -7,12 +7,12 @@ namespace BusTicketWebApp.Dtos
 {
     public class MemberSearchDto
     {
-        public DateTime MemberFromRegDate { get; set; }
-        public DateTime MemberToRegDate { get; set; }
-        public string MemberEmail { get; set; }
-        public int MemberStatus { get; set; }
-        public string MemberFirstName { get; set; }
-        public string MemberLastName { get; set; }
-        public string MemberPhone { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Telephone { get; set; }
+        public string Email { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string StatusId { get; set; }
     }
 }

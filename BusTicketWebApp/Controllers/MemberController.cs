@@ -49,34 +49,40 @@ namespace BusTicketWebApp.Controllers
             MemberSearchDto memberSearchDto = new MemberSearchDto();
             //Order search = new Order();
             List<MemberList> searchLists = new List<MemberList>();
-
+            memberSearchDto.FromDate = "";
             if (!string.IsNullOrEmpty(fc["r_fromDate"]))
             {
-                memberSearchDto.MemberFromRegDate = Convert.ToDateTime(fc["r_fromDate"]);
+                memberSearchDto.FromDate = fc["r_fromDate"];
             }
+            memberSearchDto.ToDate = "";
             if (!string.IsNullOrEmpty(fc["r_toDate"]))
             {
-                memberSearchDto.MemberToRegDate = Convert.ToDateTime(fc["r_toDate"]);
+                memberSearchDto.ToDate = fc["r_toDate"];
             }
+            memberSearchDto.Email = "";
             if (!String.IsNullOrEmpty(fc["user_email"]))
             {
-                memberSearchDto.MemberEmail = fc["user_email"];
+                memberSearchDto.Email = fc["user_email"];
             }
+            memberSearchDto.StatusId = "";
             if (!String.IsNullOrEmpty(fc["status"]))
             {
-                memberSearchDto.MemberStatus = Convert.ToInt32(fc["status"]);
+                memberSearchDto.StatusId = fc["status"];
             }
+            memberSearchDto.LastName = "";
             if (!String.IsNullOrEmpty(fc["last_name"]))
             {
-                memberSearchDto.MemberLastName = fc["last_name"];
+                memberSearchDto.LastName = fc["last_name"];
             }
+            memberSearchDto.FirstName = "";
             if (!String.IsNullOrEmpty(fc["first_name"]))
             {
-                memberSearchDto.MemberFirstName = fc["first_name"];
+                memberSearchDto.FirstName = fc["first_name"];
             }
+            memberSearchDto.Telephone = "";
             if (!String.IsNullOrEmpty(fc["phone"]))
             {
-                memberSearchDto.MemberPhone = fc["phone"];
+                memberSearchDto.Telephone = fc["phone"];
             }
 
 
