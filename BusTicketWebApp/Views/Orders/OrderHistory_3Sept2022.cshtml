@@ -1,0 +1,140 @@
+﻿@model BusTicketWebApp.ViewModels.OrderViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "SearchResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_LeftMenu")
+
+<div class="col-xs-10">
+    <div class="row">
+        <div class="col-xs-3">
+            <h2>Order Details</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            Updated On: <label style="color:#1281c9;">@Model.Order.OrderDate</label>
+        </div>
+        <div class="col-xs-3">
+            User: <label style="color:#1281c9;">Admin Super</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+            <h3 style="color:#0f49a0;">Basic Information</h3>
+        </div>
+        <table class="table">
+            <thead style="background-color:beige;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" style="color:#004ba6;">Order No</th>
+                    <th scope="col" style="color:#004ba6;">Customer Name</th>
+                    <th scope="col" style="color:#004ba6;">GMO Order Id</th>
+                    <th scope="col" style="color:#004ba6;">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@Model.Order.OrderNo</td>
+                    <td>@Model.Order.FirstName @Model.Order.LastName</td>
+                    <td>@Model.Order.GmoOrderNo</td>
+                    <td>@Model.Order.Email</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+            <h3 style="color:#0f49a0;">Order Information</h3>
+        </div>
+        <table class="table">
+            <thead style="background-color:beige;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" style="color:#004ba6;">Order Date</th>
+                    <th scope="col" style="color:#004ba6;">Expire Date</th>
+                    <th scope="col" style="color:#004ba6;">Adult</th>
+                    <th scope="col" style="color:#004ba6;">Child</th>
+                    <th scope="col" style="color:#004ba6;">Status</th>
+                    <th scope="col" style="color:#004ba6;">Cancelation fee</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@Model.Order.OrderDate</td>
+                    <td>@Model.Order.ExpiredAt</td>
+                    <td>@Model.Order.NumberOfAdult</td>
+                    <td>@Model.Order.NumberOfChild</td>
+
+                    @if (Model.Order.Status == "1")
+                    {
+                        <td><span class="text-primary-custom">Before</span></td>
+                    }
+                    else if (Model.Order.Status == "2")
+                    {
+                        <td><span class="text-info-custom">In Use</span></td>
+                    }
+                    else if (Model.Order.Status == "3")
+                    {
+                        <td><span class="text-success-custom">Used</span></td>
+                    }
+                    else if (Model.Order.Status == "4")
+                    {
+                        <td><span class="text-warning-custom">Expired</span></td>
+                    }
+                    else
+                    {
+                        <td><span class="text-muted-custom">Cancelled</span></td>
+                    }
+
+                    <td>@Model.Order.CancellationFee</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#search_result_table').dataTable()
+
+
+            $('#select_all_check_box').on('click', function () {
+                var check_all_value = $('#select_all_check_box').is(':checked');
+                if (check_all_value) {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+                else {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+            });
+
+
+            $('#search_result_table').on('click', '.o_details', function () {
+
+                var id = $(this).data('id');
+                var url = $(this).data('url') + '/' + id;
+                console.log(url);
+                $.get(url, function (data) {
+                    $('#order_details_modal_body').html(data);
+                    $('#order_details_modal').modal('show');
+                });
+            })
+
+
+
+        });
+    </script>
+}

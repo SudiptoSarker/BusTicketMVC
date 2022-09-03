@@ -20,16 +20,25 @@ namespace BusTicketWebApp
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js", "~/Scripts/jquery.dataTables.min.js", "~/Scripts/bootstrap-datepicker.min.js"));
+                    "~/Scripts/bootstrap.js",
+                    //"~/Scripts/jquery-confirm.min.js",
+                    "~/Scripts/jquery.dataTables.min.js",
+                    "~/Scripts/bootstrap-datepicker.min.js"
+                    //"~/Scripts/custalrt.js"                   
+                ));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include("~/Scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/bootstrap-datepickr3.min.css",
-                      "~/Content/jquery.dataTables.min.css",
-                      "~/Content/font-awesome.min.css",
-                      "~/Content/site.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/bootstrap-datepickr3.min.css",
+                "~/Content/jquery.dataTables.min.css",
+                "~/Content/font-awesome.min.css",
+                "~/Content/site.css"
+                //"~/Content/custalrt.css",
+                //"~/Content/alert-box.css",
+                //"~/Content/jquery-confirm.min.css"
+            ));
         }
     }
 }

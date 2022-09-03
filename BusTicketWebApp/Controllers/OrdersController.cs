@@ -27,9 +27,9 @@ namespace BusTicketWebApp.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            if (Session["email"]==null)
+            if (Session["email"] == null)
             {
-                return RedirectToAction("Index","User");
+                return RedirectToAction("Index", "User");
             }
             Session["show"] = null;
             return View();
@@ -48,7 +48,7 @@ namespace BusTicketWebApp.Controllers
                 PaymentMethods = GetPaymentMethods(),
                 TicketTypes = GetTicketTypes(),
             };
-            return View(searchViewModel); 
+            return View(searchViewModel);
         }
 
         [HttpPost]
@@ -139,7 +139,7 @@ namespace BusTicketWebApp.Controllers
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP POST
-                var postTask = client.PostAsJsonAsync<OrderSearchDto>("orders",searchDto);
+                var postTask = client.PostAsJsonAsync<OrderSearchDto>("orders", searchDto);
                 postTask.Wait();
 
                 var result = postTask.Result;
@@ -148,7 +148,7 @@ namespace BusTicketWebApp.Controllers
                     var readTask = result.Content.ReadAsAsync<List<SearchList>>();
 
                     searchLists = readTask.Result;
-                    
+
                 }
             }
 
@@ -191,7 +191,7 @@ namespace BusTicketWebApp.Controllers
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);
                 //HTTP GET
-                var responseTask = client.GetAsync("orders/"+id);
+                var responseTask = client.GetAsync("orders/" + id);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -261,7 +261,7 @@ namespace BusTicketWebApp.Controllers
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP DELETE
-                var putTask = client.DeleteAsync("orders/"+data.OrderId);
+                var putTask = client.DeleteAsync("orders/" + data.OrderId);
                 putTask.Wait();
 
                 var result = putTask.Result;
@@ -277,7 +277,7 @@ namespace BusTicketWebApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult AlterOrderStatus(string orderdata,string statusId)
+        public JsonResult AlterOrderStatus(string orderdata, string statusId)
         {
             OperationResultDto updateObjectMessage = null;
 
@@ -287,7 +287,7 @@ namespace BusTicketWebApp.Controllers
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP DELETE
-                var putTask = client.PutAsJsonAsync<string>("utl/utilities/AlterOrderStatus?statusId=" + statusId+ "&orderIds="+ orderdata,"");
+                var putTask = client.PutAsJsonAsync<string>("utl/utilities/AlterOrderStatus?statusId=" + statusId + "&orderIds=" + orderdata, "");
                 putTask.Wait();
 
                 var result = putTask.Result;
@@ -323,7 +323,7 @@ namespace BusTicketWebApp.Controllers
 
                     _paymentMethods = readTask.Result;
                 }
-                
+
             }
             return _paymentMethods;
         }
@@ -418,6 +418,37 @@ namespace BusTicketWebApp.Controllers
             return View(orderViewModel);
         }
 
+        public ActionResult OrderHistory(string Id)
+        {
+            if (Session["email"] == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            Session["show"] = null;
+            List<OrderHistoryList> objOrderHistoryList = new List<OrderHistoryList>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseAddressOrder);
+
+                //HTTP POST
+                var responseTask = client.GetAsync("orders/" + Id);
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<List<OrderHistoryList>>();
+
+                    //objOrderHistoryList = readTask.Result;
+
+                }
+            }            
+
+            return View(objOrderHistoryList);
+        }
+
+
         public ActionResult GenerateSearchPdf(Order searchData)
         {
             List<SearchList> searchLists = new List<SearchList>();
@@ -428,7 +459,7 @@ namespace BusTicketWebApp.Controllers
             searchDto.OrderNo = searchData.OrderNo;
             searchDto.Type = searchData.Type;
             searchDto.GmoOrderNo = searchData.GmoOrderNo;
-            searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString()=="0" ? null: searchData.PaymentMethodType.ToString();
+            searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString() == "0" ? null : searchData.PaymentMethodType.ToString();
             searchDto.LastName = searchData.LastName;
             searchDto.FirstName = searchData.FirstName;
             searchDto.Telephone = searchData.Telephone;
@@ -627,7 +658,7 @@ namespace BusTicketWebApp.Controllers
             sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Sl", "Order No", "Order Date ", "Ticket Type", "Purchaser", "Adult", "Child", "Ticket Status", Environment.NewLine);
             foreach (var item in searchLists)
             {
-                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}",count, item.OrderNo, item.OrderDate, item.TicketType, item.Purchaser,item.NumberOfAdult, item.NumberOfChild, item.Status, Environment.NewLine);
+                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}", count, item.OrderNo, item.OrderDate, item.TicketType, item.Purchaser, item.NumberOfAdult, item.NumberOfChild, item.Status, Environment.NewLine);
                 count++;
             }
 
@@ -639,19 +670,14 @@ namespace BusTicketWebApp.Controllers
             response.ContentEncoding = Encoding.Unicode;
 
             string csvFileName = "search_order_Report_" + DateTime.Today.Date.ToString("dd-MMM-yyyy") + ".CSV";
-            response.AddHeader("content-disposition", "attachment;filename="+csvFileName);
+            response.AddHeader("content-disposition", "attachment;filename=" + csvFileName);
             response.ContentType = "text/plain";
             response.Write(sb.ToString());
             response.End();
 
-            return RedirectToAction("Search","Orders");
-        }
-
-
-
-
-
-    }
+            return RedirectToAction("Search", "Orders");
+        }       
+    } 
     public class DataConversionForUpdate
     {
         public string OrderId { get; set; }

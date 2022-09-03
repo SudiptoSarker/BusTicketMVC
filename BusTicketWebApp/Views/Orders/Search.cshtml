@@ -73,70 +73,73 @@
                                 int indexCount = 1;
                                 foreach (var item in Model.TicketStatus)
                                 {
-                                    <label>
-                                        <input type="checkbox" name="status" id="status_@indexCount" value="@item.Id">
-                                        @item.statusName
-                                    </label>
-                                    indexCount++;
+                                    if (item.statusName.ToLower() != "expired")
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="status" id="status_@indexCount" value="@item.Id">
+                                            @item.statusName
+                                        </label>
+                                        indexCount++;
+                                    }
                                 }
                             }
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                        <p>Order Date</p>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+                    <p>Order Date</p>
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
 
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
-                        </div>
-                        <p>Order No.</p>
-                        <div class="form-group col-xs-12">
-                            <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
-                        </div>
-                        <p>GMO Order No.</p>
-                        <div class="form-group col-xs-12">
-                            <input type="text" class="form-control" id="gmo_order_no" name="gmo_order_no" placeholder="GMO order no.">
-                        </div>                      
-                        <p>Payment Method</p>
-                        <div class="form-group col-xs-12">
-                            <select class="form-control col-xs-12" name="payment_method" id="payment_method">
-                                <option id="paymentMethod_0" value="">Select PaymentMethod</option>
-                                @{
-                                    int index = 1;
-                                    foreach (var item in Model.PaymentMethods)
-                                    {
-                                        <option id="paymentMethod_@index" value="@item.Id">@item.PaymentMethodName</option>
-                                        index++;
-                                    }
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
+                    </div>
+                    <p>Order No.</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
+                    </div>
+                    <p>GMO Order No.</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="gmo_order_no" name="gmo_order_no" placeholder="GMO order no.">
+                    </div>
+                    <p>Payment Method</p>
+                    <div class="form-group col-xs-12">
+                        <select class="form-control col-xs-12" name="payment_method" id="payment_method">
+                            <option id="paymentMethod_0" value="">Select PaymentMethod</option>
+                            @{
+                                int index = 1;
+                                foreach (var item in Model.PaymentMethods)
+                                {
+                                    <option id="paymentMethod_@index" value="@item.Id">@item.PaymentMethodName</option>
+                                    index++;
                                 }
-                            </select>
-                        </div>
-                  
-                        <p>Member Id</p>
-                        <div class="form-group col-xs-12">
-                            <input type="text" class="form-control" id="member_id" name="member_id" placeholder="Member ID">
-                        </div>
-                    
+                            }
+                        </select>
+                    </div>
+
+                    <p>Member Id</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="member_id" name="member_id" placeholder="Member ID">
+                    </div>
+
                     <p>Last Name / First Name</p>
 
-                        <div class="form-group col-xs-6">
-                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
-                        </div>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                    </div>
 
                     <p>Telephone / Email</p>
 
-                        <div class="form-group col-xs-6">
-                            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                        </div>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
 
                 </div>
 
@@ -161,12 +164,12 @@
     <script type="text/javascript">
         function ClearSearchBox() {
 
-            //date field clear            
+            //date field clear
             ClearInputField("b_fromDate");
             ClearInputField("b_toDate");
             ClearInputField("o_fromDate");
-            ClearInputField("o_toDate");   
-            
+            ClearInputField("o_toDate");
+
             ClearInputField("order_no");
             ClearInputField("gmo_order_no");
             ClearInputField("member_id");
@@ -175,21 +178,21 @@
             ClearInputField("telephone");
             ClearInputField("email");
 
-            //uncheck order type 
+            //uncheck order type
             ClearCheckbox("order_type", "type");
 
-            //uncheck order status             
+            //uncheck order status
             ClearCheckbox("order_status", "status_");
 
-            //dropdown:routes unselect            
+            //dropdown:routes unselect
             ClearDropdown("o_routes", "order_routes");
-                        
+
             //dropdown: paymentmethod clear
             ClearDropdown("payment_method", "paymentMethod_");
 
             //dropdown: flight clear
             ClearDropdown("order_flight", "flight");
-                        
+
             //dropdown: bording place clear
             ClearDropdown("boarding_place", "b_place");
         }
@@ -201,14 +204,14 @@
         function ClearCheckbox(groupId, checkId) {
             let index = 1;
             $('#' + groupId).find(':checkbox').each(function () {
-                $('#' + (checkId+index)).prop("checked", false);
+                $('#' + (checkId + index)).prop("checked", false);
                 index++;
             });
         }
         function ClearDropdown(selectId, optionId) {
             let index = 1;
             $('#' + selectId + ' > option').each(function () {
-                $("#" + (optionId + index)).prop("selected", false);                
+                $("#" + (optionId + index)).prop("selected", false);
                 index++;
             });
             $("#" + (optionId + 0)).prop("selected", true);
