@@ -166,15 +166,17 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="padding-right: 70px;">
             <div class="col-xs-12">
                 <p class="text-center" id="operational_message"></p>
             </div>
-            <div class="col-xs-offset-3 col-xs-2">
-                <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Update</button>
+            <div class="col-xs-offset-3 col-xs-4">
+                <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Order Update</button>
+                @*<button class="btn  btn-warning" id="btnUpdate" style="width:100%;" data-toggle="modal" data-target="#exampleModalCenter">Update</button>*@
+
             </div>
-            <div class="col-xs-2">
-                <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Cancel</button>
+            <div class="col-xs-4">
+                <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Order Cancel</button>
             </div>
 
         </div>
@@ -205,7 +207,7 @@
                             <th>Customer Name</th>
                             <th>Total Price</th>
                             <th>Status</th>
-                            <th>View Details</th>
+                            <th>Order History</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -214,7 +216,31 @@
         </div>
     </div>
 </div>
-
+@*<style>
+    #exampleModalCenter {
+        z-index: 5000;
+    }
+</style>*@
+<!-- Modal -->
+@*<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
 
 @section scripts{
     <script type="text/javascript">
@@ -367,8 +393,7 @@
                     }
                 });
             });
-            $('#btnUpdate').on('click', function () {
-
+            $('#btnUpdate').on('click', function () {                
                 let order_id = $('#order_id').val();
                 let user_id = $('#user_id').val();
                 let first_name = $('#i_first_name').val();
@@ -396,10 +421,10 @@
                     success: function (data) {
                         console.log(data);
                         if (data.Status == 'ok') {
-                            
+
                             $('#update_summery_table').css('display','inline-table');
                             $('#operational_message').html(data.Message);
-                            $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderUpdatedDetails", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;">details</a></td></tr>`);
+                            $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;" style="padding-left:27px;">History</a></td></tr>`);
                         }
                         else {
                             $('#operational_message').html(data.Message);

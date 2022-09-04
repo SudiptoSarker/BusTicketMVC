@@ -202,8 +202,7 @@ namespace BusTicketWebApp.Controllers
                     readTask.Wait();
 
                     order = readTask.Result;
-                }
-
+                }               
             }
 
 

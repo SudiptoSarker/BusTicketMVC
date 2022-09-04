@@ -8,8 +8,9 @@ namespace BusTicketWebApp.Models
     public class Order
     {
         public int Id { get; set; }
+        public int ElectronicTicketId { get; set; }
         public DateTime BoardingDate { get; set; }
-        public DateTime ExpiredAt { get; set; }
+        public string ExpiredAt { get; set; }
         public DateTime OrderDate { get; set; }
         public string Route { get; set; }
         public string OrderNo { get; set; }

@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<BusTicketWebApp.Models.SearchList>
 
+
 @{
     ViewBag.Title = "Order List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,6 +32,7 @@
                         <th>Child</th>
                         <th>Date of Use</th>
                         <th scope="col">Ticket Status</th>
+                        <th scope="col">Order History</th>
                         <th scope="col">Order Details</th>
                     </tr>
                 </thead>
@@ -38,40 +40,41 @@
                     @{ int count = 1;}
                     @foreach (var x in Model)
                     {
-                        <tr>
-                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
-                            <td>@count</td>
-                            <td><a href="#">@x.OrderNo</a></td>
-                            <td>@x.OrderDate</td>
-                            <td>@x.TicketType</td>
-                            <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                            <td>@x.NumberOfAdult</td>
-                            <td>@x.NumberOfChild</td>
-                            <td>@x.DateOfUse</td>
-                            @if (x.StatusId == "1")
-                            {
-                                <td><span class="text-primary-custom status_mark">@x.Status</span></td>
-                            }
-                            else if (x.StatusId == "2")
-                            {
-                                <td><span class="text-info-custom status_mark">@x.Status</span></td>
-                            }
-                            else if (x.StatusId == "3")
-                            {
-                                <td><span class="text-success-custom status_mark">@x.Status</span></td>
-                            }
-                            else if (x.StatusId == "4")
-                            {
-                                <td><span class="text-warning-custom status_mark">@x.Status</span></td>
-                            }
-                            else
-                            {
-                                <td><span class="text-muted-custom status_mark">@x.Status</span></td>
-                            }
+                    <tr>
+                        <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                        <td>@count</td>
+                        <td><a href="#">@x.OrderNo</a></td>
+                        <td>@x.OrderDate</td>
+                        <td>@x.TicketType</td>
+                        <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>@x.NumberOfAdult</td>
+                        <td>@x.NumberOfChild</td>
+                        <td>@x.DateOfUse</td>
+                        @if (x.StatusId == "1")
+                        {
+                            <td><span class="text-primary-custom status_mark">@x.Status</span></td>
+                        }
+                        else if (x.StatusId == "2")
+                        {
+                            <td><span class="text-info-custom status_mark">@x.Status</span></td>
+                        }
+                        else if (x.StatusId == "3")
+                        {
+                            <td><span class="text-success-custom status_mark">@x.Status</span></td>
+                        }
+                        else if (x.StatusId == "4")
+                        {
+                            <td><span class="text-warning-custom status_mark">@x.Status</span></td>
+                        }
+                        else
+                        {
+                            <td><span class="text-muted-custom status_mark">@x.Status</span></td>
+                        }
+                        
+                        <td><a href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank;" style="padding-left:27px;">History</a></td>
+                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
 
-                            <td><a href="javascript:void();" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>details</a></td>
-
-                        </tr>
+                    </tr>
                         count++;
                     }
                 </tbody>
@@ -90,7 +93,10 @@
                     <option value="">Select Status</option>
                     @foreach (var item in ViewBag.Status)
                     {
-                        <option value="@item.Id">@item.statusName</option>
+                        if (item.statusName.ToLower() != "expired")
+                        {
+                            <option value="@item.Id">@item.statusName</option>
+                        }
                     }
                 </select>
             </div>
@@ -136,7 +142,7 @@
             var selected_rows = [];
             //$('#search_result_table').dataTable();
             $('#search_result_table').DataTable({
-                //pagingType: 'full_numbers',                
+                //pagingType: 'full_numbers',
                 pagingType: 'input',
                 //pageLength: 5,
                 language: {
@@ -146,7 +152,7 @@
                         sFirst: '<i class="fa fa-step-backward"></i>',
                         sLast: '<i class="fa fa-step-forward"></i>'
                     }
-                } 
+                }
             });
 
             $('#select_all_check_box').on('click', function () {

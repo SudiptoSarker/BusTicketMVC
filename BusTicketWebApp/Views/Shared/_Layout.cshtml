@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
 <body>
     @if (Session["show"] == null)
@@ -28,12 +29,13 @@
                     </ul>
                     @if (Session["email"] != null)
                     {
-                    <ul class="nav navbar-nav navbar-right">
-                        @if(Session["email_display"] !=null){
-                        <li><span id="login_name">@Session["email_display"] <i class="fa fa-times" aria-hidden="true" style="cursor:pointer;"></i></span></li>
-                        }
-                        <li><a href="/User/Logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
-                    </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (Session["email_display"] != null)
+                            {
+                                <li><span id="login_name">@Session["email_display"] <i class="fa fa-times" aria-hidden="true" style="cursor:pointer;"></i></span></li>
+                            }
+                            <li><a href="/User/Logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                        </ul>
                     }
 
                 </div>
@@ -52,6 +54,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/custom")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

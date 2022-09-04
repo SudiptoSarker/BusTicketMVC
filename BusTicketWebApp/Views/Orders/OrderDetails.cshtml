@@ -85,7 +85,7 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label for="i_expiration_date">Expiration Date</label>
-                        <input type="text" class="form-control" id="i_expiration_date" name="i_expiration_date" value="@Model.Order.ExpiredAt.ToString("MMM/dd/yyyy")" readonly>
+                        <input type="text" class="form-control" id="i_expiration_date" name="i_expiration_date" value="@Model.Order.ExpiredAt" readonly>
                     </div>
                     @*<div class="form-group">
                             <label for="i_status">Status</label>
@@ -141,6 +141,7 @@
                         <p id="new_price" style="font-size:20px;"><span id="new_price_span">0</span> <span class="label label-danger" style="font-size:10px;"> New Total Price</span></p>
 
                         <input type="hidden" value="0" id="total_amount" />
+                        <input type="hidden" id="hidElectronicTicketId" name="hidElectronicTicketId" value="@Model.Order.ElectronicTicketId"  />
                         <input type="hidden" value="@Model.Order.TotalPrice" id="previous_total_amount" />
                         <input type="hidden" value="@Model.Order.PriceForAdult" id="price_for_adult" />
                         <input type="hidden" value="@Model.Order.PriceForChild" id="price_for_child" />
@@ -221,8 +222,8 @@
         z-index: 5000;
     }
 </style>*@
-<!-- Modal -->
-@*<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ @*Modal 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -393,47 +394,70 @@
                     }
                 });
             });
-            $('#btnUpdate').on('click', function () {                
-                let order_id = $('#order_id').val();
-                let user_id = $('#user_id').val();
-                let first_name = $('#i_first_name').val();
-                let last_name = $('#i_last_name').val();
-                let email = $('#i_email').val();
-                let phone = $('#i_phone_number').val();
+            $('#btnUpdate').on('click', function () {   
 
-                let number_of_child = $('#ticket_child').val();
-                let number_of_adult = $('#ticket_adult').val();
-                let total_amount = $('#total_amount').val();
-                let previous_total_amount = $('#previous_total_amount').val();
-                if (total_amount == '0') {
-                    total_amount = previous_total_amount;
-                }
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Update?',
+                    buttons: {
+                        confirm: function () {
+                           let order_id = $('#order_id').val();
+                            let user_id = $('#user_id').val();
+                            let first_name = $('#i_first_name').val();
+                            let last_name = $('#i_last_name').val();
+                            let email = $('#i_email').val();
+                            let phone = $('#i_phone_number').val();
 
-                let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}'}`;
+                            let number_of_child = $('#ticket_child').val();
+                            let number_of_adult = $('#ticket_adult').val();
+                            let total_amount = $('#total_amount').val();
+                            let electronicTicketId = $('#hidElectronicTicketId').val();
+                            let previous_total_amount = $('#previous_total_amount').val();
+                            if (total_amount == '0') {
+                                total_amount = previous_total_amount;
+                            }
+
+                            let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}','ElectronicTicketId':'${electronicTicketId}'}`;
 
 
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("UpdateOrder","Orders")',
-                    data: {
-                        updateData: updateDataAsString
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        if (data.Status == 'ok') {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("UpdateOrder","Orders")',
+                                data: {
+                                    updateData: updateDataAsString
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data.Status == 'ok') {
 
-                            $('#update_summery_table').css('display','inline-table');
-                            $('#operational_message').html(data.Message);
-                            $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;" style="padding-left:27px;">History</a></td></tr>`);
-                        }
-                        else {
-                            $('#operational_message').html(data.Message);
-                        }
+                                        $.alert({
+                                            title: 'Success!!!',
+                                            content: data.Message,
+                                        });
+                                        $('#update_summery_table').css('display','inline-table');
+                                        $('#operational_message').html(data.Message);
+                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;" style="padding-left:27px;">History</a></td></tr>`);
+                                    }
+                                    else {
+                                        $.alert({
+                                            title: 'Failed!!!',
+                                            content: data.Message,
+                                        });
+                                        $('#operational_message').html(data.Message);
+                                    }
 
-                    },
-                    complete: {
-                    }
-                });
+                                },
+                                complete: {
+                                }
+                            });
+                                    },
+                                    cancel: function () {
+                                        $.alert('Canceled!');
+                                    },
+                        
+                                }
+                            });
+                
             });
         });
     </script>
