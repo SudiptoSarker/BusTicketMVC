@@ -431,7 +431,7 @@ namespace BusTicketWebApp.Controllers
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP POST
-                var responseTask = client.GetAsync("orders/" + Id);
+                var responseTask = client.GetAsync("utl/utilities/Details/" + Id);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -439,7 +439,7 @@ namespace BusTicketWebApp.Controllers
                 {
                     var readTask = result.Content.ReadAsAsync<List<OrderHistoryList>>();
 
-                    //objOrderHistoryList = readTask.Result;
+                    objOrderHistoryList = readTask.Result;
 
                 }
             }            

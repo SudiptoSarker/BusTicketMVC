@@ -141,7 +141,7 @@
                         <p id="new_price" style="font-size:20px;"><span id="new_price_span">0</span> <span class="label label-danger" style="font-size:10px;"> New Total Price</span></p>
 
                         <input type="hidden" value="0" id="total_amount" />
-                        <input type="hidden" id="hidElectronicTicketId" name="hidElectronicTicketId" value="@Model.Order.ElectronicTicketId" />
+                        <input type="hidden" id="hidElectronicTicketId" name="hidElectronicTicketId" value="@Model.Order.ElectronicTicketId"  />
                         <input type="hidden" value="@Model.Order.TotalPrice" id="previous_total_amount" />
                         <input type="hidden" value="@Model.Order.PriceForAdult" id="price_for_adult" />
                         <input type="hidden" value="@Model.Order.PriceForChild" id="price_for_child" />
@@ -324,8 +324,8 @@
 
 
             });
-            @*$('#btnCancel').on('click', function () {
-                let order_id = $('#order_id').val();
+            $('#btnCancel').on('click', function () {
+                  let order_id = $('#order_id').val();
                 let user_id = $('#user_id').val();
                 let first_name = $('#i_first_name').val();
                 let last_name = $('#i_last_name').val();
@@ -366,82 +366,15 @@
                     complete: {
                     }
                 });
-            });*@
-            
-            $('#btnCancel').on('click', function () {
-                $.confirm({
-                    title: 'Confirm!',
-                    content: 'Cancel?',
-                    buttons: {
-                        confirm: function () {
-                            let order_id = $('#order_id').val();
-                            let user_id = $('#user_id').val();
-                            let first_name = $('#i_first_name').val();
-                            let last_name = $('#i_last_name').val();
-                            let email = $('#i_email').val();
-                            let phone = $('#i_phone_number').val();
+            });
+            $('#btnUpdate').on('click', function () {   
 
-                            let number_of_child = $('#ticket_child').val();
-                            let number_of_adult = $('#ticket_adult').val();
-                            let total_amount = $('#total_amount').val();
-                            let previous_total_amount = $('#previous_total_amount').val();
-                            if (total_amount == '0') {
-                                total_amount = previous_total_amount;
-                            }
-
-                            let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}'}`;
-
-
-                            $.ajax({
-                                type: 'POST',
-                                url: '@Url.Action("DeleteOrder", "Orders")',
-                                data: {
-                                    updateData: updateDataAsString
-                                },
-                                success: function (data) {
-                                    console.log(data);
-                                    if (data.Status == 'ok') {
-
-                                        $.alert({
-                                            title: 'Success!!!',
-                                            content: data.Message,
-                                        });
-                                        $('#update_summery_table').css('display', 'inline-table');
-                                        $('#cancellationfee_message').css('display','block');
-                                        //$('#operational_message').html(data.Message);
-                                        $('#btnUpdate').attr('disabled', 'disabled');
-                                        $('#btnCancel').attr('disabled', 'disabled');
-                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>cancelled</td><td><a href="@Url.Action("OrderUpdatedDetails", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;">details</a></td></tr>`);
-                                    }
-                                    else {
-                                        $.alert({
-                                            title: 'Failed!!!',
-                                            content: data.Message,
-                                        });
-                                        //$('#operational_message').html(data.Message);
-                                    }
-
-                                },
-                                complete: {
-                                }
-                            });
-                        },
-                        cancel: function () {
-                            $.alert('Canceled!');
-                        },
-                    }
-                });
-
-                });
-            //});
-
-            $('#btnUpdate').on('click', function () {
                 $.confirm({
                     title: 'Confirm!',
                     content: 'Update?',
                     buttons: {
                         confirm: function () {
-                            let order_id = $('#order_id').val();
+                           let order_id = $('#order_id').val();
                             let user_id = $('#user_id').val();
                             let first_name = $('#i_first_name').val();
                             let last_name = $('#i_last_name').val();
@@ -490,15 +423,16 @@
                                 complete: {
                                 }
                             });
-                        },
-                        cancel: function () {
-                            $.alert('Canceled!');
-                        },
-                    }
-                });
-
-                });
+                                    },
+                                    cancel: function () {
+                                        $.alert('Canceled!');
+                                    },
+                        
+                                }
+                            });
+                
             });
+        });
     </script>
 
 }
