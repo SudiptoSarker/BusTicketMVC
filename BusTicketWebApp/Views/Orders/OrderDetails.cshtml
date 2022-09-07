@@ -55,6 +55,9 @@
                                 <label for="i_first_name">First Name</label>
                                 <input type="hidden" value="@Model.Order.UserId" id="user_id" />
                                 <input type="hidden" value="@Model.Order.Id" id="order_id" />
+
+                                @*<input type="hidden" value="@Model.Order.Id" id="updated_order_id" />*@
+
                                 <input type="text" class="form-control" id="i_first_name" name="i_first_name" value="@Model.Order.FirstName">
                                 <p class="text-danger" id="i_first_name_vm"></p>
                             </div>
@@ -172,10 +175,29 @@
                 <p class="text-center" id="operational_message"></p>
             </div>
             <div class="col-xs-offset-3 col-xs-4">
-                <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Order Update</button>
+                @{
+                    if (Convert.ToInt32(Model.Order.Status) == 1)
+                    {
+                        <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Order Update</button>
+                    }
+                    else
+                    {
+                        <button class="btn  btn-warning" id="btnUpdate" style="width:100%;pointer-events: none;cursor: default;opacity: .5;">Order Update</button>
+                    }
+                }
+
             </div>
             <div class="col-xs-4">
-                <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Order Cancel</button>
+                @{
+                    if (Convert.ToInt32(Model.Order.Status) == 1)
+                    {
+                        <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Order Cancel</button>
+                    }
+                    else
+                    {
+                        <button class="btn" style="width:100%;background-color:black;color:white;pointer-events: none;cursor: default;opacity: .5;" id="btnCancel">Order Cancel</button>
+                    }
+                }
             </div>
 
         </div>
@@ -412,6 +434,7 @@
                                         $('#btnUpdate').attr('disabled', 'disabled');
                                         $('#btnCancel').attr('disabled', 'disabled');
                                         $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>cancelled</td><td><a href="@Url.Action("OrderUpdatedDetails", "Orders", new {Id = @ViewBag.OrderId })" target="_blank;">details</a></td></tr>`);
+                                        //$("#order_id").val(data.UpdateData.UpdatedOrderId);
                                     }
                                     else {
                                         $.alert({
@@ -441,6 +464,7 @@
                     content: 'Update?',
                     buttons: {
                         confirm: function () {
+                            //let order_id = $('#updated_order_id').val();
                             let order_id = $('#order_id').val();
                             let user_id = $('#user_id').val();
                             let first_name = $('#i_first_name').val();
@@ -469,7 +493,6 @@
                                 success: function (data) {
                                     console.log(data);
                                     if (data.Status == 'ok') {
-
                                         $.alert({
                                             title: 'Success!!!',
                                             content: data.Message,
@@ -477,13 +500,14 @@
                                         $('#update_summery_table').css('display','inline-table');
                                         //$('#operational_message').html(data.Message);
                                         $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
+                                        $("#order_id").val(data.UpdateData.UpdatedOrderId);
                                     }
                                     else {
                                         $.alert({
                                             title: 'Failed!!!',
                                             content: data.Message,
                                         });
-                                        //$('#operational_message').html(data.Message);
+                                        $('#operational_message').html(data.Message);
                                     }
 
                                 },

@@ -17,5 +17,6 @@ namespace BusTicketWebApp.Dtos
         public string UpdatedAt { get; set; }
         public string CustomerName { get; set; }
         public string TotalPrice { get; set; }
+        public int UpdatedOrderId { get; set; }
     }
 }

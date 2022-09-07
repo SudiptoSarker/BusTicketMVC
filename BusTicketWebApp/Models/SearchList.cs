@@ -18,5 +18,6 @@ namespace BusTicketWebApp.Models
         public string DateOfUse { get; set; }
         public string Status { get; set; }
         public string StatusId { get; set; }
+        public string IsUpdated { get; set; }
     }
 }
