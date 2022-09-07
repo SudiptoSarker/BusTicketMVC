@@ -14,12 +14,18 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-xs-3">
+        @*<div class="col-xs-3">
             Updated On: <label style="color:#1281c9;">05-Sept-2022</label>
-        </div>
+        </div>*@
         <div class="col-xs-3">
-            User: <label style="color:#1281c9;">Admin Super</label>
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
         </div>
+        <div class="col-xs-2">
+            <p id="date_time_today"><i class="" aria-hidden="true"></i>User:  Admin Super</p>
+        </div>
+        @*<div class="col-xs-3">
+            User: <label style="color:#1281c9;">Admin Super</label>
+        </div>*@
     </div>
 
     <div class="row">
