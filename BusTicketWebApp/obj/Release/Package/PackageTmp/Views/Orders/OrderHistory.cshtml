@@ -14,12 +14,18 @@
     </div>
     <br />
     <div class="row">
+        @*<div class="col-xs-3">
+            Updated On: <label style="color:#1281c9;">05-Sept-2022</label>
+        </div>*@
         <div class="col-xs-3">
-            Updated On: <label style="color:#1281c9;">03-Sept-2022</label>
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
         </div>
-        <div class="col-xs-3">
+        <div class="col-xs-2">
+            <p id="date_time_today"><i class="" aria-hidden="true"></i>User:  Admin Super</p>
+        </div>
+        @*<div class="col-xs-3">
             User: <label style="color:#1281c9;">Admin Super</label>
-        </div>
+        </div>*@
     </div>
 
     <div class="row">
@@ -32,7 +38,7 @@
                     <th scope="col">SL</th>
                     <th scope="col" style="color:#004ba6;">Order No</th>
                     <th scope="col" style="color:#004ba6;">Order Date</th>
-                    <th scope="col" style="color:#004ba6;">Update at</th>
+                    @*<th scope="col" style="color:#004ba6;">Update at</th>*@
                     <th scope="col" style="color:#004ba6;">First  Name</th>
                     <th scope="col" style="color:#004ba6;">Last Name</th>
                     <th scope="col" style="color:#004ba6;">Telephone</th>
@@ -44,69 +50,58 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>A000000007</td>
-                    <td>09-Mar-2020</td>
-                    <td>03-Sept-2022</td>
-                    <td>sudipto</td>
-                    <td>sarker</td>
-                    <td>017555555</td>
-                    <td>sudipto@jabait.com</td>
-                    <td>3</td>
-                    <td>2</td>
-                    <td>1000</td>
-                    <td>Active</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>A000000007</td>
-                    <td>09-Mar-2020</td>
-                    <td>02-Sept-2022</td>
-                    <td>sudipto</td>
-                    <td>sarker</td>
-                    <td>017555555</td>
-                    <td>sudipto@jabait.com</td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td>1000</td>
-                    <td>Inactive</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>A000000007</td>
-                    <td>09-Sept-2022</td>
-                    <td>02-Sept-2022</td>
-                    <td>sudipto</td>
-                    <td>sarker</td>
-                    <td>017555555</td>
-                    <td>sudipto@jabait.com</td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td>1000</td>
-                    <td>Inactive</td>
-                </tr>
                 @{
 
-                    @*int count = 1;
-            foreach (var item in Model)
-            {
-                <tr>
-                    <th scope="row">@count</th>
-                    <td>@item.OrderNo</td>
-                    <td>@item.OrderDate</td>
-                    <td>@item.UpdatedAt</td>
-                    <td>@item.FirstName</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Telephone</td>
-                    <td>@item.Email</td>
-                    <td>@item.Adult</td>
-                    <td>@item.Child</td>
-                    <td>@item.Price</td>
-                    <td>@item.Status</td>
-                </tr>
-                count++;
-            }*@
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.OrderNo</td>
+                            @*<td>@item.OrderDate</td>*@
+                            <td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Telephone</td>
+                            <td>@item.Email</td>
+                            <td>@item.numberOfAdult</td>
+                            <td>@item.numberOfChild</td>
+                            <td>@item.Price</td>
+                            @{
+                                string strStatus = "";
+                                if (Convert.ToInt32(item.Status) == 1)
+                                {
+                                    strStatus = "Before";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 2)
+                                {
+                                    strStatus = "In Use";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 3)
+                                {
+                                    strStatus = "Used";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 4)
+                                {
+                                    strStatus = "Expired";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 5)
+                                {
+                                    strStatus = "Cancelled";
+                                }
+                                if (count == 1)
+                                {
+                                    strStatus = strStatus + " (Active)";
+                                }
+                                else
+                                {
+                                    strStatus = strStatus + " (Inactive)";
+                                }
+                                <td>@strStatus</td>
+                            }
+                        </tr>
+                        count++;
+                    }
                 }
             </tbody>
         </table>

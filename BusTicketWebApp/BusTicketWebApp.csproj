@@ -279,10 +279,12 @@
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP1.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP2.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP3.pubxml" />
+    <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP4.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy2.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy3.pubxml" />
+    <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy4.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\custalrt.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

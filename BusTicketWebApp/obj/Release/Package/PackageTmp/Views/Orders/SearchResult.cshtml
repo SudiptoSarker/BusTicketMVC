@@ -7,6 +7,23 @@
 }
 @Html.Partial("_LeftMenu")
 
+<style>
+    #orderHistory {
+        border: 1px solid #000;
+        padding: 5px 8px 5px 8px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        display: block;
+    }
+
+    #orderNoHistory {
+        padding: 5px 8px 5px 8px;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+    }
+</style>
 <div class="col-xs-10">
     <div class="row">
         <div class="col-xs-3 search_result_nav_div">
@@ -25,12 +42,12 @@
                         <th></th>
                         <th scope="col">#</th>
                         <th scope="col">Order No</th>
-                        <th scope="col">Order Date</th>
-                        <th scope="col">Ticket Type</th>
-                        <th scope="col">Purchaser</th>
+                        <th scope="col" style="width:100px;">Order Date</th>
+                        <th scope="col" style="width:50px;">Ticket Type</th>
+                        <th scope="col" style="width:200px;">Purchaser</th>
                         <th>Adult</th>
                         <th>Child</th>
-                        <th>Date of Use</th>
+                        @*<th>Date of Use</th>*@
                         <th scope="col">Ticket Status</th>
                         <th scope="col">Order History</th>
                         <th scope="col">Order Details</th>
@@ -40,41 +57,64 @@
                     @{ int count = 1;}
                     @foreach (var x in Model)
                     {
-                    <tr>
-                        <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
-                        <td>@count</td>
-                        <td><a href="#">@x.OrderNo</a></td>
-                        <td>@x.OrderDate</td>
-                        <td>@x.TicketType</td>
-                        <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                        <td>@x.NumberOfAdult</td>
-                        <td>@x.NumberOfChild</td>
-                        <td>@x.DateOfUse</td>
-                        @if (x.StatusId == "1")
-                        {
-                            <td><span class="text-primary-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "2")
-                        {
-                            <td><span class="text-info-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "3")
-                        {
-                            <td><span class="text-success-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "4")
-                        {
-                            <td><span class="text-warning-custom status_mark">@x.Status</span></td>
-                        }
-                        else
-                        {
-                            <td><span class="text-muted-custom status_mark">@x.Status</span></td>
-                        }
-                        
-                        <td><a href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank;" style="padding-left:27px;">History</a></td>
-                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                        <tr>
+                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            <td>@count</td>
+                            <td><a href="#">@x.OrderNo</a></td>
+                            <td>@x.OrderDate</td>
+                            <td>@x.TicketType</td>
+                            <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                            <td>@x.NumberOfAdult</td>
+                            <td>@x.NumberOfChild</td>
+                            @*<td>@x.DateOfUse</td>*@
+                            @if (x.StatusId == "1")
+                            {
+                                <td><span class="text-primary-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "2")
+                            {
+                                <td><span class="text-info-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "3")
+                            {
+                                <td><span class="text-success-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "4")
+                            {
+                                <td><span class="text-warning-custom status_mark">@x.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="text-muted-custom status_mark">@x.Status</span></td>
+                            }
 
-                    </tr>
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
+                            @{
+                                if (Convert.ToInt32(x.IsUpdated) == 2)
+                                {
+                                    <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
+                                }
+                                else
+                                {
+                                    <td><a id="orderNoHistory">----</a></td>
+                                }
+
+                            }
+                            @{
+                                @*if (Convert.ToInt32(x.StatusId) == 5)
+                                    {
+                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")' style="pointer-events: none;cursor: default;opacity: .5;">Details</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                                    }*@
+                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+
+                            }
+
+                        </tr>
                         count++;
                     }
                 </tbody>
@@ -93,7 +133,7 @@
                     <option value="">Select Status</option>
                     @foreach (var item in ViewBag.Status)
                     {
-                        if (item.statusName.ToLower() != "expired")
+                        if (item.statusName.ToLower() == "cancelled")
                         {
                             <option value="@item.Id">@item.statusName</option>
                         }
@@ -104,7 +144,7 @@
                 <button id="status_change_btn" class="btn btn-info">change</button>
             </div>
             <div class="col-lg-offset-5 col-xs-1">
-                <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                @*<a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>*@
             </div>
             <div class="col-xs-1">
                 <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
@@ -135,6 +175,9 @@
     </div>
 </div>
 
+@*<script src="/Scripts/jquery-3.5.1.js"></script>
+    <script src="/Scripts/jquery-3.3.1.js"></script>*@
+
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
@@ -144,6 +187,8 @@
             $('#search_result_table').DataTable({
                 //pagingType: 'full_numbers',
                 pagingType: 'input',
+                //dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+                //dom: 'lifrtip',
                 //pageLength: 5,
                 language: {
                     oPaginate: {
@@ -177,6 +222,50 @@
                 });
             });
 
+            function ChangeOrderStatus(selectedOrderAsString, valueOfSelect) {
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Change Status?',
+                    buttons: {
+                        confirm: function () {
+
+                        //if (selected_rows.length > 0) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("AlterOrderStatus", "Orders")',
+                                data: {
+                                    orderdata: selectedOrderAsString,
+                                    statusId : valueOfSelect
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data.Status == 'ok') {
+
+                                        $.alert({
+                                            title: 'Success!!!',
+                                            content: data.Message,
+                                        });
+                                        location.reload(true);
+                                    }
+                                    else {
+                                        $.alert({
+                                            title: 'Failed!!!',
+                                            content: data.Message,
+                                        });
+                                        location.reload(true);
+                                    }
+                                },
+                                complete: {
+                                }
+                            });
+                        },
+                        cancel: function () {
+                            //$.alert('Canceled!');
+                        },
+                    }
+                });
+            }
+
             $('#status_change_btn').on('click', function () {
                 selected_rows = [];
                 let selectedOrderAsString = '';
@@ -189,6 +278,7 @@
                 if (valueOfSelect == null || valueOfSelect == "") {
                     alert("Select Status");
                     return false;
+                    modal.dis
                 }
                 else if (selected_rows.length <= 0) {
                     alert("Select Order");
@@ -216,36 +306,9 @@
                         selectedOrderAsString += $(this).val() + ",";
                     });
                 }
+                ChangeOrderStatus(selectedOrderAsString, valueOfSelect);
 
-
-
-                if (selected_rows.length > 0) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("AlterOrderStatus", "Orders")',
-                        data: {
-                            orderdata: selectedOrderAsString,
-                            statusId : valueOfSelect
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            if (data.Status == 'ok') {
-                                alert(data.Message);
-                                location.reload(true);
-                            }
-                            else {
-                                alert(data.Message);
-                                location.reload(true);
-                            }
-
-                        },
-                        complete: {
-                        }
-                    });
-                }
             });
-
-
 
         });
     </script>

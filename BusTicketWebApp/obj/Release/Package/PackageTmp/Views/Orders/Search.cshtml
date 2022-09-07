@@ -9,12 +9,20 @@
         <div class="row">
             <form action="/Orders/SearchResult" method="post">
                 <div class="col-xs-6">
-                    <p>Date of Boarding</p>
+                    @*<p>Date of Boarding</p>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
+                        </div>*@
+                    <p>Order Date</p>
                     <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
+                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+
                     </div>
                     <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
+                        <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
                     </div>
                     <p>Search by Routes</p>
                     <div class="form-group col-xs-12">
@@ -87,14 +95,14 @@
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <p>Order Date</p>
-                    <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+                    @*<p>Order Date</p>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
 
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
-                    </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
+                        </div>*@
                     <p>Order No.</p>
                     <div class="form-group col-xs-12">
                         <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
