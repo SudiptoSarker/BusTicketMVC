@@ -187,5 +187,35 @@ namespace BusTicketWebApp.Controllers
             return _ticketStatus;
         }
 
+        public ActionResult MemberHistory(string Id)
+        {
+            if (Session["email"] == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            Session["show"] = null;
+            List<OrderHistoryList> objOrderHistoryList = new List<OrderHistoryList>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseAddressOrder);
+
+                //HTTP POST
+                var responseTask = client.GetAsync("utl/utilities/Details/" + Id);
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<List<OrderHistoryList>>();
+
+                    objOrderHistoryList = readTask.Result;
+
+                }
+            }
+
+            return View(objOrderHistoryList);
+        }
+
     }
 }

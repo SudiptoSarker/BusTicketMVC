@@ -1,0 +1,145 @@
+﻿@model IEnumerable<BusTicketWebApp.Models.OrderHistoryList>
+
+@{
+    ViewBag.Title = "SearchResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_LeftMenu")
+
+<div class="col-xs-10">
+    <div class="row">
+        <div class="col-xs-3">
+            <h2>Order Details</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        @*<div class="col-xs-3">
+                Updated On: <label style="color:#1281c9;">05-Sept-2022</label>
+            </div>*@
+        <div class="col-xs-3">
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
+        </div>
+        <div class="col-xs-2">
+            <p id="date_time_today"><i class="" aria-hidden="true"></i>User:  Admin Super</p>
+        </div>
+        @*<div class="col-xs-3">
+                User: <label style="color:#1281c9;">Admin Super</label>
+            </div>*@
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+            <h3 style="color:#0f49a0;">Order History Details</h3>
+        </div>
+        <table class="table">
+            <thead style="background-color:beige;">
+                <tr>
+                    <th scope="col">SL</th>
+                    <th scope="col" style="color:#004ba6;">Order No</th>
+                    <th scope="col" style="color:#004ba6;">Order Date</th>
+                    @*<th scope="col" style="color:#004ba6;">Update at</th>*@
+                    <th scope="col" style="color:#004ba6;">First  Name</th>
+                    <th scope="col" style="color:#004ba6;">Last Name</th>
+                    <th scope="col" style="color:#004ba6;">Telephone</th>
+                    <th scope="col" style="color:#004ba6;">Email</th>
+                    <th scope="col" style="color:#004ba6;">Adult</th>
+                    <th scope="col" style="color:#004ba6;">Child</th>
+                    <th scope="col" style="color:#004ba6;">Price</th>
+                    <th scope="col" style="color:#004ba6;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.OrderNo</td>
+                            @*<td>@item.OrderDate</td>*@
+                            <td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Telephone</td>
+                            <td>@item.Email</td>
+                            <td>@item.numberOfAdult</td>
+                            <td>@item.numberOfChild</td>
+                            <td>@item.Price</td>
+                            @{
+                                string strStatus = "";
+                                if (Convert.ToInt32(item.Status) == 1)
+                                {
+                                    strStatus = "Before";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 2)
+                                {
+                                    strStatus = "In Use";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 3)
+                                {
+                                    strStatus = "Used";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 4)
+                                {
+                                    strStatus = "Expired";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 5)
+                                {
+                                    strStatus = "Cancelled";
+                                }
+                                if (count == 1)
+                                {
+                                    strStatus = strStatus + " (Active)";
+                                }
+                                else
+                                {
+                                    strStatus = strStatus + " (Inactive)";
+                                }
+                                <td>@strStatus</td>
+                            }
+                        </tr>
+                        count++;
+                    }
+                }
+            </tbody>
+        </table>
+        <hr />
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#search_result_table').dataTable()
+
+
+            $('#select_all_check_box').on('click', function () {
+                var check_all_value = $('#select_all_check_box').is(':checked');
+                if (check_all_value) {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+                else {
+                    $('#search_result_table input:checkbox').prop('checked', check_all_value);
+                }
+            });
+
+
+            $('#search_result_table').on('click', '.o_details', function () {
+
+                var id = $(this).data('id');
+                var url = $(this).data('url') + '/' + id;
+                console.log(url);
+                $.get(url, function (data) {
+                    $('#order_details_modal_body').html(data);
+                    $('#order_details_modal').modal('show');
+                });
+            })
+
+
+
+        });
+    </script>
+}
