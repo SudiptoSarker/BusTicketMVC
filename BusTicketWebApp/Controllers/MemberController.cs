@@ -20,13 +20,14 @@ namespace BusTicketWebApp.Controllers
         {
             return View();
         }
+
         // GET: Member
         public ActionResult Search()
         {
-            //if (Session["email"] == null)
-            //{
-            //    return RedirectToAction("Index", "User");
-            //}
+            if (Session["email"] == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
             Session["show"] = null;
             
             return View();

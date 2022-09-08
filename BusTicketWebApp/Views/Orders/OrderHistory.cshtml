@@ -15,8 +15,8 @@
     <br />
     <div class="row">
         @*<div class="col-xs-3">
-            Updated On: <label style="color:#1281c9;">05-Sept-2022</label>
-        </div>*@
+                Updated On: <label style="color:#1281c9;">05-Sept-2022</label>
+            </div>*@
         <div class="col-xs-3">
             <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
         </div>
@@ -24,15 +24,15 @@
             <p id="date_time_today"><i class="" aria-hidden="true"></i>User:  Admin Super</p>
         </div>
         @*<div class="col-xs-3">
-            User: <label style="color:#1281c9;">Admin Super</label>
-        </div>*@
+                User: <label style="color:#1281c9;">Admin Super</label>
+            </div>*@
     </div>
 
     <div class="row">
         <div class="col-xs-3">
             <h3 style="color:#0f49a0;">Order History Details</h3>
         </div>
-        <table class="table">
+        <table class="table" id="search_result_table">
             <thead style="background-color:beige;">
                 <tr>
                     <th scope="col">SL</th>
@@ -55,51 +55,52 @@
                     int count = 1;
                     foreach (var item in Model)
                     {
-                        <tr>
-                            <th scope="row">@count</th>
-                            <td>@item.OrderNo</td>
-                            @*<td>@item.OrderDate</td>*@
-                            <td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>
-                            <td>@item.FirstName</td>
-                            <td>@item.LastName</td>
-                            <td>@item.Telephone</td>
-                            <td>@item.Email</td>
-                            <td>@item.numberOfAdult</td>
-                            <td>@item.numberOfChild</td>
-                            <td>@item.Price</td>
-                            @{
-                                string strStatus = "";
-                                if (Convert.ToInt32(item.Status) == 1)
-                                {
-                                    strStatus = "Before";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 2)
-                                {
-                                    strStatus = "In Use";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 3)
-                                {
-                                    strStatus = "Used";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 4)
-                                {
-                                    strStatus = "Expired";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 5)
-                                {
-                                    strStatus = "Cancelled";
-                                }
-                                if (count == 1)
-                                {
-                                    strStatus = strStatus + " (Active)";
-                                }
-                                else
-                                {
-                                    strStatus = strStatus + " (Inactive)";
-                                }
-                                <td>@strStatus</td>
-                            }
-                        </tr>
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@item.OrderNo</td>
+                    @*<td>@item.OrderDate</td>*@
+                    @*<td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>*@
+                    <td>@Convert.ToDateTime(item.orderDate)</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Telephone</td>
+                    <td>@item.Email</td>
+                    <td>@item.numberOfAdult</td>
+                    <td>@item.numberOfChild</td>
+                    <td>@item.Price</td>
+                    @{
+                        string strStatus = "";
+                        if (Convert.ToInt32(item.Status) == 1)
+                        {
+                            strStatus = "Before";
+                        }
+                        else if (Convert.ToInt32(item.Status) == 2)
+                        {
+                            strStatus = "In Use";
+                        }
+                        else if (Convert.ToInt32(item.Status) == 3)
+                        {
+                            strStatus = "Used";
+                        }
+                        else if (Convert.ToInt32(item.Status) == 4)
+                        {
+                            strStatus = "Expired";
+                        }
+                        else if (Convert.ToInt32(item.Status) == 5)
+                        {
+                            strStatus = "Cancelled";
+                        }
+                        if (count == 1)
+                        {
+                            strStatus = strStatus + " (Active)";
+                        }
+                        else
+                        {
+                            strStatus = strStatus + " (Inactive)";
+                        }
+                        <td>@strStatus</td>
+                    }
+                </tr>
                         count++;
                     }
                 }
@@ -113,7 +114,21 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#search_result_table').dataTable()
+            $('#search_result_table').DataTable({
+                //pagingType: 'full_numbers',
+                pagingType: 'input',
+                //dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+                dom: 'lifrtip',
+                //pageLength: 5,
+                language: {
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                }
+            });
 
 
             $('#select_all_check_box').on('click', function () {
@@ -142,4 +157,5 @@
 
         });
     </script>
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/pagination/input.js"></script>
 }
