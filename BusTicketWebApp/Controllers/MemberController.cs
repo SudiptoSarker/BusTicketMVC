@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using BusTicketWebApp.ViewModels;
-
+using Newtonsoft.Json;
 
 namespace BusTicketWebApp.Controllers
 {
@@ -116,53 +116,59 @@ namespace BusTicketWebApp.Controllers
             //objSearchViewModel.MemberFirstName = memberSearchDto.MemberFirstName;
             //objSearchViewModel.MemberPhone = memberSearchDto.MemberPhone;
             ViewBag.Status = GetTicketStatus();
-
+            
             return View(searchLists);
         }
         public ActionResult MemberDetails(int id)
         {
-            id = 28;
-
             if (Session["email"] == null)
             {
                 return RedirectToAction("Index", "User");
             }
 
-            Order order = null;
+            Member member = new Member();
             Session["show"] = "display";
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);
                 //HTTP GET
-                var responseTask = client.GetAsync("orders/" + id);
+                var responseTask = client.GetAsync("Users/" + id);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
 
-                    var readTask = result.Content.ReadAsAsync<Order>();
+                    var readTask = result.Content.ReadAsAsync<Member>();
                     readTask.Wait();
 
-                    order = readTask.Result;
+                    member = readTask.Result;
                 }
 
             }
 
 
-            OrderViewModel orderViewModel = new OrderViewModel
+            //OrderViewModel orderViewModel = new OrderViewModel
+            //{
+            //    Order = order,
+            //    PaymentMethods = Utility.GetPaymentMethods(),
+            //    TicketTypes = Utility.GetTicketTypes(),
+            //    Adults = Utility.GetAdultNumbers(),
+            //    Childs = Utility.GetChildNumbers(),
+            //};
+
+            //ViewBag.OrderId = id;
+            if(Convert.ToInt32(member.Status) == 1)
             {
-                Order = order,
-                PaymentMethods = Utility.GetPaymentMethods(),
-                TicketTypes = Utility.GetTicketTypes(),
-                Adults = Utility.GetAdultNumbers(),
-                Childs = Utility.GetChildNumbers(),
-            };
+                member.StatusTxt = "Enabled";
+            }
+            else
+            {
+                member.StatusTxt = "Stopped";
+            }
 
-            ViewBag.OrderId = id;
-            
-
-            return View(orderViewModel);
+            return View(member);
         }
         public List<TicketStatus> GetTicketStatus()
         {
@@ -216,6 +222,60 @@ namespace BusTicketWebApp.Controllers
             }
 
             return View(objOrderHistoryList);
+        }
+        [HttpPost]
+        public JsonResult DeleteMember(string updateData)
+        {
+            OperationResultDto updateObjectMessage = null;
+
+            var data = JsonConvert.DeserializeObject<DataConversionForUpdate>(updateData);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseAddressOrder);
+
+                //HTTP DELETE
+                var putTask = client.DeleteAsync("orders/" + data.OrderId);
+                putTask.Wait();
+
+                var result = putTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<OperationResultDto>();
+
+                    updateObjectMessage = readTask.Result;
+
+                }
+            }
+            return Json(updateObjectMessage, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMember(string updateData)
+        {
+            OperationResultDto updateObjectMessage = null;
+
+            DataConversionForUpdate data = JsonConvert.DeserializeObject<DataConversionForUpdate>(updateData);
+
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseAddressOrder);
+
+                //HTTP PUT
+                var putTask = client.PutAsJsonAsync<DataConversionForUpdate>("orders", data);
+                putTask.Wait();
+
+                var result = putTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<OperationResultDto>();
+
+                    updateObjectMessage = readTask.Result;
+
+                }
+            }
+
+            return Json(updateObjectMessage, JsonRequestBehavior.AllowGet);
         }
 
     }

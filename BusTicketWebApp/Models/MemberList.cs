@@ -15,7 +15,7 @@ namespace BusTicketWebApp.Models
         public string CreateDate { get; set; }
         public int ActiveStatus { get; set; }
         public int TotalPurchase { get; set; }
-
+        public int Status { get; set; }
         //public int MemberId { get; set; }
         //public string MemberRegistrationDate { get; set; }
         //public string MemberEmail { get; set; }
