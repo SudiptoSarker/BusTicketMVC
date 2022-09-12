@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusTicketWebApp.Models.OrderHistoryList>
+﻿@model IEnumerable<BusTicketWebApp.Models.MemberHistoryList>
 
 @{
     ViewBag.Title = "SearchResult";
@@ -36,16 +36,12 @@
             <thead style="background-color:beige;">
                 <tr>
                     <th scope="col">SL</th>
-                    <th scope="col" style="color:#004ba6;">Order No</th>
-                    <th scope="col" style="color:#004ba6;">Order Date</th>
-                    @*<th scope="col" style="color:#004ba6;">Update at</th>*@
-                    <th scope="col" style="color:#004ba6;">First  Name</th>
+                    <th scope="col" style="color:#004ba6;">Registration Date</th>
+                    <th scope="col" style="color:#004ba6;">Updated Date</th>
+                    <th scope="col" style="color:#004ba6;">First Name</th>
                     <th scope="col" style="color:#004ba6;">Last Name</th>
                     <th scope="col" style="color:#004ba6;">Telephone</th>
                     <th scope="col" style="color:#004ba6;">Email</th>
-                    <th scope="col" style="color:#004ba6;">Adult</th>
-                    <th scope="col" style="color:#004ba6;">Child</th>
-                    <th scope="col" style="color:#004ba6;">Price</th>
                     <th scope="col" style="color:#004ba6;">Status</th>
                 </tr>
             </thead>
@@ -57,46 +53,30 @@
                     {
                         <tr>
                             <th scope="row">@count</th>
-                            <td>@item.OrderNo</td>
-                            @*<td>@item.OrderDate</td>*@
-                            <td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>
+                            <td>@Convert.ToDateTime(item.CreateDate)</td>
+                            <td>@Convert.ToDateTime(item.UpdateDate)</td>
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
-                            <td>@item.Telephone</td>
+                            <td>@item.PhoneNumber</td>
                             <td>@item.Email</td>
-                            <td>@item.numberOfAdult</td>
-                            <td>@item.numberOfChild</td>
-                            <td>@item.Price</td>
                             @{
                                 string strStatus = "";
-                                if (Convert.ToInt32(item.Status) == 1)
-                                {
-                                    strStatus = "Before";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 2)
-                                {
-                                    strStatus = "In Use";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 3)
-                                {
-                                    strStatus = "Used";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 4)
-                                {
-                                    strStatus = "Expired";
-                                }
-                                else if (Convert.ToInt32(item.Status) == 5)
-                                {
-                                    strStatus = "Cancelled";
-                                }
                                 if (count == 1)
                                 {
-                                    strStatus = strStatus + " (Active)";
+                                    strStatus = "Enabled (Active)";
                                 }
                                 else
                                 {
-                                    strStatus = strStatus + " (Inactive)";
+                                    strStatus = "Enabled (Inactive)";
                                 }
+                                //if (Convert.ToInt32(item.Status) == 1)
+                                //{
+                                //    strStatus = "Enabled";
+                                //}
+                                //else if (Convert.ToInt32(item.Status) == 1)
+                                //{
+                                //    strStatus = "Stopped";
+                                //}
                                 <td>@strStatus</td>
                             }
                         </tr>

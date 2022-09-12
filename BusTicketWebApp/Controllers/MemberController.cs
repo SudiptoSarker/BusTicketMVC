@@ -29,7 +29,7 @@ namespace BusTicketWebApp.Controllers
                 return RedirectToAction("Index", "User");
             }
             Session["show"] = null;
-            
+
             return View();
         }
         [HttpGet]
@@ -80,10 +80,10 @@ namespace BusTicketWebApp.Controllers
             {
                 memberSearchDto.FirstName = fc["first_name"];
             }
-            memberSearchDto.Telephone = "";
+            memberSearchDto.PhoneNumber = "";
             if (!String.IsNullOrEmpty(fc["phone"]))
             {
-                memberSearchDto.Telephone = fc["phone"];
+                memberSearchDto.PhoneNumber = fc["phone"];
             }
 
 
@@ -116,7 +116,7 @@ namespace BusTicketWebApp.Controllers
             //objSearchViewModel.MemberFirstName = memberSearchDto.MemberFirstName;
             //objSearchViewModel.MemberPhone = memberSearchDto.MemberPhone;
             ViewBag.Status = GetTicketStatus();
-            
+
             return View(searchLists);
         }
         public ActionResult MemberDetails(int id)
@@ -159,7 +159,7 @@ namespace BusTicketWebApp.Controllers
             //};
 
             //ViewBag.OrderId = id;
-            if(Convert.ToInt32(member.Status) == 1)
+            if (Convert.ToInt32(member.Status) == 1)
             {
                 member.StatusTxt = "Enabled";
             }
@@ -201,50 +201,57 @@ namespace BusTicketWebApp.Controllers
                 return RedirectToAction("Index", "User");
             }
             Session["show"] = null;
-            List<OrderHistoryList> objOrderHistoryList = new List<OrderHistoryList>();
+            List<MemberHistoryList> objMemberHistoryList = new List<MemberHistoryList>();
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP POST
-                var responseTask = client.GetAsync("utl/utilities/Details/" + Id);
+                var responseTask = client.GetAsync("utl/utilities/UserHistory/" + Id);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<List<OrderHistoryList>>();
+                    var readTask = result.Content.ReadAsAsync<List<MemberHistoryList>>();
 
-                    objOrderHistoryList = readTask.Result;
+                    objMemberHistoryList = readTask.Result;
 
                 }
             }
 
-            return View(objOrderHistoryList);
+            return View(objMemberHistoryList);
         }
         [HttpPost]
         public JsonResult DeleteMember(string updateData)
         {
-            OperationResultDto updateObjectMessage = null;
+            MemberUpdateDto updateObjectMessage = null;
 
             var data = JsonConvert.DeserializeObject<DataConversionForUpdate>(updateData);
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(_baseAddressOrder);
-
-                //HTTP DELETE
-                var putTask = client.DeleteAsync("orders/" + data.OrderId);
-                putTask.Wait();
-
-                var result = putTask.Result;
-                if (result.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var readTask = result.Content.ReadAsAsync<OperationResultDto>();
+                    client.BaseAddress = new Uri(_baseAddressOrder);
 
-                    updateObjectMessage = readTask.Result;
+                    //HTTP DELETE
+                    var putTask = client.DeleteAsync("users/" + data.Id);
+                    putTask.Wait();
 
+                    var result = putTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsAsync<MemberUpdateDto>();
+
+                        updateObjectMessage = readTask.Result;
+
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+
             }
             return Json(updateObjectMessage, JsonRequestBehavior.AllowGet);
         }
@@ -252,7 +259,7 @@ namespace BusTicketWebApp.Controllers
         [HttpPost]
         public JsonResult UpdateMember(string updateData)
         {
-            OperationResultDto updateObjectMessage = null;
+            MemberUpdateDto objMemberUpdateDto = null;
 
             DataConversionForUpdate data = JsonConvert.DeserializeObject<DataConversionForUpdate>(updateData);
 
@@ -262,20 +269,53 @@ namespace BusTicketWebApp.Controllers
                 client.BaseAddress = new Uri(_baseAddressOrder);
 
                 //HTTP PUT
-                var putTask = client.PutAsJsonAsync<DataConversionForUpdate>("orders", data);
+                var putTask = client.PutAsJsonAsync<DataConversionForUpdate>("Users", data);
                 putTask.Wait();
 
                 var result = putTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<OperationResultDto>();
+                    var readTask = result.Content.ReadAsAsync<MemberUpdateDto>();
 
-                    updateObjectMessage = readTask.Result;
+                    objMemberUpdateDto = readTask.Result;
 
                 }
             }
 
-            return Json(updateObjectMessage, JsonRequestBehavior.AllowGet);
+            return Json(objMemberUpdateDto, JsonRequestBehavior.AllowGet);
+        }
+        public class DataConversionForUpdate
+        {
+            public string Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Email { get; set; }
+            public string PhoneNumber { get; set; }
+        }
+
+        [HttpPost]
+        public JsonResult AlterMemberStatus(string orderdata, string statusId)
+        {
+            MemberUpdateDto objMemberUpdate = null;
+            
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseAddressOrder);
+
+                //HTTP DELETE
+                var putTask = client.PutAsJsonAsync<string>("utl/utilities/AlterUserStatus?statusId=" + statusId + "&userIds=" + orderdata, "");
+                putTask.Wait();
+
+                var result = putTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<MemberUpdateDto>();
+
+                    objMemberUpdate = readTask.Result;
+
+                }
+            }
+            return Json(objMemberUpdate, JsonRequestBehavior.AllowGet);
         }
 
     }

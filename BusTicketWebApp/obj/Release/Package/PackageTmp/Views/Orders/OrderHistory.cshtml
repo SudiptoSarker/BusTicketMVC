@@ -37,8 +37,9 @@
                 <tr>
                     <th scope="col">SL</th>
                     <th scope="col" style="color:#004ba6;">Order No</th>
-                    <th scope="col" style="color:#004ba6;">Order Date</th>
-                    @*<th scope="col" style="color:#004ba6;">Update at</th>*@
+                    <th scope="col" style="width:100px;color:#004ba6;">Order Date</th>
+                    <th scope="col" style="width:100px;color:#004ba6;">Update Date</th>
+                    <th scope="col" style="width:100px;color:#004ba6;">Date of Use</th>
                     <th scope="col" style="color:#004ba6;">First  Name</th>
                     <th scope="col" style="color:#004ba6;">Last Name</th>
                     <th scope="col" style="color:#004ba6;">Telephone</th>
@@ -60,14 +61,16 @@
                     <td>@item.OrderNo</td>
                     @*<td>@item.OrderDate</td>*@
                     @*<td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>*@
-                    <td>@Convert.ToDateTime(item.orderDate)</td>
+                    <td>@Convert.ToDateTime(item.OrderDate)</td>
+                    <td>@Convert.ToDateTime(item.UpdateDate)</td>
+                    <td>@item.DateOfUse</td>
                     <td>@item.FirstName</td>
                     <td>@item.LastName</td>
                     <td>@item.Telephone</td>
                     <td>@item.Email</td>
                     <td>@item.numberOfAdult</td>
                     <td>@item.numberOfChild</td>
-                    <td>@item.Price</td>
+                    <td>@item.TotalPrice</td>
                     @{
                         string strStatus = "";
                         if (Convert.ToInt32(item.Status) == 1)

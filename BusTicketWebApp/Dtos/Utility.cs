@@ -46,5 +46,28 @@ namespace BusTicketWebApp.Dtos
                    0,1,2,3,4,5,6,7,8,9
                 };
         }
+        public static string GetCustomDate(string strReceivedDate)
+        {
+            string strReturnDate = "";
+            if (!string.IsNullOrEmpty(strReturnDate))
+            {
+                DateTime strTmpReceivedDate = Convert.ToDateTime(strReceivedDate);
+                int intReceivedDay = strTmpReceivedDate.Day;
+                string strReceivedMonth = getAbbreviatedName(strTmpReceivedDate.Month, strReceivedDate);
+                strReturnDate = intReceivedDay + " " + strReceivedMonth + " " + strTmpReceivedDate.Year;
+            }
+            else
+            {
+                return "Please send valid date!";
+            }
+             
+            return strReturnDate;
+        }
+        static string getAbbreviatedName(int month,string strReceivedDate)
+        {
+            DateTime date = new DateTime(Convert.ToDateTime(strReceivedDate).Year, month, 1);
+
+            return date.ToString("MMM");
+        }
     }
 }

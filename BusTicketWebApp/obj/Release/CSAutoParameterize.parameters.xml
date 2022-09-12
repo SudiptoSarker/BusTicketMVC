@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="DbConnection-Web.config Connection String" description="DbConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=b-rc-busticket-db.database.windows.net;Initial Catalog=b-rc-busticket-db;Integrated Security=False;User Id=busticket-admin;Password=CVb!@r43fn" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="G:\\Work\\JabaIT\\Japan\ Project\\BusTicketWebApp\\BusTicketWebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DbConnection']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="D:\\Sudipto\\JabaIT\\Japan\ Project\\My\ Work\\Project\\BusTicketWebApp\\BusTicketWebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DbConnection']/@connectionString" />
   </parameter>
 </parameters>

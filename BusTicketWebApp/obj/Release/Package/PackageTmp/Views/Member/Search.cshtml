@@ -17,7 +17,7 @@
                     <div class="form-group col-xs-6">
                         <input type="date" class="form-control" id="r_toDate" name="r_toDate" placeholder="Select to date">
                     </div>
-                    
+
                     <p>Email.</p>
                     <div class="form-group col-xs-12">
                         <input type="text" class="form-control" id="user_email" name="user_email" placeholder="email">
@@ -73,42 +73,42 @@
 
 @section scripts{
     <script type="text/javascript">
-            function ClearSearchBox() {
+        function ClearSearchBox() {
 
 
-                //date field clear
-                ClearInputField("r_fromDate");
-                ClearInputField("r_toDate");
+            //date field clear
+            ClearInputField("r_fromDate");
+            ClearInputField("r_toDate");
 
-                ClearInputField("user_email");
-                ClearInputField("last_name");
+            ClearInputField("user_email");
+            ClearInputField("last_name");
 
-                ClearInputField("first_name");
-                ClearInputField("phone");
+            ClearInputField("first_name");
+            ClearInputField("phone");
 
-                //uncheck order type
-                ClearCheckbox("member_status", "status");
-                
-            }
+            //uncheck order type
+            ClearCheckbox("member_status", "status");
 
-            function ClearInputField(inputId) {
-                $("#" + inputId).val('');
-            }
+        }
 
-            function ClearCheckbox(groupId, checkId) {
-                let index = 1;
-                $('#' + groupId).find(':checkbox').each(function () {
-                    $('#' + (checkId+index)).prop("checked", false);
-                    index++;
-                });
-            }
-            //function ClearDropdown(selectId, optionId) {
-            //    let index = 1;
-            //    $('#' + selectId + ' > option').each(function () {
-            //        $("#" + (optionId + index)).prop("selected", false);
-            //        index++;
-            //    });
-            //    $("#" + (optionId + 0)).prop("selected", true);
-            //}
-        </script>
+        function ClearInputField(inputId) {
+            $("#" + inputId).val('');
+        }
+
+        function ClearCheckbox(groupId, checkId) {
+            let index = 1;
+            $('#' + groupId).find(':checkbox').each(function () {
+                $('#' + (checkId + index)).prop("checked", false);
+                index++;
+            });
+        }
+                //function ClearDropdown(selectId, optionId) {
+                //    let index = 1;
+                //    $('#' + selectId + ' > option').each(function () {
+                //        $("#" + (optionId + index)).prop("selected", false);
+                //        index++;
+                //    });
+                //    $("#" + (optionId + 0)).prop("selected", true);
+                //}
+    </script>
 }

@@ -6,6 +6,24 @@
 }
 @Html.Partial("_LeftMenu")
 
+<style>
+    #orderHistory {
+        border: 1px solid #000;
+        padding: 5px 8px 5px 8px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        display: block;
+    }
+
+    #orderNoHistory {
+        padding: 5px 8px 5px 8px;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+    }
+</style>
+
 <div class="col-xs-10">
     <div class="row">
         <div class="col-xs-3 search_result_nav_div">
@@ -40,31 +58,31 @@
                         int count = 1;
                         foreach (var x in Model)
                         {
-                    <tr>
-                        <td><input type="checkbox" id="single_checkbox_@x.Id" value="@x.Id" name="ck_change" data-status="@x.Id" /></td>
-                        <td>@count</td>
-                        <td><a href="javascript:void();">@x.Id</a></td>
-                        @*<td>@x.CreateDate</td>*@
-                        <td>@Convert.ToDateTime(x.CreateDate).ToString("dddd, dd MMMM yyyy")</td>
-                        <td>@x.FirstName @x.LastName</td>
-                        <td><a href="javascript:void()">@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                        <td>@x.PhoneNumber</td>
-                        @{
-                            string memberStatus = "";
-                            if (x.Status == 1)
-                            {
-                                memberStatus = "Enabled";
-                            }
-                            else
-                            {
-                                memberStatus = "Stopped";
-                            }
-                        }
-                        <td style="color:green;">@memberStatus</td>
-                        <td>@x.TotalPurchase</td>
-                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.Id" data-url='@Url.Action("MemberDetails","Member")'>History</a></td>
-                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.Id" data-url='@Url.Action("MemberDetails","Member")'>Details</a></td>
-                    </tr>
+                            <tr>
+                                <td><input type="checkbox" id="single_checkbox_@x.Id" value="@x.Id" name="ck_change" data-status="@x.Id" /></td>
+                                <td>@count</td>
+                                <td><a href="javascript:void();">@x.Id</a></td>
+                                @*<td>@x.CreateDate</td>*@
+                                <td>@Convert.ToDateTime(x.CreateDate).ToString("dddd, dd MMMM yyyy")</td>
+                                <td>@x.FirstName @x.LastName</td>
+                                <td><a href="javascript:void()">@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                                <td>@x.PhoneNumber</td>
+                                @{
+                                    string memberStatus = "";
+                                    if (x.Status == 1)
+                                    {
+                                        memberStatus = "Enabled";
+                                    }
+                                    else
+                                    {
+                                        memberStatus = "Stopped";
+                                    }
+                                }
+                                <td style="color:green;">@memberStatus</td>
+                                <td>@x.TotalPurchase</td>
+                                <td><a id="orderHistory" href="@Url.Action("MemberHistory", "Member", new {Id = x.Id })" target="_blank">Updated</a></td>
+                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.Id" data-url='@Url.Action("MemberDetails","Member")'>Details</a></td>
+                            </tr>
                             count++;
                         }
                     }

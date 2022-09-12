@@ -220,6 +220,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Dtos\MemberSearchDto.cs" />
+    <Compile Include="Dtos\MemberUpdateDto.cs" />
     <Compile Include="Dtos\OperationResultDto.cs" />
     <Compile Include="Dtos\OrderSearchDto.cs" />
     <Compile Include="Dtos\Utility.cs" />
@@ -227,6 +228,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\MemberHistoryList.cs" />
     <Compile Include="Models\MemberList.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderHistoryList.cs" />
@@ -281,13 +283,11 @@
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP2.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP3.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP4.pubxml" />
-    <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - FTP5.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy2.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy3.pubxml" />
     <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy4.pubxml" />
-    <None Include="Properties\PublishProfiles\b-rc-busticket-mgr - Web Deploy5.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\custalrt.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

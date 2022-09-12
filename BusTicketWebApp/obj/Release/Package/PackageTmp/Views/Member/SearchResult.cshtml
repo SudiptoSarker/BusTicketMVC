@@ -44,6 +44,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Member Id</th>
                         <th scope="col">Registration Date</th>
+                        <th scope="col">Updated Date</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th>Phone</th>
@@ -58,31 +59,42 @@
                         int count = 1;
                         foreach (var x in Model)
                         {
-                            <tr>
-                                <td><input type="checkbox" id="single_checkbox_@x.Id" value="@x.Id" name="ck_change" data-status="@x.Id" /></td>
-                                <td>@count</td>
-                                <td><a href="javascript:void();">@x.Id</a></td>
-                                @*<td>@x.CreateDate</td>*@
-                                <td>@Convert.ToDateTime(x.CreateDate).ToString("dddd, dd MMMM yyyy")</td>
-                                <td>@x.FirstName @x.LastName</td>
-                                <td><a href="javascript:void()">@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                                <td>@x.PhoneNumber</td>
-                                @{
-                                    string memberStatus = "";
-                                    if (x.Status == 1)
-                                    {
-                                        memberStatus = "Enabled";
-                                    }
-                                    else
-                                    {
-                                        memberStatus = "Stopped";
-                                    }
-                                }
-                                <td style="color:green;">@memberStatus</td>
-                                <td>@x.TotalPurchase</td>
+                    <tr>
+                        <td><input type="checkbox" id="single_checkbox_@x.Id" value="@x.Id" name="ck_change" data-status="@x.Id" /></td>
+                        <td>@count</td>
+                        <td><a href="javascript:void();">@x.Id</a></td>
+                        @*<td>@x.CreateDate</td>*@
+                        <td>@Convert.ToDateTime(x.CreateDate)</td>
+                        <td>@Convert.ToDateTime(x.UpdateDate)</td>
+                        <td>@x.FirstName @x.LastName</td>
+                        <td><a href="javascript:void()">@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                        <td>@x.PhoneNumber</td>
+                        @{
+                            string memberStatus = "";
+                            if (x.Status == 1)
+                            {
+                                memberStatus = "Enabled";
+                            }
+                            else
+                            {
+                                memberStatus = "Stopped";
+                            }
+                        }
+                        <td style="color:green;">@memberStatus</td>
+                        <td>@x.TotalPrice</td>
+                        @{
+                            if (Convert.ToInt32(x.IsUpdated) == 1)
+                            {
                                 <td><a id="orderHistory" href="@Url.Action("MemberHistory", "Member", new {Id = x.Id })" target="_blank">Updated</a></td>
-                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.Id" data-url='@Url.Action("MemberDetails","Member")'>Details</a></td>
-                            </tr>
+                            }
+                            else
+                            {
+                                <td><a id="orderNoHistory">----</a></td>
+                            }
+
+                        }
+                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.Id" data-url='@Url.Action("MemberDetails","Member")'>Details</a></td>
+                    </tr>
                             count++;
                         }
                     }
@@ -107,7 +119,7 @@
                             <option value="@item.Id">@item.statusName</option>
                         }*@
                     <option value="1">Enabled</option>
-                    <option value="2">Stopped</option>
+                    <option value="0">Stopped</option>
                 </select>
             </div>
             <div class="col-xs-2">
@@ -190,7 +202,7 @@
                 });
             });
 
-            function ChangeOrderStatus(selectedOrderAsString, valueOfSelect) {
+            function ChangeMemberStatus(selectedOrderAsString, valueOfSelect) {
                 $.confirm({
                     title: 'Confirm!',
                     content: 'Change Status?',
@@ -200,7 +212,7 @@
                         //if (selected_rows.length > 0) {
                             $.ajax({
                                 type: 'POST',
-                                url: '@Url.Action("AlterOrderStatus", "Orders")',
+                                url: '@Url.Action("AlterMemberStatus", "Member")',
                                 data: {
                                     orderdata: selectedOrderAsString,
                                     statusId : valueOfSelect
@@ -249,7 +261,7 @@
                     modal.dis
                 }
                 else if (selected_rows.length <= 0) {
-                    alert("Select Order");
+                    alert("Select Member");
                     return false;
                 }
                 else if (valueOfSelect == "5") {
@@ -274,7 +286,7 @@
                         selectedOrderAsString += $(this).val() + ",";
                     });
                 }
-                ChangeOrderStatus(selectedOrderAsString, valueOfSelect);
+                ChangeMemberStatus(selectedOrderAsString, valueOfSelect);
 
             });
 
