@@ -464,7 +464,7 @@ namespace BusTicketWebApp.Controllers
             searchDto.FirstName = searchData.FirstName;
             searchDto.Telephone = searchData.Telephone;
             searchDto.Email = searchData.Email;
-
+            searchDto.Status = searchData.Status;
 
             using (var client = new HttpClient())
             {
@@ -635,7 +635,7 @@ namespace BusTicketWebApp.Controllers
             searchDto.FirstName = searchData.FirstName;
             searchDto.Telephone = searchData.Telephone;
             searchDto.Email = searchData.Email;
-
+            searchDto.Status = searchData.Status;
 
             using (var client = new HttpClient())
             {
