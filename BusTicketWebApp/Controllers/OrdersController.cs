@@ -27,6 +27,7 @@ namespace BusTicketWebApp.Controllers
         // GET: Orders
         public ActionResult Index()
         {
+            //sudipto
             if (Session["email"] == null)
             {
                 return RedirectToAction("Index", "User");
