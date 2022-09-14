@@ -460,7 +460,9 @@
 
                 });
             //});
-
+            $('#order_details_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            })
             $('#btnUpdate').on('click', function () {
                 $.confirm({
                     title: 'Confirm!',
@@ -504,6 +506,7 @@
                                         //$('#operational_message').html(data.Message);
                                         $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
                                         $("#order_id").val(data.UpdateData.UpdatedOrderId);
+                                        //location.reload();
                                     }
                                     else {
                                         $.alert({

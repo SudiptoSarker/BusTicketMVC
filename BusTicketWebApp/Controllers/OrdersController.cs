@@ -552,7 +552,7 @@ namespace BusTicketWebApp.Controllers
                         <tr>
                             <td>{count}</td>
                             <td>{item.OrderNo}</td>
-                            <td> {item.OrderDate} </td>
+                            <td> {Convert.ToDateTime(item.OrderDate)} </td>
                             <td> {item.TicketType} </ td >
                             <td>{item.Purchaser }</td>
                             <td>{item.NumberOfAdult}</td>
@@ -658,7 +658,7 @@ namespace BusTicketWebApp.Controllers
             sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Sl", "Order No", "Order Date ", "Ticket Type", "Purchaser", "Adult", "Child", "Ticket Status", Environment.NewLine);
             foreach (var item in searchLists)
             {
-                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}", count, item.OrderNo, item.OrderDate, item.TicketType, item.Purchaser, item.NumberOfAdult, item.NumberOfChild, item.Status, Environment.NewLine);
+                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}", count, item.OrderNo, Convert.ToDateTime(item.OrderDate), item.TicketType, item.Purchaser, item.NumberOfAdult, item.NumberOfChild, item.Status, Environment.NewLine);
                 count++;
             }
 
