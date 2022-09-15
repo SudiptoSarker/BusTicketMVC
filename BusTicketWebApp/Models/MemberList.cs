@@ -19,6 +19,7 @@ namespace BusTicketWebApp.Models
         public int IsUpdated { get; set; }
         public string TotalPrice { get; set; }
         public string UpdateDate { get; set; }
+        public int TotalOrder { get; set; }
         //public int MemberId { get; set; }
         //public string MemberRegistrationDate { get; set; }
         //public string MemberEmail { get; set; }

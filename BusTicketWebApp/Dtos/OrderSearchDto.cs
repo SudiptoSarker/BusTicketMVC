@@ -25,6 +25,7 @@ namespace BusTicketWebApp.Dtos
         public string OrderToDate { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
+        public string MemberId { get; set; }
 
     }
 }

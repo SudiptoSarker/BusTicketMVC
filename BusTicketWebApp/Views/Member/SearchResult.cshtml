@@ -85,7 +85,19 @@
                                 }
                                 <td style="color:green;">@memberStatus</td>
                                 <td>@x.TotalPrice</td>
-                                <td>0</td>
+                                <td>
+                                    @{
+                                        if (x.TotalOrder > 0)
+                                        {
+                                            <a href="javascript:void(0);" class="totalOrders" id="totalOrders" member-id="@x.Id" style="text-decoration: underline;">@x.TotalOrder</a>
+
+                                        }
+                                        else
+                                        {
+                                            <a>@x.TotalOrder</a>
+                                        }
+                                    }
+                                </td>
                                 @{
                                     if (Convert.ToInt32(x.IsUpdated) == 1)
                                     {
@@ -161,10 +173,19 @@
         </div>
     </div>
 </div>
+<form action="/Orders/SearchResult" method="post" id="getMembersTotalOrder" target="_blank">
+    <input type="hidden" name="member_id" id="member_id" value="" />
+</form>
 
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.totalOrders').on('click', function () {
+                let memberId = $(this).attr('member-id');
+                $("#member_id").val(memberId);
+                $("#getMembersTotalOrder").submit();
+            });
+
 
             var selected_rows = [];
             //$('#search_result_table').dataTable();

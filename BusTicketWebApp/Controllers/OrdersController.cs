@@ -112,10 +112,10 @@ namespace BusTicketWebApp.Controllers
             {
                 searchDto.PaymentMethodType = fc["payment_method"];
             }
-            //if (!String.IsNullOrEmpty(fc["member_id"]))
-            //{
-            //    search.PaymentMethod = fc["member_id"];
-            //}
+            if (!String.IsNullOrEmpty(fc["member_id"]))
+            {
+                searchDto.MemberId = fc["member_id"];
+            }
             if (!String.IsNullOrEmpty(fc["last_name"]))
             {
                 searchDto.LastName = fc["last_name"];
@@ -166,7 +166,7 @@ namespace BusTicketWebApp.Controllers
             //ViewBag.Flight = search.Flight;
             ViewBag.PaymentMethod = searchDto.PaymentMethodType;
             //ViewBag.BoardingPlace = search.BoardingPlace;
-            //ViewBag.MemberId = search.MemberId;
+            ViewBag.MemberId = search.MemberId;
             ViewBag.LastName = searchDto.LastName;
             ViewBag.FirstName = searchDto.FirstName;
             ViewBag.StatusId = searchDto.Status;

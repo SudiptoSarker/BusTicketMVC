@@ -61,14 +61,22 @@
                             <td>@item.Email</td>
                             @{
                                 string strStatus = "";
-                                if (count == 1)
+                                if (item.Status == 2)
                                 {
-                                    strStatus = "Enabled (Active)";
+                                    strStatus = "Stopped (Inactive)";
                                 }
-                                else
+                                else if(item.Status == 1)
                                 {
-                                    strStatus = "Enabled (Inactive)";
+                                    if (count == 1)
+                                    {
+                                        strStatus = "Enabled (Active)";
+                                    }
+                                    else
+                                    {
+                                        strStatus = "Enabled (Inactive)";
+                                    }
                                 }
+
                                 //if (Convert.ToInt32(item.Status) == 1)
                                 //{
                                 //    strStatus = "Enabled";

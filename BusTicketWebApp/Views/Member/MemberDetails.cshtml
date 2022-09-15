@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<input type="hidden" name="f_name_in_load" id="f_name_in_load" value="@Model.FirstName" />
+<input type="hidden" name="l_name_in_load" id="l_name_in_load" value="@Model.LastName" />
+<input type="hidden" name="email_in_load" id="email_in_load" value="@Model.Email" />
+<input type="hidden" name="phone_in_load" id="phone_in_load" value="@Model.PhoneNumber" />
+
 <div class="col-xs-12">
     <div class="row">
         <div class="management_info">
@@ -110,30 +116,30 @@
         </div>
         <br />
         @*<div class="row">
-            <div class="col-xs-12">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Device Type</th>
-                            <th>Environment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.DeviceName</td>
-                            <td>@Model.UserAgent</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>*@
+                <div class="col-xs-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Device Type</th>
+                                <th>Environment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.DeviceName</td>
+                                <td>@Model.UserAgent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>*@
         <div class="row">
             <div class="col-xs-12">
                 <table class="table" id="update_summery_table" style="display:none">
                     <thead>
                         <tr>
                             <th>Updated At</th>
-                            <th>Customer Name</th>                           
+                            <th>Customer Name</th>
                             <th>Status</th>
                             <th>Details History</th>
                         </tr>
@@ -256,8 +262,30 @@
                     }
                 });
 
-            });            
+            });
+            function IsValidRequest(changedFirstName, changedLastName, changedEmail, changedPhone) {
+                let isValid = false;
 
+                let strFirstNameInLoad = $("#f_name_in_load").val();
+                let strLastNameInLoad = $("#l_name_in_load").val();
+                let strEmailInLoad = $("#email_in_load").val();
+                let strPhoneInLoad = $("#phone_in_load").val();
+
+                if (strFirstNameInLoad.toLowerCase() != changedFirstName.toLowerCase()) {
+                    isValid = true;
+                } else if (strLastNameInLoad.toLowerCase() != changedLastName.toLowerCase()) {
+                    isValid = true;
+                }
+                else if (strEmailInLoad.toLowerCase() != changedEmail.toLowerCase()) {
+                    isValid = true;
+                }
+                else if (strPhoneInLoad != changedPhone) {
+                    isValid = true;
+                }
+
+                return isValid;
+
+            }
             $('#btnUpdate').on('click', function () {
                 $.confirm({
                     title: 'Confirm!',
@@ -270,6 +298,13 @@
                             let last_name = $('#userLastName').val();
                             let email = $('#userEmail').val();
                             let phone = $('#userPhone').val();
+
+                            let isValidRequest = IsValidRequest(first_name, last_name, email, phone)
+
+                            if (!isValidRequest) {
+                                alert("Please change the information first for update.");
+                                return false;
+                            }
 
                             let updateDataAsString = `{'Id':'${userId}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','PhoneNumber':'${phone}'}`;
 
@@ -297,6 +332,12 @@
                                         }
                                         $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.UserName}</td><td>${statusTxt}</td><td><a href="@Url.Action("MemberHistory", "Member", new {Id = Model.Id })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
                                         //("#order_id").val(data.UpdateData.UpdatedOrderId);
+
+                                        //update hidden field for validation purpose
+                                        $('#f_name_in_load').val(first_name);
+                                        $('#l_name_in_load').val(last_name);
+                                        $('#email_in_load').val(email);
+                                        $('#phone_in_load').val(phone);
                                     }
                                     else {
                                         $.alert({

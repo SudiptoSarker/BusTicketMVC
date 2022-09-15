@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<input type="hidden" name="f_name_in_load" id="f_name_in_load" value="@Model.Order.FirstName" />
+<input type="hidden" name="l_name_in_load" id="l_name_in_load" value="@Model.Order.LastName" />
+<input type="hidden" name="email_in_load" id="email_in_load" value="@Model.Order.Email" />
+<input type="hidden" name="phone_in_load" id="phone_in_load" value="@Model.Order.Telephone" />
+<input type="hidden" name="adult_in_load" id="adult_in_load" value="@Model.Order.NumberOfAdult" />
+<input type="hidden" name="child_in_load" id="child_in_load" value="@Model.Order.NumberOfChild" />
+
+<input type="hidden" name="IsPageLoadAfterModalClose" id="IsPageLoadAfterModalClose" value="no" />
+
 <div class="col-xs-12">
     <div class="row">
         <div class="management_info">
@@ -16,7 +25,32 @@
                     <p>Order Date: <span style="color:cornflowerblue">@Model.Order.OrderDate</span></p>
                 </div>
                 <div class="col-xs-6" style="border:1px solid black">
-                    <p>Ticket Status: <span style="color:cornflowerblue">@Model.Order.Status</span></p>
+                    <p>
+                        Ticket Status:
+                        <span style="color:cornflowerblue">
+                            @{
+                                string strStatus = "";
+                                if (Convert.ToInt32(Model.Order.Status) == 1)
+                                {
+                                    strStatus = "Before";
+                                }
+                                else if (Convert.ToInt32(Model.Order.Status) == 2)
+                                {
+                                    strStatus = "In Use";
+                                }
+                                else if (Convert.ToInt32(Model.Order.Status) == 3)
+                                {
+                                    strStatus = "Used";
+                                }
+                                else if (Convert.ToInt32(Model.Order.Status) == 5)
+                                {
+                                    strStatus = "Canceled";
+                                }
+                                @strStatus
+                            }
+
+                        </span>
+                    </p>
                 </div>
                 <div class="col-xs-6" style="border:1px solid black">
                     <p>GMO Order Id: <span style="color:cornflowerblue">@Model.Order.GmoOrderNo</span></p>
@@ -392,7 +426,7 @@
                     }
                 });
             });*@
-            
+
             $('#btnCancel').on('click', function () {
                 $.confirm({
                     title: 'Confirm!',
@@ -460,9 +494,47 @@
 
                 });
             //});
+
             $('#order_details_modal').on('hidden.bs.modal', function () {
-                location.reload();
+                let isParentLoad = $("#IsPageLoadAfterModalClose").val();
+                console.log("out: " + isParentLoad);
+                if (isParentLoad == "yes") {
+                    console.log("in: " + isParentLoad);
+                    location.reload();
+                }                
             })
+            function IsValidRequest(changedFirstName, changedLastName, changedEmail, changedPhone, changedAdults, changedChild) {
+                let isValid = false;
+
+                let strFirstNameInLoad = $("#f_name_in_load").val();
+                let strLastNameInLoad = $("#l_name_in_load").val();
+                let strEmailInLoad = $("#email_in_load").val();
+                let strPhoneInLoad = $("#phone_in_load").val();
+                let adultInLoad = $("#adult_in_load").val();
+                let childInLoad = $("#child_in_load").val();
+
+                if (strFirstNameInLoad.toLowerCase() != changedFirstName.toLowerCase()) {
+                    isValid = true;
+                } else if (strLastNameInLoad.toLowerCase() != changedLastName.toLowerCase()) {
+                    isValid = true;
+                }
+                else if (strEmailInLoad.toLowerCase() != changedEmail.toLowerCase()) {
+                    isValid = true;
+                }
+                else if (strPhoneInLoad != changedPhone) {
+                    isValid = true;
+                }
+                else if (adultInLoad != changedAdults) {
+                    isValid = true;
+                }
+                else if (childInLoad != changedChild) {
+                    isValid = true;
+                }
+
+                return isValid;
+
+            }
+
             $('#btnUpdate').on('click', function () {
                 $.confirm({
                     title: 'Confirm!',
@@ -486,6 +558,14 @@
                                 total_amount = previous_total_amount;
                             }
 
+                            let isValidRequest = IsValidRequest(first_name, last_name, email, phone, number_of_adult, number_of_child)
+
+                            if (!isValidRequest) {
+                                alert("Please change the information first for update.");
+                                return false;
+                            }
+                            $("#IsPageLoadAfterModalClose").val("yes");
+
                             let updateDataAsString = `{'OrderId':'${order_id}','UserId':'${user_id}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','Phone':'${phone}','Adult':'${number_of_adult}','Child':'${number_of_child}','TotalAmount':'${total_amount}','ElectronicTicketId':'${electronicTicketId}'}`;
 
 
@@ -507,6 +587,14 @@
                                         $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td>updated</td><td><a href="@Url.Action("OrderHistory", "Orders", new {Id = @ViewBag.OrderId })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
                                         $("#order_id").val(data.UpdateData.UpdatedOrderId);
                                         //location.reload();
+
+                                        //update hidden field for validation purpose
+                                        $('#f_name_in_load').val(first_name);
+                                        $('#l_name_in_load').val(last_name);
+                                        $('#email_in_load').val(email);
+                                        $('#phone_in_load').val(phone);
+                                        $('#adult_in_load').val(number_of_adult);
+                                        $('#child_in_load').val(number_of_child);
                                     }
                                     else {
                                         $.alert({
