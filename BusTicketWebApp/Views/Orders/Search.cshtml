@@ -6,61 +6,42 @@
 @Html.Partial("_LeftMenu")
 <div class="col-xs-10">
     <div class="order-search">
+        <br />
+        <br />
         <div class="row">
             <form action="/Orders/SearchResult" method="post">
                 <div class="col-xs-6">
-                    @*<p>Date of Boarding</p>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
-                        </div>*@
-                    <p>Order Date</p>
+                    <p>Date of Boarding</p>
                     <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
-
+                        <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
                     </div>
                     <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
+                        <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
                     </div>
-                    @*<p>Search by Routes</p>
+                    <p>Order No.</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
+                    </div>
+                    <p>GMO Order No.</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="gmo_order_no" name="gmo_order_no" placeholder="GMO order no.">
+                    </div>
+                    <p>Search by Routes</p>
                     <div class="form-group col-xs-12">
 
-                        <select class="form-control" name="route" id="o_routes">
+                        <select class="form-control" name="o_routes" id="o_routes">
                             <option id="order_routes0" value="">Select Route</option>
-                            <option id="order_routes1" value="route1">route-1</option>
-                            <option id="order_routes2" value="route2">route-2</option>
-                            <option id="order_routes3" value="route3">route-3</option>
-                            <option id="order_routes4" value="route4">route-4</option>
-                            <option id="order_routes5" value="route5">route-5</option>
+                            <option id="order_routes1" value="1">Nagasaki city sightseeing 1-day ticket</option>
                         </select>
-                    </div>*@
-                    <p>Type</p>
-                    <div class="form-group col-xs-12">
-
-                        <div class="checkbox" id="order_type">
-                            @foreach (var item in Model.TicketTypes)
-                            {
-                                <label>
-                                    <input type="checkbox" name="type" value="@item.Id" id="type @item.Id">
-                                    @item.TypeName
-                                </label>
-                            }
-                        </div>
                     </div>
-                    @*<p>Flight</p>
-                    <div class="form-group col-xs-12">
 
-                        <select class="form-control" name="flight" id="order_flight">
+                    <p>Flight</p>
+                    <div class="form-group col-xs-12">
+                        <select class="form-control" name="order_flight" id="order_flight">
                             <option id="flight0" value="">Select Flight</option>
-                            <option id="flight1" value="flight1">Flight-1</option>
-                            <option id="flight2" value="flight2">Flight-2</option>
-                            <option id="flight3" value="flight3">Flight-3</option>
-                            <option id="flight4" value="flight4">Flight-4</option>
-                            <option id="flight5" value="flight5">Flight-5</option>
+                            <option id="flight1" value="1">No bus service specified</option>
                         </select>
-                    </div>*@
+                    </div>
                     @*<p>Boarding place/ Demounting Place</p>
                     <div class="form-group col-xs-12">
 
@@ -95,22 +76,15 @@
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    @*<p>Order Date</p>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+                    <p>Order Date</p>
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
 
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
-                        </div>*@
-                    <p>Order No.</p>
-                    <div class="form-group col-xs-12">
-                        <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
                     </div>
-                    <p>GMO Order No.</p>
-                    <div class="form-group col-xs-12">
-                        <input type="text" class="form-control" id="gmo_order_no" name="gmo_order_no" placeholder="GMO order no.">
+                    <div class="form-group col-xs-6">
+                        <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
                     </div>
+
                     <p>Payment Method</p>
                     <div class="form-group col-xs-12">
                         <select class="form-control col-xs-12" name="payment_method" id="payment_method">
@@ -148,7 +122,19 @@
                     <div class="form-group col-xs-6">
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                     </div>
+                    <p>Type</p>
+                    <div class="form-group col-xs-12">
 
+                        <div class="checkbox" id="order_type">
+                            @foreach (var item in Model.TicketTypes)
+                            {
+                                <label>
+                                    <input type="checkbox" name="type" value="@item.Id" id="type @item.Id">
+                                    @item.TypeName
+                                </label>
+                            }
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-xs-12" style="margin-top:30px">

@@ -132,7 +132,22 @@ namespace BusTicketWebApp.Controllers
             {
                 searchDto.Email = fc["email"];
             }
-
+            if (!String.IsNullOrEmpty(fc["o_routes"]))
+            {
+                searchDto.RoutesId = fc["o_routes"];
+            }
+            if (!String.IsNullOrEmpty(fc["order_flight"]))
+            {
+                searchDto.FlightId = fc["order_flight"];
+            }
+            if (!String.IsNullOrEmpty(fc["b_fromDate"]))
+            {
+                searchDto.DateOfUseFrom = fc["b_fromDate"];
+            }
+            if (!String.IsNullOrEmpty(fc["b_toDate"]))
+            {
+                searchDto.DateOfUseTo = fc["b_toDate"];
+            }
 
 
             using (var client = new HttpClient())
