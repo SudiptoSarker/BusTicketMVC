@@ -5,6 +5,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.Partial("_LeftMenu")
+<style>
+    .page-navigation {
+        border: none;
+        outline: none;
+        padding: 10px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+</style>
+<br />
+<nav>
+    @{
+        string pageName = HttpContext.Current.Request.Url.AbsoluteUri;
+
+        <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
+        <span class="glyphicon glyphicon-forward"></span>
+        <a href="/Orders/Search" class="page-navigation">Order Search</a>
+        <span class="glyphicon glyphicon-forward"></span>
+
+        if (pageName.ToLower().IndexOf("orderhistory") >= 0)
+        {
+        <a href="/Orders/OrderHistory" style="pointer-events: none;  cursor: default;" class="page-navigation">Order History</a>
+        }
+        else
+        {
+        <a href="/Orders/OrderHistory" class="page-navigation">Order History</a>
+        }
+    }
+</nav>
+
+<br /><br />
 
 <div class="col-xs-10">
     <div class="row">
@@ -56,54 +87,54 @@
                     int count = 1;
                     foreach (var item in Model)
                     {
-                <tr>
-                    <th scope="row">@count</th>
-                    <td>@item.OrderNo</td>
-                    @*<td>@item.OrderDate</td>*@
-                    @*<td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>*@
-                    <td>@Convert.ToDateTime(item.OrderDate)</td>
-                    <td>@Convert.ToDateTime(item.UpdateDate)</td>
-                    <td>@item.DateOfUse</td>
-                    <td>@item.FirstName</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Telephone</td>
-                    <td>@item.Email</td>
-                    <td>@item.numberOfAdult</td>
-                    <td>@item.numberOfChild</td>
-                    <td>@item.TotalPrice</td>
-                    @{
-                        string strStatus = "";
-                        if (Convert.ToInt32(item.Status) == 1)
-                        {
-                            strStatus = "Before";
-                        }
-                        else if (Convert.ToInt32(item.Status) == 2)
-                        {
-                            strStatus = "In Use";
-                        }
-                        else if (Convert.ToInt32(item.Status) == 3)
-                        {
-                            strStatus = "Used";
-                        }
-                        else if (Convert.ToInt32(item.Status) == 4)
-                        {
-                            strStatus = "Expired";
-                        }
-                        else if (Convert.ToInt32(item.Status) == 5)
-                        {
-                            strStatus = "Cancelled";
-                        }
-                        if (count == 1)
-                        {
-                            strStatus = strStatus + " (Active)";
-                        }
-                        else
-                        {
-                            strStatus = strStatus + " (Inactive)";
-                        }
-                        <td>@strStatus</td>
-                    }
-                </tr>
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.OrderNo</td>
+                            @*<td>@item.OrderDate</td>*@
+                            @*<td>@Convert.ToDateTime(item.orderDate).AddHours(3)</td>*@
+                            <td>@Convert.ToDateTime(item.OrderDate)</td>
+                            <td>@Convert.ToDateTime(item.UpdateDate)</td>
+                            <td>@item.DateOfUse</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Telephone</td>
+                            <td>@item.Email</td>
+                            <td>@item.numberOfAdult</td>
+                            <td>@item.numberOfChild</td>
+                            <td>@item.TotalPrice</td>
+                            @{
+                                string strStatus = "";
+                                if (Convert.ToInt32(item.Status) == 1)
+                                {
+                                    strStatus = "Before";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 2)
+                                {
+                                    strStatus = "In Use";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 3)
+                                {
+                                    strStatus = "Used";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 4)
+                                {
+                                    strStatus = "Expired";
+                                }
+                                else if (Convert.ToInt32(item.Status) == 5)
+                                {
+                                    strStatus = "Cancelled";
+                                }
+                                if (count == 1)
+                                {
+                                    strStatus = strStatus + " (Active)";
+                                }
+                                else
+                                {
+                                    strStatus = strStatus + " (Inactive)";
+                                }
+                                <td>@strStatus</td>
+                            }
+                        </tr>
                         count++;
                     }
                 }

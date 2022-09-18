@@ -6,6 +6,38 @@
 }
 @Html.Partial("_LeftMenu")
 
+
+<style>
+    .page-navigation {
+        border: none;
+        outline: none;
+        padding: 10px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+</style>
+<br />
+<nav>
+    @{
+        string pageName = HttpContext.Current.Request.Url.AbsoluteUri;
+
+        <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
+        <span class="glyphicon glyphicon-forward"></span>
+        <a href="/Member/Search" class="page-navigation">Member Search</a>
+        <span class="glyphicon glyphicon-forward"></span>
+
+        if (pageName.ToLower().IndexOf("memberhistory") >= 0)
+        {
+            <a href="/Member/MemberHistory" style="pointer-events: none;  cursor: default;" class="page-navigation">Member History</a>
+        }
+        else
+        {
+            <a href="/Member/MemberHistory" class="page-navigation">Member History</a>
+        }
+    }
+</nav>
+
+<br /><br />
 <div class="col-xs-10">
     <div class="row">
         <div class="col-xs-3">

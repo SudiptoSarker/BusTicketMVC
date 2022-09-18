@@ -25,7 +25,37 @@
         display: block;
     }
 </style>
+<style>
+    .page-navigation {
+        border: none;
+        outline: none;
+        padding: 10px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+</style>
+<br />
+<nav>
+    @{
+        string pageName = Path.GetFileName(Request.Path);
+        bool isResultPage = string.Equals(pageName, "SearchResult", StringComparison.OrdinalIgnoreCase);
 
+        <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
+        <span class="glyphicon glyphicon-forward"></span>
+        <a href="/Member/Search" class="page-navigation">Member Search</a>       
+        <span class="glyphicon glyphicon-forward"></span>
+        if (isResultPage)
+        {
+            <a href="/Member/searchresult" style="pointer-events: none;  cursor: default;" class="page-navigation">Member List</a>
+        }
+        else
+        {
+            <a href="/Member/searchresult" class="page-navigation">Member List</a>
+        }
+    }
+</nav>
+
+<br /><br />
 <div class="col-xs-10">
     <div class="row">
         <div class="col-xs-3 search_result_nav_div">
