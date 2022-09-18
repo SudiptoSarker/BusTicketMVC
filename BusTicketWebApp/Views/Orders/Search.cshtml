@@ -4,6 +4,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.Partial("_LeftMenu")
+
+<style>
+    .page-navigation {
+        border: none;
+        outline: none;
+        padding: 10px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+</style>
+<br />
+<nav>
+    @{
+        string pageName = Path.GetFileName(Request.Path);
+        <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
+        <span class="glyphicon glyphicon-forward"></span>
+        if (pageName.ToLower().IndexOf("search") >= 0)
+        {
+            <a href="/Orders/Search" style="pointer-events: none;  cursor: default;" class="page-navigation">Order Search</a>
+        }
+        else
+        {
+            <a href="/Orders/Search" class="page-navigation">Member Search |</a>
+        }
+    }
+</nav>
+
+
 <div class="col-xs-10">
     <div class="order-search">
         <br />
@@ -43,17 +71,17 @@
                         </select>
                     </div>
                     @*<p>Boarding place/ Demounting Place</p>
-                    <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-12">
 
-                        <select class="form-control" name="boarding_place" id="boarding_place">
-                            <option id="b_place0" value="">Select Place</option>
-                            <option id="b_place1" value="place1">Place-1</option>
-                            <option id="b_place2" value="place2">Place-2</option>
-                            <option id="b_place3" value="place3">Place-3</option>
-                            <option id="b_place4" value="place4">Place-4</option>
-                            <option id="b_place5" value="place5">Place-5</option>
-                        </select>
-                    </div>*@
+                            <select class="form-control" name="boarding_place" id="boarding_place">
+                                <option id="b_place0" value="">Select Place</option>
+                                <option id="b_place1" value="place1">Place-1</option>
+                                <option id="b_place2" value="place2">Place-2</option>
+                                <option id="b_place3" value="place3">Place-3</option>
+                                <option id="b_place4" value="place4">Place-4</option>
+                                <option id="b_place5" value="place5">Place-5</option>
+                            </select>
+                        </div>*@
                     <p>Status</p>
                     <div class="form-group col-xs-12">
 
