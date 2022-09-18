@@ -4,6 +4,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.Partial("_LeftMenu")
+<br />
+<nav>
+    @{
+        string pageName = Path.GetFileName(Request.Path);
+        if (pageName.ToLower().IndexOf("search") >= 0)
+        {
+            <a href="/Member/Search" style="pointer-events: none;  cursor: default;">Member Search |</a>
+        }
+        else
+        {
+            <a href="/Member/Search">Member Search |</a>
+        }
+
+        if (pageName.ToLower().IndexOf("searchresult") >= 0)
+        {
+            <a href="/Member/SearchResult" style="pointer-events: none;  cursor: default;">Search Results |</a>
+        }
+        if (pageName.ToLower().IndexOf("searchresult") >= 0)
+        {
+            <a href="/Member/SearchResult">Search Results |</a>
+        }
+    }
+</nav>
+
 <br /><br />
 <div class="col-xs-10">
     <div class="order-search">
@@ -102,13 +126,13 @@
                 index++;
             });
         }
-                //function ClearDropdown(selectId, optionId) {
-                //    let index = 1;
-                //    $('#' + selectId + ' > option').each(function () {
-                //        $("#" + (optionId + index)).prop("selected", false);
-                //        index++;
-                //    });
-                //    $("#" + (optionId + 0)).prop("selected", true);
-                //}
+                                            //function ClearDropdown(selectId, optionId) {
+                                            //    let index = 1;
+                                            //    $('#' + selectId + ' > option').each(function () {
+                                            //        $("#" + (optionId + index)).prop("selected", false);
+                                            //        index++;
+                                            //    });
+                                            //    $("#" + (optionId + 0)).prop("selected", true);
+                                            //}
     </script>
 }

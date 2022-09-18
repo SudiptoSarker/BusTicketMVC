@@ -25,6 +25,31 @@
         display: block;
     }
 </style>
+<br />
+<nav>
+    @{
+        string pageName = Path.GetFileName(Request.Path);
+        if (pageName.ToLower().IndexOf("search") >= 0)
+        {
+            <a href="/Member/Search" style="pointer-events: none;  cursor: default;">Member Search |</a>
+        }
+        else
+        {
+            <a href="/Member/Search">Member Search |</a>
+        }
+
+        if (pageName.ToLower().IndexOf("searchresult") >= 0)
+        {
+            <a href="/Member/SearchResult" style="pointer-events: none;  cursor: default;">Search Results |</a>
+        }
+        else
+        {
+            <a href="/Member/SearchResult">Search Results |</a>
+        }
+    }
+</nav>
+
+<br /><br />
 
 <div class="col-xs-10">
     <div class="row">

@@ -26,6 +26,32 @@
         display: block;
     }
 </style>
+<br />
+<nav>
+    @{
+        string pageName = Path.GetFileName(Request.Path);
+        if (pageName.ToLower().IndexOf("search") >= 0)
+        {
+            <a href="/Member/Search" style="pointer-events: none;  cursor: default;">Member Search |</a>
+        }
+        else
+        {
+            <a href="/Member/Search">Member Search |</a>
+        }
+
+        if (pageName.ToLower().IndexOf("searchresult") >= 0)
+        {
+            <a href="/Member/SearchResult" style="pointer-events: none;  cursor: default;">Search Results |</a>
+        }
+        else
+        {
+            <a href="/Member/SearchResult">Search Results |</a>
+        }
+    }
+</nav>
+
+<br /><br />
+
 <div class="col-xs-10">
     <div class="row">
         <div class="col-xs-3 search_result_nav_div">
@@ -60,65 +86,65 @@
                     @{ int count = 1;}
                     @foreach (var x in Model)
                     {
-                    <tr>
-                        <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
-                        <td>@count</td>
-                        <td><a href="#">@x.OrderNo</a></td>
-                        <td>@Convert.ToDateTime(x.OrderDate)</td>
-                        <td> @Convert.ToDateTime(x.UpdateDate)</td>
-                        <td>@x.DateOfUse</td>
-                        <td>@x.TicketType</td>
-                        <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                        <td>@x.NumberOfAdult</td>
-                        <td>@x.NumberOfChild</td>
-                        @if (x.StatusId == "1")
-                                {
-                            <td><span class="text-primary-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "2")
-                        {
-                            <td><span class="text-info-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "3")
-                        {
-                            <td><span class="text-success-custom status_mark">@x.Status</span></td>
-                        }
-                        else if (x.StatusId == "4")
-                        {
-                            <td><span class="text-warning-custom status_mark">@x.Status</span></td>
-                        }
-                        else
-                        {
-                            <td><span class="text-muted-custom status_mark">@x.Status</span></td>
-                        }
-
-                        @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
-                        @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
-                        @{
-                            if (Convert.ToInt32(x.IsUpdated) == 2)
+                        <tr>
+                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            <td>@count</td>
+                            <td><a href="#">@x.OrderNo</a></td>
+                            <td>@Convert.ToDateTime(x.OrderDate)</td>
+                            <td> @Convert.ToDateTime(x.UpdateDate)</td>
+                            <td>@x.DateOfUse</td>
+                            <td>@x.TicketType</td>
+                            <td><a href="#">@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                            <td>@x.NumberOfAdult</td>
+                            <td>@x.NumberOfChild</td>
+                            @if (x.StatusId == "1")
                             {
-                                <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
+                                <td><span class="text-primary-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "2")
+                            {
+                                <td><span class="text-info-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "3")
+                            {
+                                <td><span class="text-success-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "4")
+                            {
+                                <td><span class="text-warning-custom status_mark">@x.Status</span></td>
                             }
                             else
                             {
-                                <td><a id="orderNoHistory">----</a></td>
+                                <td><span class="text-muted-custom status_mark">@x.Status</span></td>
                             }
 
-                        }
-                        @{
-                            @*if (Convert.ToInt32(x.StatusId) == 5)
-            {
-                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")' style="pointer-events: none;cursor: default;opacity: .5;">Details</a></td>
-            }
-            else
-            {
-                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
-            }*@
-                            <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
+                            @{
+                                if (Convert.ToInt32(x.IsUpdated) == 2)
+                                {
+                                    <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
+                                }
+                                else
+                                {
+                                    <td><a id="orderNoHistory">----</a></td>
+                                }
 
-                        }
+                            }
+                            @{
+                                @*if (Convert.ToInt32(x.StatusId) == 5)
+                                    {
+                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")' style="pointer-events: none;cursor: default;opacity: .5;">Details</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                                    }*@
+                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
 
-                    </tr>
+                            }
+
+                        </tr>
                         count++;
                     }
                 </tbody>

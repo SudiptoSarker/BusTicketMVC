@@ -221,6 +221,8 @@ namespace BusTicketWebApp.Controllers
                 }
             }
 
+            ViewBag.UserId = Id;
+
             return View(objMemberHistoryList);
         }
         [HttpPost]
