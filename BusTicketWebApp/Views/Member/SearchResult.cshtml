@@ -95,12 +95,12 @@
                             <tr>
                                 <td><input type="checkbox" id="single_checkbox_@x.Id" value="@x.Id" name="ck_change" data-status="@x.Id" /></td>
                                 <td>@count</td>
-                                <td><a href="javascript:void();">@x.Id</a></td>
+                                <td><a>@x.Id</a></td>
                                 @*<td>@x.CreateDate</td>*@
                                 <td>@Convert.ToDateTime(x.CreateDate)</td>
                                 <td>@Convert.ToDateTime(x.UpdateDate)</td>
                                 <td>@x.FirstName @x.LastName</td>
-                                <td><a href="javascript:void()">@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                                <td><a>@x.Email</a><a href="mailto: @x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
                                 <td>@x.PhoneNumber</td>
                                 @{
                                     string memberStatus = "";

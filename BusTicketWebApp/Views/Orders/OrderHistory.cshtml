@@ -124,14 +124,18 @@
                                 {
                                     strStatus = "Cancelled";
                                 }
-                                if (count == 1)
+                                if(Convert.ToInt32(item.Status) != 5)
                                 {
-                                    strStatus = strStatus + " (Active)";
+                                    if (count == 1)
+                                    {
+                                        strStatus = strStatus + " (Active)";
+                                    }
+                                    else
+                                    {
+                                        strStatus = strStatus + " (Inactive)";
+                                    }
                                 }
-                                else
-                                {
-                                    strStatus = strStatus + " (Inactive)";
-                                }
+
                                 <td>@strStatus</td>
                             }
                         </tr>
