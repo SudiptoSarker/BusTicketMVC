@@ -40,12 +40,21 @@
             <form action="/Orders/SearchResult" method="post">
                 <div class="col-xs-6">
                     <p>Date of Boarding</p>
+                    <div class="form-group col-xs-12">
+                        <label for="b_from_to_date" style="font-weight: normal;">From - To</label>
+                        <input type="date" class="form-control" id="b_from_to_date" name="b_from_to_date" placeholder="">
+                    </div>
+
+                    <p>Date of Boarding</p>
                     <div class="form-group col-xs-6">
+                        <label for="b_fromDate" style="font-weight: normal;">From</label>
                         <input type="date" class="form-control" id="b_fromDate" name="b_fromDate" placeholder="">
                     </div>
                     <div class="form-group col-xs-6">
+                        <label for="b_toDate" style="font-weight: normal;">To</label>
                         <input type="date" class="form-control" id="b_toDate" name="b_toDate" placeholder="">
                     </div>
+
                     <p>Order No.</p>
                     <div class="form-group col-xs-12">
                         <input type="text" class="form-control" id="order_no" name="order_no" placeholder="order no.">
@@ -71,17 +80,17 @@
                         </select>
                     </div>
                     @*<p>Boarding place/ Demounting Place</p>
-                        <div class="form-group col-xs-12">
+        <div class="form-group col-xs-12">
 
-                            <select class="form-control" name="boarding_place" id="boarding_place">
-                                <option id="b_place0" value="">Select Place</option>
-                                <option id="b_place1" value="place1">Place-1</option>
-                                <option id="b_place2" value="place2">Place-2</option>
-                                <option id="b_place3" value="place3">Place-3</option>
-                                <option id="b_place4" value="place4">Place-4</option>
-                                <option id="b_place5" value="place5">Place-5</option>
-                            </select>
-                        </div>*@
+            <select class="form-control" name="boarding_place" id="boarding_place">
+                <option id="b_place0" value="">Select Place</option>
+                <option id="b_place1" value="place1">Place-1</option>
+                <option id="b_place2" value="place2">Place-2</option>
+                <option id="b_place3" value="place3">Place-3</option>
+                <option id="b_place4" value="place4">Place-4</option>
+                <option id="b_place5" value="place5">Place-5</option>
+            </select>
+        </div>*@
                     <p>Status</p>
                     <div class="form-group col-xs-12">
 
@@ -105,11 +114,18 @@
                 </div>
                 <div class="col-xs-6">
                     <p>Order Date</p>
-                    <div class="form-group col-xs-6">
-                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
+                    <div class="form-group col-xs-12">
+                        <label for="o_fromDate" style="font-weight: normal;">From - To</label>
+                        <input type="date" class="form-control" id="o_From_To_Date" name="o_From_To_Date" placeholder="">
+                    </div>                    
 
+                    <p>Order Date</p>
+                    <div class="form-group col-xs-6">
+                        <label for="o_fromDate" style="font-weight: normal;">From</label>
+                        <input type="date" class="form-control" id="o_fromDate" name="o_fromDate" placeholder="">
                     </div>
                     <div class="form-group col-xs-6">
+                        <label for="o_toDate" style="font-weight: normal;">From</label>
                         <input type="date" class="form-control" id="o_toDate" name="o_toDate" placeholder="">
                     </div>
 

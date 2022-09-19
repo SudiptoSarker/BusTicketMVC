@@ -37,11 +37,20 @@
         <div class="row">
             <form action="/Member/SearchResult" method="post">
                 <div class="col-xs-6">
+                    
+                    <p>Registration Date</p>
+                    <div class="form-group col-xs-12">
+                        <label for="r_from_to_Date" style="font-weight: normal;">From - To</label>
+                        <input type="date" class="form-control" id="r_from_to_Date" name="r_from_to_Date" placeholder="Select from-to date">
+                    </div>
+
                     <p>Registration Date</p>
                     <div class="form-group col-xs-6">
+                        <label for="r_fromDate" style="font-weight: normal;">From</label>
                         <input type="date" class="form-control" id="r_fromDate" name="r_fromDate" placeholder="Select from date">
                     </div>
                     <div class="form-group col-xs-6">
+                        <label for="r_toDate" style="font-weight: normal;">To</label>
                         <input type="date" class="form-control" id="r_toDate" name="r_toDate" placeholder="Select to date">
                     </div>
 
@@ -78,6 +87,10 @@
                     <p>Phone</p>
                     <div class="form-group col-xs-12">
                         <input type="text" class="form-control" id="phone" name="phone" placeholder="phone">
+                    </div>
+                    <p>Member Id</p>
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="member_id" name="member_id" placeholder="member id">
                     </div>
                 </div>
 

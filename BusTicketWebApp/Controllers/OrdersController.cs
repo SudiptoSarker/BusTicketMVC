@@ -148,8 +148,14 @@ namespace BusTicketWebApp.Controllers
             {
                 searchDto.DateOfUseTo = fc["b_toDate"];
             }
-
-
+            if (!String.IsNullOrEmpty(fc["b_from_to_date"]))
+            {
+                searchDto.DateOfuse_From_To = fc["b_from_to_date"];
+            }
+            if (!String.IsNullOrEmpty(fc["o_From_To_Date"]))
+            {
+                searchDto.OrderDateFromTo = fc["o_From_To_Date"];
+            }
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);
@@ -190,6 +196,21 @@ namespace BusTicketWebApp.Controllers
 
             ViewBag.Status = GetTicketStatus();
 
+            ViewBag.UserId = searchDto.MemberId;
+            if (!string.IsNullOrEmpty(ViewBag.UserId))
+            {
+                if (Convert.ToInt32(ViewBag.UserId) > 0)
+                {
+                    //int tempCount = 1;
+                    foreach (var x in searchLists)
+                    {
+                        ViewBag.Name = x.Purchaser;
+                        ViewBag.Email = x.Email;
+                    }
+                }
+            }
+            //
+
             return View(searchLists);
         }
 
@@ -218,7 +239,7 @@ namespace BusTicketWebApp.Controllers
                     readTask.Wait();
 
                     order = readTask.Result;
-                }               
+                }
             }
 
 
@@ -458,7 +479,7 @@ namespace BusTicketWebApp.Controllers
                     objOrderHistoryList = readTask.Result;
 
                 }
-            }            
+            }
 
             return View(objOrderHistoryList);
         }
@@ -691,8 +712,8 @@ namespace BusTicketWebApp.Controllers
             response.End();
 
             return RedirectToAction("Search", "Orders");
-        }       
-    } 
+        }
+    }
     public class DataConversionForUpdate
     {
         public string OrderId { get; set; }

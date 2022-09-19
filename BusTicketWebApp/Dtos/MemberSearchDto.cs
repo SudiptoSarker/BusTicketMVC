@@ -13,6 +13,8 @@ namespace BusTicketWebApp.Dtos
         public string Email { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public string StatusId { get; set; }        
+        public string StatusId { get; set; }
+        public string MemberId { get; set; }
+        public string FromToRegDate { get; set; }
     }
 }

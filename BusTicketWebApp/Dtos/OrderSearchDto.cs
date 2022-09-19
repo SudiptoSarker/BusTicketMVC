@@ -30,6 +30,8 @@ namespace BusTicketWebApp.Dtos
         public string FlightId { get; set; }
         public string DateOfUseFrom { get; set; }
         public string DateOfUseTo { get; set; }
+        public string DateOfuse_From_To { get; set; }
+        public string OrderDateFromTo { get; set; }
     }
 }
 

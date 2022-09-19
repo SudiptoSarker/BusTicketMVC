@@ -58,87 +58,112 @@
 
 <br /><br />
 
-      <div class="col-xs-10">
-          <div class="row">
-              <div class="col-xs-3 search_result_nav_div">
-                  <h4>Search Results</h4>
-              </div>
-              <div class="col-xs-offset-6 col-xs-2 date_time_today_div">
-                  <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
-              </div>
-          </div>
-          <div class="row">
-              <div class="search_table">
-                  <input type="checkbox" id="select_all_check_box" /> Select All
-                  <table class="table table-bordered" id="search_result_table">
-                      <thead>
-                          <tr>
-                              <th></th>
-                              <th scope="col">#</th>
-                              <th scope="col">Order No</th>
-                              <th scope="col" style="width:100px;">Order Date</th>
-                              <th scope="col" style="width:100px;">Updated Date</th>
-                              <th scope="col" style="width:100px;">Date of Use</th>
-                              <th scope="col" style="width:50px;">Ticket Type</th>
-                              <th scope="col" style="width:200px;">Purchaser</th>
-                              <th>Adult</th>
-                              <th>Child</th>
-                              <th scope="col">Ticket Status</th>
-                              <th scope="col">Order History</th>
-                              <th scope="col">Order Details</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          @{ int count = 1;}
-                          @foreach (var x in Model)
-                          {
-                              <tr>
-                                  <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
-                                  <td>@count</td>
-                                  <td><a>@x.OrderNo</a></td>
-                                  <td>@Convert.ToDateTime(x.OrderDate)</td>
-                                  <td> @Convert.ToDateTime(x.UpdateDate)</td>
-                                  <td>@x.DateOfUse</td>
-                                  <td>@x.TicketType</td>
-                                  <td><a>@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
-                                  <td>@x.NumberOfAdult</td>
-                                  <td>@x.NumberOfChild</td>
-                                  @if (x.StatusId == "1")
-                                  {
-                                      <td><span class="text-primary-custom status_mark">@x.Status</span></td>
-                                  }
-                                  else if (x.StatusId == "2")
-                                  {
-                                      <td><span class="text-info-custom status_mark">@x.Status</span></td>
-                                  }
-                                  else if (x.StatusId == "3")
-                                  {
-                                      <td><span class="text-success-custom status_mark">@x.Status</span></td>
-                                  }
-                                  else if (x.StatusId == "4")
-                                  {
-                                      <td><span class="text-warning-custom status_mark">@x.Status</span></td>
-                                  }
-                                  else
-                                  {
-                                      <td><span class="text-muted-custom status_mark">@x.Status</span></td>
-                                  }
+<div class="col-xs-10">
+    <div class="row">
+        <div class="col-xs-3 search_result_nav_div">
+            <h4>Search Results</h4>
+        </div>
+        <div class="col-xs-offset-7 col-xs-2 date_time_today_div">
+            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
+        </div>
+    </div>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.UserId))
+        {
+            if (Convert.ToInt32(ViewBag.UserId) > 0)
+            {
+                <!--Personal information: if member is specified-->
+                <div class="row">
+                    <div class="col-xs-4" style="border:1px solid black;">
+                        <p>Member Id <span style="color:cornflowerblue">@ViewBag.UserId</span></p>
+                    </div>
+                    <div class="col-xs-4" style="border:1px solid black;">
+                        <p>Name <span style="color:cornflowerblue">@ViewBag.Name</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="border:1px solid black;">
+                        <p>Email <span style="color:cornflowerblue">@ViewBag.Email</span></p>
+                    </div>
+                </div>
+                <br /><br />
+            }
+        }
+    }
 
-                                  @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
-                                  @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
-                                  @{
-                                      if (Convert.ToInt32(x.IsUpdated) == 2)
-                                      {
-                                          <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
-                                      }
-                                      else
-                                      {
-                                          <td><a id="orderNoHistory">----</a></td>
-                                      }
 
-                                  }
-                                  @{
-                                      @*if (Convert.ToInt32(x.StatusId) == 5)
+    <div class="row">
+        <div class="search_table">
+            <input type="checkbox" id="select_all_check_box" /> Select All
+            <table class="table table-bordered" id="search_result_table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Order No</th>
+                        <th scope="col" style="width:100px;">Order Date</th>
+                        <th scope="col" style="width:100px;">Updated Date</th>
+                        <th scope="col" style="width:100px;">Date of Use</th>
+                        <th scope="col" style="width:50px;">Ticket Type</th>
+                        <th scope="col" style="width:200px;">Purchaser</th>
+                        <th>Adult</th>
+                        <th>Child</th>
+                        <th scope="col">Ticket Status</th>
+                        <th scope="col">Order History</th>
+                        <th scope="col">Order Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int count = 1;}
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            <td>@count</td>
+                            <td><a>@x.OrderNo</a></td>
+                            <td>@Convert.ToDateTime(x.OrderDate)</td>
+                            <td> @Convert.ToDateTime(x.UpdateDate)</td>
+                            <td>@x.DateOfUse</td>
+                            <td>@x.TicketType</td>
+                            <td><a>@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                            <td>@x.NumberOfAdult</td>
+                            <td>@x.NumberOfChild</td>
+                            @if (x.StatusId == "1")
+                            {
+                                <td><span class="text-primary-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "2")
+                            {
+                                <td><span class="text-info-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "3")
+                            {
+                                <td><span class="text-success-custom status_mark">@x.Status</span></td>
+                            }
+                            else if (x.StatusId == "4")
+                            {
+                                <td><span class="text-warning-custom status_mark">@x.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="text-muted-custom status_mark">@x.Status</span></td>
+                            }
+
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
+                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
+                            @{
+                                if (Convert.ToInt32(x.IsUpdated) == 2)
+                                {
+                                    <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
+                                }
+                                else
+                                {
+                                    <td><a id="orderNoHistory">----</a></td>
+                                }
+
+                            }
+                            @{
+                                @*if (Convert.ToInt32(x.StatusId) == 5)
                                     {
                                         <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")' style="pointer-events: none;cursor: default;opacity: .5;">Details</a></td>
                                     }
@@ -146,75 +171,75 @@
                                     {
                                         <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
                                     }*@
-                                      <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
 
-                                  }
+                            }
 
-                              </tr>
-                              count++;
-                          }
-                      </tbody>
-                  </table>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
 
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-xs-12 status_chang_div">
-                  <div class="col-xs-12">
-                      <p style="font-weight:bold">Change Status</p>
-                  </div>
-                  <div class="col-xs-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 status_chang_div">
+            <div class="col-xs-12">
+                <p style="font-weight:bold">Change Status</p>
+            </div>
+            <div class="col-xs-3">
 
-                      <select class="form-control" id="status_change_sl">
-                          <option value="">Select Status</option>
-                          @foreach (var item in ViewBag.Status)
-                          {
-                              if (item.statusName.ToLower() == "cancelled")
-                              {
-                                  <option value="@item.Id">@item.statusName</option>
-                              }
-                          }
-                      </select>
-                  </div>
-                  <div class="col-xs-2">
-                      <button id="status_change_btn" class="btn btn-info">change</button>
-                  </div>
+                <select class="form-control" id="status_change_sl">
+                    <option value="">Select Status</option>
+                    @foreach (var item in ViewBag.Status)
+                    {
+                        if (item.statusName.ToLower() == "cancelled")
+                        {
+                            <option value="@item.Id">@item.statusName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button id="status_change_btn" class="btn btn-info">change</button>
+            </div>
 
-                  <div class="col-lg-offset-3 col-xs-1">
-                      <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
-                  </div>
+            <div class="col-lg-offset-3 col-xs-1">
+                <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+            </div>
 
-                  <div class="col-xs-1" style="    padding-left: 48px;">
-                      <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
-                  </div>
-              </div>
-          </div>
-          <br />
-          <br />
-          <br />
-          <div class="row">
-              <div class="col-xs-offset-2 col-xs-7">
-                  <div class="modal fade" id="order_details_modal" role="dialog">
-                      @*</div>*@
-                      <!-- The modal -->
-                      @*<div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">*@
-                      <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                  </button>
-                                  <h4 class="modal-title" id="modalLabel">Order Details</h4>
-                              </div>
-                              <div class="modal-body" id="order_details_modal_body">
+            <div class="col-xs-1" style="    padding-left: 48px;">
+                <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-7">
+            <div class="modal fade" id="order_details_modal" role="dialog">
+                @*</div>*@
+                <!-- The modal -->
+                @*<div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">*@
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="modalLabel">Order Details</h4>
+                        </div>
+                        <div class="modal-body" id="order_details_modal_body">
 
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @*<script src="/Scripts/jquery-3.5.1.js"></script>
     <script src="/Scripts/jquery-3.3.1.js"></script>*@

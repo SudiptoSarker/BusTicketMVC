@@ -85,8 +85,16 @@ namespace BusTicketWebApp.Controllers
             {
                 memberSearchDto.PhoneNumber = fc["phone"];
             }
-
-
+            memberSearchDto.MemberId = "";
+            if (!String.IsNullOrEmpty(fc["member_id"]))
+            {
+                memberSearchDto.MemberId = fc["member_id"];
+            }
+            memberSearchDto.FromToRegDate = "";
+            if (!String.IsNullOrEmpty(fc["r_from_to_Date"]))
+            {
+                memberSearchDto.FromToRegDate = fc["r_from_to_Date"];
+            }
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);

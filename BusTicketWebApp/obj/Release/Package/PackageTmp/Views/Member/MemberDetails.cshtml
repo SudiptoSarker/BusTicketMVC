@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="userPhone">Phone</label>
-                        <input type="text" class="form-control" id="userPhone" name="userPhone" placeholder="" value="@Model.PhoneNumber">
+                        <input type="text" class="form-control" id="userPhone" name="userPhone" onchange="return CheckNumber(this.id, false);" onkeypress="return blockNonNumbers(this, event, false, false, false);" placeholder="" value="@Model.PhoneNumber">
                     </div>
                 </div>
                 <div class="col-xs-offset-1 col-xs-7">
@@ -359,8 +359,71 @@
                 });
 
             });
-
         });
+
+        function CheckNumber(svalue, isDependent) {
+            var val = document.getElementById(svalue).value;
+            var l = val.length;
+            var blnState = false;
+            //var isChkval = $('#chkVacancies').prop('checked');
+
+            if (isDependent == false) {
+                for (i = 0; i < l; i++) {
+                    if (!(val.charCodeAt(i) >= 48 && val.charCodeAt(i) <= 57))
+                        blnState = true;
+
+                }
+                if (blnState == true) {
+                    alert("Please enter numeric value only.");
+                    document.getElementById(svalue).value = "";
+                    document.getElementById(svalue).focus();
+                    return false;
+                }
+            }
+        }
+        function blockNonNumbers(obj, e, allowDecimal, allowNegative, isDependent) {
+            var key;
+            var isCtrl = false;
+            var keychar;
+            var reg;
+
+            $(".question").each(function (index) {
+                let strQuestionTxt = $("#question" + (index + 1)).val();
+                let strLimitNumber = $("#questionLimit" + (index + 1)).val();
+
+                if (strQuestionTxt == "" || strLimitNumber == "") {
+                    isThereEmptyQField = true;
+                    $("#setInterviewBtn").prop("disabled", true);
+                } else {
+                    $("#setInterviewBtn").prop("disabled", false);
+                }
+            });
+
+            if (isDependent == false) {
+                if (window.event) {
+                    key = e.keyCode;
+                    isCtrl = window.event.ctrlKey;
+                } else if (e.which) {
+                    key = e.which;
+                    isCtrl = e.ctrlKey;
+                }
+
+                if (isNaN(key)) return true;
+
+                keychar = String.fromCharCode(key);
+
+                // CHECK FOR BACKSPACE OR DELETE, Ctrl 
+                if (key == 8 || isCtrl) {
+                    return true;
+                }
+
+                reg = /\d/;
+                var isFirstN = allowNegative ? keychar == '-' && obj.value.indexOf('-') == -1 : false;
+                var isFirstD = allowDecimal ? keychar == '.' && obj.value.indexOf('.') == -1 : false;
+
+                return isFirstN || isFirstD || reg.test(keychar);
+            }
+        }
     </script>
 
 }
