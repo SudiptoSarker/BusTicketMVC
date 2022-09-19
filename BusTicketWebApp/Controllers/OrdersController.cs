@@ -500,7 +500,7 @@ namespace BusTicketWebApp.Controllers
             searchDto.FirstName = searchData.FirstName;
             searchDto.Telephone = searchData.Telephone;
             searchDto.Email = searchData.Email;
-            searchDto.Status = searchData.Status;
+            searchDto.Status = searchData.Status;            
 
             using (var client = new HttpClient())
             {
@@ -518,7 +518,7 @@ namespace BusTicketWebApp.Controllers
                     searchLists = readTask.Result;
 
                 }
-            }
+            }            
 
             string table = @"
             <!DOCTYPE html>
@@ -581,6 +581,8 @@ namespace BusTicketWebApp.Controllers
                                      
               <tbody>
             ";
+            //Response.Write("test-3");
+            //Response.End();
             int count = 1;
             foreach (var item in searchLists)
             {
@@ -608,22 +610,27 @@ namespace BusTicketWebApp.Controllers
                 ";
 
 
-
+            //Response.Write("test-4");
+            //Response.End();
             byte[] fileContents = null;
             //iText7
 
-            var outputPath = System.IO.Path.Combine(Server.MapPath("~/download/"), "search_order_Report.pdf");
-
+            var outputPath = System.IO.Path.Combine(Server.MapPath("~/"), "search_order_Report.pdf");
+            //Response.Write("test-6");
+            //Response.End();
             iText.Kernel.Pdf.PdfWriter writer = new iText.Kernel.Pdf.PdfWriter(outputPath);
-
+            //Response.Write("test8");
+            //Response.End();
             ConverterProperties properties = new ConverterProperties();
-
+            //Response.Write("test-7");
+            //Response.End();
             PdfDocument pdfDocument = new PdfDocument(writer);
 
             pdfDocument.SetDefaultPageSize(PageSize.A4.Rotate());
 
             Document dc = null;
-
+            //Response.Write("test-5");
+            //Response.End();
             try
 
             {
