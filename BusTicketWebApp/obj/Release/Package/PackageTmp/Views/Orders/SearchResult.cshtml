@@ -74,15 +74,18 @@
             {
                 <!--Personal information: if member is specified-->
                 <div class="row">
-                    <div class="col-xs-4" style="border:1px solid black;">
+                    <div class="col-xs-2">
                         <p>Member Id <span style="color:cornflowerblue">@ViewBag.UserId</span></p>
                     </div>
-                    <div class="col-xs-4" style="border:1px solid black;">
+                    <div class="col-xs-4">
                         <p>Name <span style="color:cornflowerblue">@ViewBag.Name</span></p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4" style="border:1px solid black;">
+                    <div class="col-xs-2">
+                        @*<p>Name <span style="color:cornflowerblue">@ViewBag.Name</span></p>*@
+                    </div>
+                    <div class="col-xs-4">
                         <p>Email <span style="color:cornflowerblue">@ViewBag.Email</span></p>
                     </div>
                 </div>
@@ -201,17 +204,22 @@
                     }
                 </select>
             </div>
-            <div class="col-xs-2">
-                <button id="status_change_btn" class="btn btn-info">change</button>
-            </div>
+            @{
+                if (count > 1)
+                {
+                    <div class="col-xs-2">
+                        <button id="status_change_btn" class="btn btn-info">change</button>
+                    </div>
 
-            <div class="col-lg-offset-3 col-xs-1">
-                <a href="/Orders/GenerateSearchPdf?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
-            </div>
+                    <div class="col-lg-offset-3 col-xs-1">
+                        <a href="/Orders/GenerateSearchPdf?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                    </div>
 
-            <div class="col-xs-1" style="    padding-left: 48px;">
-                <a href="/Orders/GenerateSearchCsv?OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.Email" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
-            </div>
+                    <div class="col-xs-1" style="    padding-left: 48px;">
+                        <a href="/Orders/GenerateSearchCsv?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+                    </div>
+                }
+            }
         </div>
     </div>
     <br />

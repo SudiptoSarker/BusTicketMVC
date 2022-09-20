@@ -180,6 +180,7 @@ namespace BusTicketWebApp.Controllers
             //ViewBag.BoardingToDate = search.BoardingToDate;
             ViewBag.OrderFromDate = searchDto.OrderFromDate;
             ViewBag.OrderToDate = searchDto.OrderToDate;
+            ViewBag.OrderDateFromTo = searchDto.OrderDateFromTo;
             //ViewBag.Route = search.Route;
             ViewBag.OrderNo = searchDto.OrderNo;
             ViewBag.Type = searchDto.Type;
@@ -193,6 +194,10 @@ namespace BusTicketWebApp.Controllers
             ViewBag.StatusId = searchDto.Status;
             ViewBag.Telephone = searchDto.Telephone;
             ViewBag.Email = searchDto.Email;
+            ViewBag.FormEmail = searchDto.Email;
+            ViewBag.DateOfUseFrom = searchDto.DateOfUseFrom;
+            ViewBag.DateOfUseTo = searchDto.DateOfUseTo;
+            ViewBag.DateOfuse_From_To = searchDto.DateOfuse_From_To;
 
             ViewBag.Status = GetTicketStatus();
 
@@ -492,6 +497,7 @@ namespace BusTicketWebApp.Controllers
 
             searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
             searchDto.OrderToDate = searchData.OrderToDate.ToString();
+            searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
             searchDto.OrderNo = searchData.OrderNo;
             searchDto.Type = searchData.Type;
             searchDto.GmoOrderNo = searchData.GmoOrderNo;
@@ -500,7 +506,11 @@ namespace BusTicketWebApp.Controllers
             searchDto.FirstName = searchData.FirstName;
             searchDto.Telephone = searchData.Telephone;
             searchDto.Email = searchData.Email;
-            searchDto.Status = searchData.Status;            
+            searchDto.Status = searchData.Status;
+            searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
+            searchDto.DateOfUseTo = searchData.DateOfUseTo;
+            searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;
+            searchDto.MemberId = searchData.MemberId; 
 
             using (var client = new HttpClient())
             {
@@ -670,6 +680,7 @@ namespace BusTicketWebApp.Controllers
 
             searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
             searchDto.OrderToDate = searchData.OrderToDate.ToString();
+            searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
             searchDto.OrderNo = searchData.OrderNo;
             searchDto.Type = searchData.Type;
             searchDto.GmoOrderNo = searchData.GmoOrderNo;
@@ -679,6 +690,10 @@ namespace BusTicketWebApp.Controllers
             searchDto.Telephone = searchData.Telephone;
             searchDto.Email = searchData.Email;
             searchDto.Status = searchData.Status;
+            searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
+            searchDto.DateOfUseTo = searchData.DateOfUseTo;
+            searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;        
+            searchDto.MemberId = searchData.MemberId;
 
             using (var client = new HttpClient())
             {
