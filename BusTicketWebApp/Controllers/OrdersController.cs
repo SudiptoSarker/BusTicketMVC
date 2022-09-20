@@ -494,23 +494,47 @@ namespace BusTicketWebApp.Controllers
         {
             List<SearchList> searchLists = new List<SearchList>();
             OrderSearchDto searchDto = new OrderSearchDto();
+            searchDto.OrderIds = searchData.OrderIds;
+            if (!string.IsNullOrEmpty(searchDto.OrderIds))
+            {
+                searchDto.OrderFromDate = "";
+                searchDto.OrderToDate = "";
+                searchDto.OrderDateFromTo = "";
+                searchDto.OrderNo = "";
+                searchDto.Type = "";
+                searchDto.GmoOrderNo = "";
+                searchDto.PaymentMethodType = "";
+                searchDto.LastName = "";
+                searchDto.FirstName = "";
+                searchDto.Telephone = "";
+                searchDto.Email = "";
+                searchDto.Status = "";
+                searchDto.DateOfUseFrom = "";
+                searchDto.DateOfUseTo = "";
+                searchDto.DateOfuse_From_To = "";
+                searchDto.MemberId = "";
+            }
+            else
+            {
+                searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
+                searchDto.OrderToDate = searchData.OrderToDate.ToString();
+                searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
+                searchDto.OrderNo = searchData.OrderNo;
+                searchDto.Type = searchData.Type;
+                searchDto.GmoOrderNo = searchData.GmoOrderNo;
+                searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString() == "0" ? null : searchData.PaymentMethodType.ToString();
+                searchDto.LastName = searchData.LastName;
+                searchDto.FirstName = searchData.FirstName;
+                searchDto.Telephone = searchData.Telephone;
+                searchDto.Email = searchData.Email;
+                searchDto.Status = searchData.Status;
+                searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
+                searchDto.DateOfUseTo = searchData.DateOfUseTo;
+                searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;
+                searchDto.MemberId = searchData.MemberId;
+            }
 
-            searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
-            searchDto.OrderToDate = searchData.OrderToDate.ToString();
-            searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
-            searchDto.OrderNo = searchData.OrderNo;
-            searchDto.Type = searchData.Type;
-            searchDto.GmoOrderNo = searchData.GmoOrderNo;
-            searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString() == "0" ? null : searchData.PaymentMethodType.ToString();
-            searchDto.LastName = searchData.LastName;
-            searchDto.FirstName = searchData.FirstName;
-            searchDto.Telephone = searchData.Telephone;
-            searchDto.Email = searchData.Email;
-            searchDto.Status = searchData.Status;
-            searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
-            searchDto.DateOfUseTo = searchData.DateOfUseTo;
-            searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;
-            searchDto.MemberId = searchData.MemberId; 
+
 
             using (var client = new HttpClient())
             {
@@ -528,7 +552,7 @@ namespace BusTicketWebApp.Controllers
                     searchLists = readTask.Result;
 
                 }
-            }            
+            }
 
             string table = @"
             <!DOCTYPE html>
@@ -678,22 +702,45 @@ namespace BusTicketWebApp.Controllers
             List<SearchList> searchLists = new List<SearchList>();
             OrderSearchDto searchDto = new OrderSearchDto();
 
-            searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
-            searchDto.OrderToDate = searchData.OrderToDate.ToString();
-            searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
-            searchDto.OrderNo = searchData.OrderNo;
-            searchDto.Type = searchData.Type;
-            searchDto.GmoOrderNo = searchData.GmoOrderNo;
-            searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString() == "0" ? null : searchData.PaymentMethodType.ToString();
-            searchDto.LastName = searchData.LastName;
-            searchDto.FirstName = searchData.FirstName;
-            searchDto.Telephone = searchData.Telephone;
-            searchDto.Email = searchData.Email;
-            searchDto.Status = searchData.Status;
-            searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
-            searchDto.DateOfUseTo = searchData.DateOfUseTo;
-            searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;        
-            searchDto.MemberId = searchData.MemberId;
+            searchDto.OrderIds = searchData.OrderIds;
+            if (!string.IsNullOrEmpty(searchDto.OrderIds))
+            {
+                searchDto.OrderFromDate = "";
+                searchDto.OrderToDate = "";
+                searchDto.OrderDateFromTo = "";
+                searchDto.OrderNo = "";
+                searchDto.Type = "";
+                searchDto.GmoOrderNo = "";
+                searchDto.PaymentMethodType = "";
+                searchDto.LastName = "";
+                searchDto.FirstName = "";
+                searchDto.Telephone = "";
+                searchDto.Email = "";
+                searchDto.Status = "";
+                searchDto.DateOfUseFrom = "";
+                searchDto.DateOfUseTo = "";
+                searchDto.DateOfuse_From_To = "";
+                searchDto.MemberId = "";
+            }
+            else
+            {
+                searchDto.OrderFromDate = searchData.OrderFromDate.ToString();
+                searchDto.OrderToDate = searchData.OrderToDate.ToString();
+                searchDto.OrderDateFromTo = searchData.OrderDateFromTo;
+                searchDto.OrderNo = searchData.OrderNo;
+                searchDto.Type = searchData.Type;
+                searchDto.GmoOrderNo = searchData.GmoOrderNo;
+                searchDto.PaymentMethodType = searchData.PaymentMethodType.ToString() == "0" ? null : searchData.PaymentMethodType.ToString();
+                searchDto.LastName = searchData.LastName;
+                searchDto.FirstName = searchData.FirstName;
+                searchDto.Telephone = searchData.Telephone;
+                searchDto.Email = searchData.Email;
+                searchDto.Status = searchData.Status;
+                searchDto.DateOfUseFrom = searchData.DateOfUseFrom;
+                searchDto.DateOfUseTo = searchData.DateOfUseTo;
+                searchDto.DateOfuse_From_To = searchData.DateOfuse_From_To;
+                searchDto.MemberId = searchData.MemberId;
+            }
 
             using (var client = new HttpClient())
             {

@@ -121,7 +121,7 @@
                     @foreach (var x in Model)
                     {
                         <tr>
-                            <td><input type="checkbox" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            <td><input type="checkbox" class="ChkOrderId" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
                             <td>@count</td>
                             <td><a>@x.OrderNo</a></td>
                             <td>@Convert.ToDateTime(x.OrderDate)</td>
@@ -211,18 +211,45 @@
                         <button id="status_change_btn" class="btn btn-info">change</button>
                     </div>
 
+                    @*<div class="col-lg-offset-3 col-xs-1">
+                            <a href="/Orders/GenerateSearchPdf?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                        </div>
+
+                        <div class="col-xs-1" style="    padding-left: 48px;">
+                            <a href="/Orders/GenerateSearchCsv?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+                        </div>*@
                     <div class="col-lg-offset-3 col-xs-1">
-                        <a href="/Orders/GenerateSearchPdf?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                        <a href="javascript:void(0);" id="download-pdf" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
                     </div>
 
-                    <div class="col-xs-1" style="    padding-left: 48px;">
-                        <a href="/Orders/GenerateSearchCsv?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+                    <div class="col-xs-1" style="padding-left: 48px;">
+                        <a href="javascript:void(0);" id="download-csv" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
                     </div>
+
+                    <form id="frmDownloadPdfCSV" method="post" target="_blank">
+                        <input type="hidden" name="DateOfUseFrom" id="DateOfUseFrom" value="@ViewBag.DateOfUseFrom" />
+                        <input type="hidden" name="DateOfUseTo" id="DateOfUseTo" value="@ViewBag.DateOfUseTo" />
+                        <input type="hidden" name="DateOfuse_From_To" id="DateOfuse_From_To" value="@ViewBag.DateOfuse_From_To" />
+                        <input type="hidden" name="OrderFromDate" id="OrderFromDate" value="@ViewBag.OrderFromDate" />
+                        <input type="hidden" name="OrderToDate" id="OrderToDate" value="@ViewBag.OrderToDate" />
+                        <input type="hidden" name="OrderDateFromTo" id="OrderDateFromTo" value="@ViewBag.OrderDateFromTo" />
+                        <input type="hidden" name="OrderNo" id="OrderNo" value="@ViewBag.OrderNo" />
+                        <input type="hidden" name="Type" id="Type" value="@ViewBag.Type" />
+                        <input type="hidden" name="GmoOrderNo" id="GmoOrderNo" value="@ViewBag.GmoOrderNo" />
+                        <input type="hidden" name="PaymentMethod" id="PaymentMethod" value="@ViewBag.PaymentMethod" />
+                        <input type="hidden" name="LastName" id="LastName" value="@ViewBag.LastName" />
+                        <input type="hidden" name="FirstName" id="FirstName" value="@ViewBag.FirstName" />
+                        <input type="hidden" name="Status" id="Status" value="@ViewBag.StatusId" />
+                        <input type="hidden" name="Telephone" id="Telephone" value="@ViewBag.Telephone" />
+                        <input type="hidden" name="Email" id="Email" value="@ViewBag.FormEmail" />
+                        <input type="hidden" name="MemberId" id="MemberId" value="@ViewBag.UserId" />
+                        <input type="hidden" name="Email" id="Email" value="@ViewBag.FormEmail" />
+                        <input type="hidden" name="OrderIds" id="OrderIds" value="" />
+                    </form>
                 }
             }
         </div>
     </div>
-    <br />
     <br />
     <br />
     <div class="row">
@@ -255,6 +282,51 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+            //download pdf and csv
+            var AllChkOrderIds = "";
+            $('.ChkOrderId').click(function () {
+                let tempOrderIds = $(this).val();
+                if (AllChkOrderIds == "") {
+                    AllChkOrderIds = tempOrderIds;
+                } else {
+                    AllChkOrderIds = AllChkOrderIds + "," + tempOrderIds;
+                }
+                $("#OrderIds").val("");
+                $("#OrderIds").val(AllChkOrderIds);
+            }); 
+
+            $('#download-pdf').click(function () {
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }                    
+                //});
+                //$("#OrderIds").val("");
+                //$("#OrderIds").val(OrderIds);
+                $('#frmDownloadPdfCSV').attr('action', '/Orders/GenerateSearchPdf');
+                $("#frmDownloadPdfCSV").submit();
+            });
+            $('#download-csv').click(function () {
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }
+                    
+                //});
+                //$("#OrderIds").val("");
+                //$("#OrderIds").val(OrderIds);
+                $('#frmDownloadPdfCSV').attr('action', '/Orders/GenerateSearchCsv');
+                $("#frmDownloadPdfCSV").submit();
+            });
+
 
             var selected_rows = [];
             //$('#search_result_table').dataTable();
