@@ -33,6 +33,7 @@ namespace BusTicketWebApp.Dtos
         public string DateOfuse_From_To { get; set; }
         public string OrderDateFromTo { get; set; }
         public string OrderIds { get; set; }
+        public string IsViewDownload { get; set; }
     }
 }
 

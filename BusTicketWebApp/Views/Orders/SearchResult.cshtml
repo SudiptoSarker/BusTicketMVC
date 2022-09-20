@@ -38,20 +38,23 @@
 <br />
 <nav>
     @{
-        string pageName = Path.GetFileName(Request.Path);
-        bool isResultPage = string.Equals(pageName, "SearchResult", StringComparison.OrdinalIgnoreCase);
+        if (ViewBag.IsViewDownload == "no")
+        {
+            string pageName = Path.GetFileName(Request.Path);
+            bool isResultPage = string.Equals(pageName, "SearchResult", StringComparison.OrdinalIgnoreCase);
 
-        <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
-        <span class="glyphicon glyphicon-forward"></span>
-        <a href="/Orders/Search" class="page-navigation">Order Search</a>
-        <span class="glyphicon glyphicon-forward"></span>
-        if (isResultPage)
-        {
-            <a href="/Orders/searchresult" style="pointer-events: none;  cursor: default;" class="page-navigation">Order List</a>
-        }
-        else
-        {
-            <a href="/Orders/searchresult" class="page-navigation">Order List</a>
+            <a href="/Orders" class="page-navigation"><span class="glyphicon glyphicon-home"></span> Top Page</a>
+            <span class="glyphicon glyphicon-forward"></span>
+            <a href="/Orders/Search" class="page-navigation">Order Search</a>
+            <span class="glyphicon glyphicon-forward"></span>
+            if (isResultPage)
+            {
+                <a href="/Orders/searchresult" style="pointer-events: none;  cursor: default;" class="page-navigation">Order List</a>
+            }
+            else
+            {
+                <a href="/Orders/searchresult" class="page-navigation">Order List</a>
+            }
         }
     }
 </nav>
@@ -59,16 +62,46 @@
 <br /><br />
 
 <div class="col-xs-10">
-    <div class="row">
-        <div class="col-xs-3 search_result_nav_div">
-            <h4>Search Results</h4>
-        </div>
-        <div class="col-xs-offset-7 col-xs-2 date_time_today_div">
-            <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
-        </div>
-    </div>
     @{
-        if (!string.IsNullOrEmpty(ViewBag.UserId))
+        if (ViewBag.IsViewDownload == "no")
+        {
+            <div class="row">
+                <div class="col-xs-3 search_result_nav_div">
+                    <h4>Search Results</h4>
+                </div>
+                <div class="col-xs-offset-7 col-xs-2 date_time_today_div">
+                    <p id="date_time_today"><i class="fa fa-calendar" aria-hidden="true"></i>  @DateTime.Now.ToString("dd/MM/yyyy") (@DateTime.Now.DayOfWeek)</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-xs-1">
+                    <a href="javascript:void(0);" id="download-pdf" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                </div>
+
+                <div class="col-xs-1" style="padding-left: 48px;">
+                    <a href="javascript:void(0);" id="download-csv" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+                </div>
+                <div class="col-lg-offset-5 col-xs-1">
+                    <button type="button" id="CloseCurrentTab" class="close" aria-label="Close" style="border:1px solid black;color:red;opacity:1;height: 43px;width: 89px;">
+                        <span aria-hidden="true">&times;</span>Close
+                    </button>
+                    @*<a href="javascript:void(0);" id="CloseCurrentTab" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>*@
+                </div>
+                <h4>(For modifying the list)</h4>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 search_result_nav_div">
+                    <h4>Order List</h4>
+                </div>
+            </div>
+        }
+    }
+
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.UserId) && ViewBag.IsViewDownload == "no")
         {
             if (Convert.ToInt32(ViewBag.UserId) > 0)
             {
@@ -97,11 +130,22 @@
 
     <div class="row">
         <div class="search_table">
-            <input type="checkbox" id="select_all_check_box" /> Select All
+            @{
+                if (ViewBag.IsViewDownload == "no")
+                {
+                    string tempText = "Select All";
+                    <input type="checkbox" id="select_all_check_box" value="Select All" /> @tempText
+                }
+            }
             <table class="table table-bordered" id="search_result_table">
                 <thead>
                     <tr>
-                        <th></th>
+                        @{
+                            if (ViewBag.IsViewDownload == "no")
+                            {
+                                <th></th>
+                            }
+                        }
                         <th scope="col">#</th>
                         <th scope="col">Order No</th>
                         <th scope="col" style="width:100px;">Order Date</th>
@@ -112,8 +156,13 @@
                         <th>Adult</th>
                         <th>Child</th>
                         <th scope="col">Ticket Status</th>
-                        <th scope="col">Order History</th>
-                        <th scope="col">Order Details</th>
+                        @{
+                            if (ViewBag.IsViewDownload == "no")
+                            {
+                                <th scope="col">Order History</th>
+                                <th scope="col">Order Details</th>
+                            }
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +170,12 @@
                     @foreach (var x in Model)
                     {
                         <tr>
-                            <td><input type="checkbox" class="ChkOrderId" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                            @{
+                                if (ViewBag.IsViewDownload == "no")
+                                {
+                                    <td><input type="checkbox" class="ChkOrderId" id="single_checkbox_@x.OrderId" value="@x.OrderId" name="ck_change" data-status="@x.StatusId" /></td>
+                                }
+                            }
                             <td>@count</td>
                             <td><a>@x.OrderNo</a></td>
                             <td>@Convert.ToDateTime(x.OrderDate)</td>
@@ -152,30 +206,24 @@
                                 <td><span class="text-muted-custom status_mark">@x.Status</span></td>
                             }
 
-                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank" style="padding-left:27px;text-decoration:underline;">History</a></td>*@
-                            @*<td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">History</a></td>*@
                             @{
-                                if (Convert.ToInt32(x.IsUpdated) == 2)
+                                if (ViewBag.IsViewDownload == "no")
                                 {
-                                    <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
-                                }
-                                else
-                                {
-                                    <td><a id="orderNoHistory">----</a></td>
-                                }
-
-                            }
-                            @{
-                                @*if (Convert.ToInt32(x.StatusId) == 5)
+                                    if (Convert.ToInt32(x.IsUpdated) == 2)
                                     {
-                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")' style="pointer-events: none;cursor: default;opacity: .5;">Details</a></td>
+                                        <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
                                     }
                                     else
                                     {
-                                        <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
-                                    }*@
-                                <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
-
+                                        <td><a id="orderNoHistory">----</a></td>
+                                    }
+                                }
+                            }
+                            @{
+                                if (ViewBag.IsViewDownload == "no")
+                                {
+                                    <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                                }
                             }
 
                         </tr>
@@ -188,43 +236,51 @@
     </div>
     <div class="row">
         <div class="col-xs-12 status_chang_div">
-            <div class="col-xs-12">
-                <p style="font-weight:bold">Change Status</p>
-            </div>
-            <div class="col-xs-3">
+            @{
+                if (ViewBag.IsViewDownload == "no")
+                {
+                    <div class="col-xs-12">
+                        <p style="font-weight:bold">Change Status</p>
+                    </div>
+                    <div class="col-xs-3">
 
-                <select class="form-control" id="status_change_sl">
-                    <option value="">Select Status</option>
-                    @foreach (var item in ViewBag.Status)
+                        <select class="form-control" id="status_change_sl">
+                            <option value="">Select Status</option>
+                            @foreach (var item in ViewBag.Status)
+                            {
+                                if (item.statusName.ToLower() == "cancelled")
+                                {
+                                    <option value="@item.Id">@item.statusName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    if (count > 1)
                     {
-                        if (item.statusName.ToLower() == "cancelled")
-                        {
-                            <option value="@item.Id">@item.statusName</option>
-                        }
+                        <div class="col-xs-2">
+                            <button id="status_change_btn" class="btn btn-info">change</button>
+                        </div>
                     }
-                </select>
-            </div>
+                }
+            }
+
             @{
                 if (count > 1)
                 {
-                    <div class="col-xs-2">
-                        <button id="status_change_btn" class="btn btn-info">change</button>
-                    </div>
-
-                    @*<div class="col-lg-offset-3 col-xs-1">
-                            <a href="/Orders/GenerateSearchPdf?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
+                    if (ViewBag.IsViewDownload == "no")
+                    {
+                        <div class="col-lg-offset-1 col-xs-1">
+                            <a href="javascript:void(0);" id="download-pdf" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
                         </div>
 
-                        <div class="col-xs-1" style="    padding-left: 48px;">
-                            <a href="/Orders/GenerateSearchCsv?DateOfUseFrom=@ViewBag.DateOfUseFrom&DateOfUseTo=@ViewBag.DateOfUseTo&DateOfuse_From_To=@ViewBag.DateOfuse_From_To&OrderFromDate=@ViewBag.OrderFromDate&OrderToDate=@ViewBag.OrderToDate&OrderDateFromTo=@ViewBag.OrderDateFromTo&OrderNo=@ViewBag.OrderNo&Type=@ViewBag.Type&GmoOrderNo=@ViewBag.GmoOrderNo&PaymentMethod=@ViewBag.PaymentMethod&LastName=@ViewBag.LastName&FirstName=@ViewBag.FirstName&Status=@ViewBag.StatusId&Telephone=@ViewBag.Telephone&Email=@ViewBag.FormEmail&MemberId=@ViewBag.UserId" id="status_change_btn" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
-                        </div>*@
-                    <div class="col-lg-offset-3 col-xs-1">
-                        <a href="javascript:void(0);" id="download-pdf" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
-                    </div>
+                        <div class="col-xs-1" style="padding-left: 48px;">
+                            <a href="javascript:void(0);" id="download-csv" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
+                        </div>
 
-                    <div class="col-xs-1" style="padding-left: 48px;">
-                        <a href="javascript:void(0);" id="download-csv" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
-                    </div>
+                        <div class="col-xs-1" style="padding-left: 82px;">
+                            <a href="javascript:void(0);" id="ViewListAndDownload" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> View Order List & Download </a>
+                        </div>
+                    }
 
                     <form id="frmDownloadPdfCSV" method="post" target="_blank">
                         <input type="hidden" name="DateOfUseFrom" id="DateOfUseFrom" value="@ViewBag.DateOfUseFrom" />
@@ -243,8 +299,31 @@
                         <input type="hidden" name="Telephone" id="Telephone" value="@ViewBag.Telephone" />
                         <input type="hidden" name="Email" id="Email" value="@ViewBag.FormEmail" />
                         <input type="hidden" name="MemberId" id="MemberId" value="@ViewBag.UserId" />
-                        <input type="hidden" name="Email" id="Email" value="@ViewBag.FormEmail" />
-                        <input type="hidden" name="OrderIds" id="OrderIds" value="" />
+                        <input type="hidden" name="o_routes" id="o_routes" value="@ViewBag.RoutesId" />
+                        <input type="hidden" name="order_flight" id="order_flight" value="@ViewBag.FlightId" />
+                        <input type="hidden" name="OrderIds" id="OrderIds" value="@ViewBag.OrderIds" />
+                    </form>
+                    <form id="frmViewDownload" method="post" target="_blank">
+                        <input type="hidden" name="b_fromDate" id="b_fromDate" value="@ViewBag.DateOfUseFrom" />
+                        <input type="hidden" name="b_toDate" id="b_toDate" value="@ViewBag.DateOfUseTo" />
+                        <input type="hidden" name="b_from_to_date" id="b_from_to_date" value="@ViewBag.DateOfuse_From_To" />
+                        <input type="hidden" name="o_fromDate" id="o_fromDate" value="@ViewBag.OrderFromDate" />
+                        <input type="hidden" name="o_toDate" id="o_toDate" value="@ViewBag.OrderToDate" />
+                        <input type="hidden" name="o_From_To_Date" id="o_From_To_Date" value="@ViewBag.OrderDateFromTo" />
+                        <input type="hidden" name="order_no" id="order_no" value="@ViewBag.OrderNo" />
+                        <input type="hidden" name="Type" id="Type" value="@ViewBag.Type" />
+                        <input type="hidden" name="gmo_order_no" id="gmo_order_no" value="@ViewBag.GmoOrderNo" />
+                        <input type="hidden" name="payment_method" id="payment_method" value="@ViewBag.PaymentMethod" />
+                        <input type="hidden" name="last_name" id="last_name" value="@ViewBag.LastName" />
+                        <input type="hidden" name="first_name" id="first_name" value="@ViewBag.FirstName" />
+                        <input type="hidden" name="Status" id="Status" value="@ViewBag.StatusId" />
+                        <input type="hidden" name="telephone" id="telephone" value="@ViewBag.Telephone" />
+                        <input type="hidden" name="member_id" id="member_id" value="@ViewBag.UserId" />
+                        <input type="hidden" name="email" id="email" value="@ViewBag.FormEmail" />
+                        <input type="hidden" name="o_routes" id="o_routes" value="@ViewBag.RoutesId" />
+                        <input type="hidden" name="order_flight" id="order_flight" value="@ViewBag.FlightId" />
+                        <input type="hidden" name="OrderIdsView" id="OrderIdsView" value="" />
+                        <input type="hidden" name="IsViewDownload" id="IsViewDownload" value="@ViewBag.IsViewDownload" />
                     </form>
                 }
             }
@@ -293,9 +372,13 @@
                 }
                 $("#OrderIds").val("");
                 $("#OrderIds").val(AllChkOrderIds);
-            }); 
-
-            $('#download-pdf').click(function () {
+                $("#OrderIdsView").val("");
+                $("#OrderIdsView").val(AllChkOrderIds);
+            });
+            $('#CloseCurrentTab').click(function () {
+                window.close();
+            });
+            $('#download-pdf').click(function () {                
                 //let OrderIds = "";
                 //$("table tbody tr input:checkbox:checked").each(function () {
                 //    let orderId = $(this).val();
@@ -303,10 +386,11 @@
                 //        OrderIds = orderId
                 //    } else {
                 //        OrderIds = OrderIds + "," + orderId
-                //    }                    
+                //    }
                 //});
                 //$("#OrderIds").val("");
                 //$("#OrderIds").val(OrderIds);
+                $("#IsViewDownload").val('no');
                 $('#frmDownloadPdfCSV').attr('action', '/Orders/GenerateSearchPdf');
                 $("#frmDownloadPdfCSV").submit();
             });
@@ -319,36 +403,59 @@
                 //    } else {
                 //        OrderIds = OrderIds + "," + orderId
                 //    }
-                    
+
                 //});
                 //$("#OrderIds").val("");
                 //$("#OrderIds").val(OrderIds);
+                $("#IsViewDownload").val('no');
                 $('#frmDownloadPdfCSV').attr('action', '/Orders/GenerateSearchCsv');
                 $("#frmDownloadPdfCSV").submit();
             });
+            $('#ViewListAndDownload').click(function () {
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }
 
+                //});
+                //$("#OrderIds").val("");
+                //$("#OrderIds").val(OrderIds);
+                $("#IsViewDownload").val('yes');
+                $('#frmViewDownload').attr('action', '/Orders/SearchResult');
+                $("#frmViewDownload").submit();
+            });
 
             var selected_rows = [];
+            let IsViewAndDownload = "";
+            IsViewAndDownload = $("#IsViewDownload").val();
             //$('#search_result_table').dataTable();
-            $('#search_result_table').DataTable({
-                //pagingType: 'full_numbers',
-                pagingType: 'input',
-                //dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-                dom: 'lifrtip',
-                //pageLength: 5,
-                aLengthMenu: [
-                    [10, 25, 50, 100, 200, -1],
-                    [10, 25, 50, 100, 200, "All"]
-                ],
-                language: {
-                    oPaginate: {
-                        sNext: '<i class="fa fa-forward"></i>',
-                        sPrevious: '<i class="fa fa-backward"></i>',
-                        sFirst: '<i class="fa fa-step-backward"></i>',
-                        sLast: '<i class="fa fa-step-forward"></i>'
+
+            if (IsViewAndDownload == "no") {
+                $('#search_result_table').DataTable({
+                    //pagingType: 'full_numbers',
+                    pagingType: 'input',
+                    //dom: '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+                    dom: 'lifrtip',
+                    //pageLength: 5,
+                    aLengthMenu: [
+                        [10, 25, 50, 100, 200, -1],
+                        [10, 25, 50, 100, 200, "All"]
+                    ],
+                    language: {
+                        oPaginate: {
+                            sNext: '<i class="fa fa-forward"></i>',
+                            sPrevious: '<i class="fa fa-backward"></i>',
+                            sFirst: '<i class="fa fa-step-backward"></i>',
+                            sLast: '<i class="fa fa-step-forward"></i>'
+                        }
                     }
-                }
-            });
+                });
+            }
+
 
             $('#select_all_check_box').on('click', function () {
                 var check_all_value = $('#select_all_check_box').is(':checked');
@@ -358,6 +465,21 @@
                 else {
                     $('#search_result_table input:checkbox').prop('checked', check_all_value);
                 }
+                let OrderIds = "";
+                $("table tbody tr input:checkbox:checked").each(function () {
+                    let orderId = $(this).val();
+                    if (OrderIds == "") {
+                        OrderIds = orderId
+                    } else {
+                        OrderIds = OrderIds + "," + orderId
+                    }
+
+                });
+                $("#OrderIds").val("");
+                $("#OrderIds").val(OrderIds);
+                $("#OrderIdsView").val("");
+                $("#OrderIdsView").val(OrderIds);
+                $("#IsViewDownload").val('no');
             });
 
 

@@ -156,6 +156,15 @@ namespace BusTicketWebApp.Controllers
             {
                 searchDto.OrderDateFromTo = fc["o_From_To_Date"];
             }
+            if (!String.IsNullOrEmpty(fc["IsViewDownload"]))
+            {
+                searchDto.IsViewDownload = fc["IsViewDownload"];
+            }
+            if (!String.IsNullOrEmpty(fc["OrderIdsView"]))
+            {
+                searchDto.OrderIds = fc["OrderIdsView"];
+            }
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseAddressOrder);
@@ -198,7 +207,20 @@ namespace BusTicketWebApp.Controllers
             ViewBag.DateOfUseFrom = searchDto.DateOfUseFrom;
             ViewBag.DateOfUseTo = searchDto.DateOfUseTo;
             ViewBag.DateOfuse_From_To = searchDto.DateOfuse_From_To;
+            ViewBag.RoutesId = searchDto.RoutesId;
+            ViewBag.FlightId = searchDto.FlightId;
+            ViewBag.OrderIds = searchDto.OrderIds;
 
+
+            if (!string.IsNullOrEmpty(searchDto.IsViewDownload))
+            {
+                ViewBag.IsViewDownload = searchDto.IsViewDownload;
+            }
+            else
+            {
+                ViewBag.IsViewDownload = "no";
+            }
+            
             ViewBag.Status = GetTicketStatus();
 
             ViewBag.UserId = searchDto.MemberId;
