@@ -34,6 +34,7 @@ namespace BusTicketWebApp.Dtos
         public string OrderDateFromTo { get; set; }
         public string OrderIds { get; set; }
         public string IsViewDownload { get; set; }
+        public string MemberStatus { get; set; }
     }
 }
 

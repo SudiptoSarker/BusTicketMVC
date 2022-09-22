@@ -233,16 +233,21 @@ namespace BusTicketWebApp.Controllers
                     {
                         ViewBag.Name = x.Purchaser;
                         ViewBag.Email = x.Email;
+                        //if(searchDto.MemberId == x.UserId)
+                        //{
+                            ViewBag.UserStatus = x.MemberStatus;
+                        //}                        
                     }
                 }
             }
+            //ViewBag.UserStatus = x.MemberStatus;
             //
 
             return View(searchLists);
         }
 
 
-        public ActionResult OrderDetails(int id)
+        public ActionResult OrderDetails(int id,int status)
         {
             if (Session["email"] == null)
             {
@@ -280,6 +285,14 @@ namespace BusTicketWebApp.Controllers
             };
 
             ViewBag.OrderId = id;
+            ViewBag.status = status;
+            bool isUpdateCancelBtnDisable = false;
+            if (Convert.ToInt32(order.Status) != 1 || Convert.ToInt32(ViewBag.status) == 2)
+            {
+                isUpdateCancelBtnDisable = true;
+            }
+            
+            ViewBag.IsBtnDisabled = isUpdateCancelBtnDisable;
 
             return View(orderViewModel);
         }

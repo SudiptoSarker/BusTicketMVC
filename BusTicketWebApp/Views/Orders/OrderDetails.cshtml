@@ -213,26 +213,26 @@
             </div>
             <div class="col-xs-offset-3 col-xs-4">
                 @{
-                    if (Convert.ToInt32(Model.Order.Status) == 1)
+                    if (ViewBag.IsBtnDisabled == false)
                     {
                         <button class="btn  btn-warning" id="btnUpdate" style="width:100%;">Order Update</button>
                     }
                     else
                     {
-                        <button class="btn  btn-warning" id="btnUpdate" style="width:100%;pointer-events: none;cursor: default;opacity: .3;">Order Update</button>
+                        <button class="btn  btn-warning" id="btnUpdate" style="width:100%;pointer-events: none;cursor: default;opacity: .4;">Order Update</button>
                     }
                 }
 
             </div>
             <div class="col-xs-4">
                 @{
-                    if (Convert.ToInt32(Model.Order.Status) == 1)
+                    if (ViewBag.IsBtnDisabled == false)
                     {
                         <button class="btn" style="width:100%;background-color:black;color:white" id="btnCancel">Order Cancel</button>
                     }
                     else
                     {
-                        <button class="btn" style="width:100%;background-color:black;color:white;pointer-events: none;cursor: default;opacity: .3;" id="btnCancel">Order Cancel</button>
+                        <button class="btn" style="width:100%;background-color:black;color:white;pointer-events: none;cursor: default;opacity: .4;" id="btnCancel">Order Cancel</button>
                     }
                 }
             </div>

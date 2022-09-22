@@ -84,10 +84,11 @@
                 <div class="col-xs-1" style="padding-left: 48px;">
                     <a href="javascript:void(0);" id="download-csv" class="btn btn-default" download-type="csv"><i class="fa fa-print" aria-hidden="true"></i> Print CSV </a>
                 </div>
-                <div class="col-lg-offset-5 col-xs-1">
-                    <button type="button" id="CloseCurrentTab" class="close" aria-label="Close" style="border:1px solid black;color:red;opacity:1;height: 43px;width: 89px;">
+                <div class="col-lg-offset-4 col-xs-2">
+                    @*<button type="button" id="CloseCurrentTab" class="close" aria-label="Close" style="border:1px solid black;color:red;opacity:1;height: 43px;width: 89px;">
                         <span aria-hidden="true">&times;</span>Close
-                    </button>
+                    </button>*@
+                    <button type="button" class="btn  btn-warning" id="CloseCurrentTab" style="width:100%;color:red;background-color:darkgray;">Close Tab</button>
                     @*<a href="javascript:void(0);" id="CloseCurrentTab" class="btn btn-default" download-type="pdf"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>*@
                 </div>
                 <h4>(For modifying the list)</h4>
@@ -116,7 +117,26 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-2">
-                        @*<p>Name <span style="color:cornflowerblue">@ViewBag.Name</span></p>*@
+                        @{
+                            string strUserStatus = "";
+
+                            if (!string.IsNullOrEmpty(ViewBag.UserStatus))
+                            {
+                                if (Convert.ToInt32(ViewBag.UserStatus) == 1)
+                                {
+                                    strUserStatus = "Enabled";
+                                }
+                                else
+                                {
+                                    strUserStatus = "Stopped";
+                                }
+                            }
+                            else
+                            {
+                                strUserStatus = "Stopped";
+                            }
+                            <p>Status <span style="color:cornflowerblue">@strUserStatus</span></p>
+                        }
                     </div>
                     <div class="col-xs-4">
                         <p>Email <span style="color:cornflowerblue">@ViewBag.Email</span></p>
@@ -222,7 +242,7 @@
                             @{
                                 if (ViewBag.IsViewDownload == "no")
                                 {
-                                    <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
+                                    <td><a href="javascript:void(0);" class="o_details" data-id="@x.OrderId" Member-Status="@x.MemberStatus" data-url='@Url.Action("OrderDetails","Orders")'>Details</a></td>
                                 }
                             }
 
@@ -364,16 +384,28 @@
             //download pdf and csv
             var AllChkOrderIds = "";
             $('.ChkOrderId').click(function () {
-                let tempOrderIds = $(this).val();
-                if (AllChkOrderIds == "") {
-                    AllChkOrderIds = tempOrderIds;
-                } else {
-                    AllChkOrderIds = AllChkOrderIds + "," + tempOrderIds;
-                }
+                //let tempOrderIds = $(this).val();
+                //if (AllChkOrderIds == "") {
+                //    AllChkOrderIds = tempOrderIds;
+                //} else {
+                //    AllChkOrderIds = AllChkOrderIds + "," + tempOrderIds;
+                //}
+
+                let OrderIds = "";
+                $("table tbody tr input:checkbox:checked").each(function () {
+                    let orderId = $(this).val();
+                    if (OrderIds == "") {
+                        OrderIds = orderId
+                    } else {
+                        OrderIds = OrderIds + "," + orderId
+                    }
+
+                });
+
                 $("#OrderIds").val("");
-                $("#OrderIds").val(AllChkOrderIds);
+                $("#OrderIds").val(OrderIds);
                 $("#OrderIdsView").val("");
-                $("#OrderIdsView").val(AllChkOrderIds);
+                $("#OrderIdsView").val(OrderIds);
             });
             $('#CloseCurrentTab').click(function () {
                 window.close();
@@ -486,7 +518,13 @@
             $('#search_result_table').on('click', '.o_details', function () {
 
                 var id = $(this).data('id');
-                var url = $(this).data('url') + '/' + id;
+                var memberStatus = $(this).attr('Member-Status');
+                if (memberStatus == '') {
+                    memberStatus = 0;
+                }
+                console.log("memberStatus: " + memberStatus);
+
+                var url = $(this).data('url') + '?id=' + id + '&status=' + memberStatus;
                 console.log(url);
                 $.get(url, function (data) {
                     $('#order_details_modal_body').html(data);
