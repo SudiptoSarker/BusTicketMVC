@@ -285,9 +285,20 @@ namespace BusTicketWebApp.Controllers
             };
 
             ViewBag.OrderId = id;
-            ViewBag.status = status;
+            ViewBag.MemberStatus = status;
+            string strMemberStatus = "";
+            if (status == 1)
+            {
+                strMemberStatus = "Enabled";
+            }
+            else
+            {
+                strMemberStatus = "Stopped";
+            }
+            ViewBag.TxtMemberStatus = strMemberStatus;
+            //ViewBag.status = = status;
             bool isUpdateCancelBtnDisable = false;
-            if (Convert.ToInt32(order.Status) != 1 || Convert.ToInt32(ViewBag.status) == 2)
+            if (Convert.ToInt32(order.Status) != 1 || Convert.ToInt32(ViewBag.MemberStatus) == 2)
             {
                 isUpdateCancelBtnDisable = true;
             }
@@ -494,7 +505,8 @@ namespace BusTicketWebApp.Controllers
             return View(orderViewModel);
         }
 
-        public ActionResult OrderHistory(string Id)
+        [HttpGet]
+        public ActionResult OrderHistory(string Id, string MemberStatus)
         {
             if (Session["email"] == null)
             {
@@ -520,6 +532,7 @@ namespace BusTicketWebApp.Controllers
 
                 }
             }
+            ViewBag.MemberStatus = MemberStatus;
 
             return View(objOrderHistoryList);
         }

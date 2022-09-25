@@ -202,7 +202,21 @@
                             <td> @Convert.ToDateTime(x.UpdateDate)</td>
                             <td>@x.DateOfUse</td>
                             <td>@x.TicketType</td>
-                            <td><a>@x.Purchaser</a><a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></td>
+                            <td>
+                                @{
+                                    string strPurchasersMemberStatus = "";
+                                    if (Convert.ToInt32(x.IsUpdated) == 2)
+                                    {
+                                        strPurchasersMemberStatus = strPurchasersMemberStatus + " (Changed in Order)";
+                                    }
+                                    else
+                                    {
+                                        strPurchasersMemberStatus = strPurchasersMemberStatus + " (Default User)";
+                                    }
+                                    <a>@x.Purchaser@strPurchasersMemberStatus </a>
+                                }
+                                <a href="mailto:@x.Email" style="display:block;padding:5px"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+                            </td>
                             <td>@x.NumberOfAdult</td>
                             <td>@x.NumberOfChild</td>
                             @if (x.StatusId == "1")
@@ -516,7 +530,6 @@
                 });
                 //console.log("checkbox_value: " + checkbox_value);
 
-
                 //let OrderIds = "";
                 //$("table tbody tr input:checkbox:checked").each(function () {
                 //    let orderId = $(this).val();
@@ -525,8 +538,9 @@
                 //    } else {
                 //        OrderIds = OrderIds + "," + orderId
                 //    }
-
                 //});
+
+
                 OrderIds = checkbox_value;
                 $("#OrderIds").val("");
                 $("#OrderIds").val(OrderIds);
