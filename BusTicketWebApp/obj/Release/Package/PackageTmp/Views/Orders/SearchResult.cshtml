@@ -245,7 +245,7 @@
                                 {
                                     if (Convert.ToInt32(x.IsUpdated) == 2)
                                     {
-                                        <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {Id = x.OrderId })" target="_blank">Updated</a></td>
+                                        <td><a id="orderHistory" href="@Url.Action("OrderHistory", "Orders", new {})?id=@x.OrderId&MemberStatus=@x.MemberStatus" target="_blank">Updated</a></td>
                                     }
                                     else
                                     {
