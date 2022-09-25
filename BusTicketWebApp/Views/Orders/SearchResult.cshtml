@@ -486,10 +486,11 @@
                         }
                     }
                 });
-            }
-
+            }            
 
             $('#select_all_check_box').on('click', function () {
+               
+
                 var check_all_value = $('#select_all_check_box').is(':checked');
                 if (check_all_value) {
                     $('#search_result_table input:checkbox').prop('checked', check_all_value);
@@ -497,16 +498,36 @@
                 else {
                     $('#search_result_table input:checkbox').prop('checked', check_all_value);
                 }
-                let OrderIds = "";
-                $("table tbody tr input:checkbox:checked").each(function () {
-                    let orderId = $(this).val();
-                    if (OrderIds == "") {
-                        OrderIds = orderId
-                    } else {
-                        OrderIds = OrderIds + "," + orderId
-                    }
+                let tempOrderId = $("#OrderIds").val();
 
+                var myTable = $('#search_result_table').dataTable();
+                var rowcollection = myTable.$(".ChkOrderId:checked", { "page": "all" });
+                var checkbox_value = "";
+
+                let checkCOunt = 0;
+                rowcollection.each(function (index, elem) {
+                    
+
+                    if (checkbox_value == "") {
+                        checkbox_value = $(elem).val();
+                    } else {
+                        checkbox_value = checkbox_value +","+$(elem).val();
+                    }
                 });
+                //console.log("checkbox_value: " + checkbox_value);
+
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }
+                //});
+
+
+                OrderIds = checkbox_value;
                 $("#OrderIds").val("");
                 $("#OrderIds").val(OrderIds);
                 $("#OrderIdsView").val("");
