@@ -80,21 +80,22 @@
                         </select>
                     </div>
                     @*<p>Boarding place/ Demounting Place</p>
-        <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-12">
 
-            <select class="form-control" name="boarding_place" id="boarding_place">
-                <option id="b_place0" value="">Select Place</option>
-                <option id="b_place1" value="place1">Place-1</option>
-                <option id="b_place2" value="place2">Place-2</option>
-                <option id="b_place3" value="place3">Place-3</option>
-                <option id="b_place4" value="place4">Place-4</option>
-                <option id="b_place5" value="place5">Place-5</option>
-            </select>
-        </div>*@
+                            <select class="form-control" name="boarding_place" id="boarding_place">
+                                <option id="b_place0" value="">Select Place</option>
+                                <option id="b_place1" value="place1">Place-1</option>
+                                <option id="b_place2" value="place2">Place-2</option>
+                                <option id="b_place3" value="place3">Place-3</option>
+                                <option id="b_place4" value="place4">Place-4</option>
+                                <option id="b_place5" value="place5">Place-5</option>
+                            </select>
+                        </div>*@
                     <p>Status</p>
                     <div class="form-group col-xs-12">
 
-                        <div class="checkbox" id="order_status">
+                        <div class="checkbox" id="order_status" style="padding-left:11px;">
+                            <input type="checkbox" id="checkAll" /><label for="checkAll" style="padding:initial;">Check All</label>:&nbsp;&nbsp;&nbsp;
                             @{
                                 int indexCount = 1;
                                 foreach (var item in Model.TicketStatus)
@@ -102,7 +103,7 @@
                                     if (item.statusName.ToLower() != "expired")
                                     {
                                         <label>
-                                            <input type="checkbox" name="status" id="status_@indexCount" value="@item.Id">
+                                            &nbsp;&nbsp;<input type="checkbox" class="memberstatus" name="status" id="status_@indexCount" value="@item.Id">
                                             @item.statusName
                                         </label>
                                         indexCount++;
@@ -117,7 +118,7 @@
                     <div class="form-group col-xs-12">
                         @*<label for="o_fromDate" style="font-weight: normal;">From - To</label>*@
                         <input type="date" class="form-control" id="o_From_To_Date" name="o_From_To_Date" placeholder="">
-                    </div>                    
+                    </div>
 
                     <p>Order Date</p>
                     <div class="form-group col-xs-6">
@@ -200,6 +201,17 @@
 
 @section scripts{
     <script type="text/javascript">
+
+        $('#checkAll').click(function () {
+            var check_all_value = $('#checkAll').is(':checked');
+            if (check_all_value) {
+                $('#order_status input:checkbox').prop('checked', check_all_value);
+            }
+            else {
+                $('#order_status input:checkbox').prop('checked', check_all_value);
+            }
+        });
+
         function ClearSearchBox() {
 
             //date field clear

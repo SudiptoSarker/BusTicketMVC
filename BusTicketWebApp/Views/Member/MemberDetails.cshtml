@@ -265,12 +265,18 @@
                                             title: 'Success!!!',
                                             content: data.Message,
                                         });
-                                        $('#update_summery_table').css('display', 'inline-table');
+                                        //$('#update_summery_table').css('display', 'inline-table');
                                         $('#cancellationfee_message').css('display','block');
                                         $('#operational_message').html(data.Message);
                                         $('#btnUpdate').attr('disabled', 'disabled');
                                         $('#btnCancel').attr('disabled', 'disabled');
-                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td><a href="@Url.Action("MemberHistory", "Member", new {Id = Model.Id })" target="_blank;">History</a></td></tr>`);
+                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.UserName}</td><td>${statusTxt}</td><td><a href="@Url.Action("MemberHistory", "Member", new {Id = Model.Id })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
+
+                                        //update hidden field for validation purpose
+                                        $('#f_name_in_load').val(first_name);
+                                        $('#l_name_in_load').val(last_name);
+                                        $('#email_in_load').val(email);
+                                        $('#phone_in_load').val(phone);
                                     }
                                     else {
                                         $.alert({

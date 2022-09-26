@@ -11,6 +11,8 @@
 <input type="hidden" name="email_in_load" id="email_in_load" value="@Model.Email" />
 <input type="hidden" name="phone_in_load" id="phone_in_load" value="@Model.PhoneNumber" />
 
+<input type="hidden" name="IsPageLoadAfterModalClose" id="IsPageLoadAfterModalClose" value="no" />
+
 <div class="col-xs-12">
     <div class="row">
         <div class="management_info">
@@ -86,11 +88,11 @@
                                 string stoppedSelect = "";
                                 if (Convert.ToInt32(Model.Status) == 1)
                                 {
-                                    enabledSelect = "Enabled";
+                                    enabledSelect = "selected";
                                 }
                                 else
                                 {
-                                    stoppedSelect = "Stopped";
+                                    stoppedSelect = "selected";
                                 }
                             }
                             <option value="0" @stoppedSelect>Stopped</option>
@@ -171,6 +173,16 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('#order_details_modal').on('hidden.bs.modal', function () {
+                let isParentLoad = $("#IsPageLoadAfterModalClose").val();
+                console.log("out: " + isParentLoad);
+                if (isParentLoad == "yes") {
+                    console.log("in: " + isParentLoad);
+                    location.reload();
+                }
+            })
+
             $('.datepicker').datepicker();
 
             $('#userFirstName').on('keyup', function () {
@@ -253,12 +265,18 @@
                                             title: 'Success!!!',
                                             content: data.Message,
                                         });
-                                        $('#update_summery_table').css('display', 'inline-table');
+                                        //$('#update_summery_table').css('display', 'inline-table');
                                         $('#cancellationfee_message').css('display','block');
                                         $('#operational_message').html(data.Message);
                                         $('#btnUpdate').attr('disabled', 'disabled');
                                         $('#btnCancel').attr('disabled', 'disabled');
-                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.CustomerName}</td><td>${data.UpdateData.TotalPrice}</td><td><a href="@Url.Action("MemberHistory", "Member", new {Id = Model.Id })" target="_blank;">History</a></td></tr>`);
+                                        $('#update_summery_table tbody').append(`<tr><td>${data.UpdateData.UpdatedAt}</td><td>${data.UpdateData.UserName}</td><td>${statusTxt}</td><td><a href="@Url.Action("MemberHistory", "Member", new {Id = Model.Id })" target="_blank" style="padding-left:27px;">History</a></td></tr>`);
+
+                                        //update hidden field for validation purpose
+                                        $('#f_name_in_load').val(first_name);
+                                        $('#l_name_in_load').val(last_name);
+                                        $('#email_in_load').val(email);
+                                        $('#phone_in_load').val(phone);
                                     }
                                     else {
                                         $.alert({
@@ -322,6 +340,7 @@
                                 alert("Please change the information first for update.");
                                 return false;
                             }
+                            $("#IsPageLoadAfterModalClose").val("yes");
 
                             let updateDataAsString = `{'Id':'${userId}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','PhoneNumber':'${phone}'}`;
 

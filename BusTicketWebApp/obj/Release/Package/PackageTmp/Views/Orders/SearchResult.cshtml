@@ -3,11 +3,19 @@
 
 
 @{
-    ViewBag.Title = "Order List";
+    if (ViewBag.IsViewDownload == "no")
+    {
+        ViewBag.Title = "Order List";
+    }
+    else
+    {
+        ViewBag.Title = "View and Download Orders";
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 @Html.Partial("_LeftMenu")
+
 
 <style>
     #orderHistory {
@@ -35,6 +43,8 @@
         cursor: pointer;
     }
 </style>
+
+
 <br />
 <nav>
     @{
@@ -405,16 +415,44 @@
                 //    AllChkOrderIds = AllChkOrderIds + "," + tempOrderIds;
                 //}
 
-                let OrderIds = "";
-                $("table tbody tr input:checkbox:checked").each(function () {
-                    let orderId = $(this).val();
-                    if (OrderIds == "") {
-                        OrderIds = orderId
-                    } else {
-                        OrderIds = OrderIds + "," + orderId
-                    }
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }
 
+                //});
+                var myTable = $('#search_result_table').dataTable();
+                var rowcollection = myTable.$(".ChkOrderId:checked", { "page": "all" });
+                var checkbox_value = "";
+
+                let checkCOunt = 0;
+                rowcollection.each(function (index, elem) {
+
+
+                    if (checkbox_value == "") {
+                        checkbox_value = $(elem).val();
+                    } else {
+                        checkbox_value = checkbox_value + "," + $(elem).val();
+                    }
                 });
+                //console.log("checkbox_value: " + checkbox_value);
+
+                //let OrderIds = "";
+                //$("table tbody tr input:checkbox:checked").each(function () {
+                //    let orderId = $(this).val();
+                //    if (OrderIds == "") {
+                //        OrderIds = orderId
+                //    } else {
+                //        OrderIds = OrderIds + "," + orderId
+                //    }
+                //});
+
+
+                OrderIds = checkbox_value;
 
                 $("#OrderIds").val("");
                 $("#OrderIds").val(OrderIds);
