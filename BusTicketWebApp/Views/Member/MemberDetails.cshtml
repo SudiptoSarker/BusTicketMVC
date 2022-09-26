@@ -11,6 +11,8 @@
 <input type="hidden" name="email_in_load" id="email_in_load" value="@Model.Email" />
 <input type="hidden" name="phone_in_load" id="phone_in_load" value="@Model.PhoneNumber" />
 
+<input type="hidden" name="IsPageLoadAfterModalClose" id="IsPageLoadAfterModalClose" value="no" />
+
 <div class="col-xs-12">
     <div class="row">
         <div class="management_info">
@@ -86,11 +88,11 @@
                                 string stoppedSelect = "";
                                 if (Convert.ToInt32(Model.Status) == 1)
                                 {
-                                    enabledSelect = "Enabled";
+                                    enabledSelect = "selected";
                                 }
                                 else
                                 {
-                                    stoppedSelect = "Stopped";
+                                    stoppedSelect = "selected";
                                 }
                             }
                             <option value="0" @stoppedSelect>Stopped</option>
@@ -171,6 +173,16 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('#order_details_modal').on('hidden.bs.modal', function () {
+                let isParentLoad = $("#IsPageLoadAfterModalClose").val();
+                console.log("out: " + isParentLoad);
+                if (isParentLoad == "yes") {
+                    console.log("in: " + isParentLoad);
+                    location.reload();
+                }
+            })
+
             $('.datepicker').datepicker();
 
             $('#userFirstName').on('keyup', function () {
@@ -322,6 +334,7 @@
                                 alert("Please change the information first for update.");
                                 return false;
                             }
+                            $("#IsPageLoadAfterModalClose").val("yes");
 
                             let updateDataAsString = `{'Id':'${userId}','FirstName':'${first_name}','LastName':'${last_name}','Email':'${email}','PhoneNumber':'${phone}'}`;
 
