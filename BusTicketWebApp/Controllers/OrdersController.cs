@@ -298,7 +298,7 @@ namespace BusTicketWebApp.Controllers
             ViewBag.TxtMemberStatus = strMemberStatus;
             //ViewBag.status = = status;
             bool isUpdateCancelBtnDisable = false;
-            if (Convert.ToInt32(order.Status) != 1 || Convert.ToInt32(ViewBag.MemberStatus) == 2)
+            if (Convert.ToInt32(order.Status) != 1 || Convert.ToInt32(ViewBag.MemberStatus) == 2 || Convert.ToInt32(ViewBag.MemberStatus) == 0)
             {
                 isUpdateCancelBtnDisable = true;
             }
