@@ -60,10 +60,10 @@ namespace BusTicketWebApp.Dtos
             {
                 return "Please send valid date!";
             }
-             
+
             return strReturnDate;
         }
-        static string getAbbreviatedName(int month,string strReceivedDate)
+        static string getAbbreviatedName(int month, string strReceivedDate)
         {
             DateTime date = new DateTime(Convert.ToDateTime(strReceivedDate).Year, month, 1);
 

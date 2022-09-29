@@ -113,16 +113,6 @@ namespace BusTicketWebApp.Controllers
                 }
             }
 
-
-            //MemberSearchViewModel objSearchViewModel = new MemberSearchViewModel();
-            //objSearchViewModel.MemberFromRegDate = memberSearchDto.MemberFromRegDate;
-            //objSearchViewModel.MemberToRegDate = memberSearchDto.MemberToRegDate;
-
-            //objSearchViewModel.MemberEmail = memberSearchDto.MemberEmail;
-            //objSearchViewModel.MemberStatus = memberSearchDto.MemberStatus;
-            //objSearchViewModel.MemberLastName = memberSearchDto.MemberLastName;
-            //objSearchViewModel.MemberFirstName = memberSearchDto.MemberFirstName;
-            //objSearchViewModel.MemberPhone = memberSearchDto.MemberPhone;
             ViewBag.Status = GetTicketStatus();
 
             return View(searchLists);
@@ -156,17 +146,6 @@ namespace BusTicketWebApp.Controllers
 
             }
 
-
-            //OrderViewModel orderViewModel = new OrderViewModel
-            //{
-            //    Order = order,
-            //    PaymentMethods = Utility.GetPaymentMethods(),
-            //    TicketTypes = Utility.GetTicketTypes(),
-            //    Adults = Utility.GetAdultNumbers(),
-            //    Childs = Utility.GetChildNumbers(),
-            //};
-
-            //ViewBag.OrderId = id;
             if (Convert.ToInt32(member.Status) == 1)
             {
                 member.StatusTxt = "Enabled";

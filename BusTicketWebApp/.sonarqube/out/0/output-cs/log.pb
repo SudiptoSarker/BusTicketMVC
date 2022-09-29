@@ -1,0 +1,1 @@
+Roslyn version: 2.10.0.0Language version: CSharp7!Concurrent execution: enabled}yFile 'C:\Users\Sudipto\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs' was recognized as generated
